@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io('http://localhost:8888');
+
+    socket.on('leftHand', function(position) {
+      console.log('left hand position: ' + position);
+    });
+
+    socket.on('rightHand', function(position) {
+      console.log('right hand position: ' + position);
+    });
+  </script>
+</body>
+</html>

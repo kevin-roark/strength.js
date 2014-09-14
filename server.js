@@ -4,6 +4,8 @@ var HOST = '127.0.0.1';
 
 var osc = require('osc');
 
+var kinect = require('./kinect');
+
 var udpPort = new osc.UDPPort({
     localAddress: HOST,
     localPort: 12345
@@ -13,8 +15,12 @@ var udpPort = new osc.UDPPort({
 udpPort.on("bundle", function (oscBundle) {
    for (var i = 0; i < oscBundle.packets.length; i++) {
      var packet = oscBundle.packets[i];
-     console.log('packet address: ' + packet.address);
-     console.log('packet args: ' + packet.args);
+
+     if (packet.address == '/righthand_pos_screen') {
+       kinect.rightHand(packet.args);
+     } else if (packet.address == '/lefthand_pos_screen') {
+       kinect.leftHand(packet.args);
+     }
    }
 });
 
