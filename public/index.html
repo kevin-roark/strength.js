@@ -1,18 +1,28 @@
 <!DOCTYPE html>
 <html>
-<head></head>
+<head>
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <title>strength.js</title>
+</head>
 <body>
-  <script src="/socket.io/socket.io.js"></script>
-  <script>
-    var socket = io('http://localhost:8888');
+    <script src="js/lib/three.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/lib/jquery.min.js"></script>
+    <script src="js/main_build.js"></script>
 
-    socket.on('leftHand', function(position) {
-      console.log('left hand position: ' + position);
-    });
+    <script>
+      var socket = io('http://localhost:8888');
 
-    socket.on('rightHand', function(position) {
-      console.log('right hand position: ' + position);
-    });
-  </script>
+      socket.on('leftHand', function(position) {
+        console.log('left hand position: ' + position);
+      });
+
+      socket.on('rightHand', function(position) {
+        console.log('right hand position: ' + position);
+      });
+    </script>
 </body>
 </html>
