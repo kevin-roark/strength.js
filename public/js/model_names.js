@@ -39,6 +39,7 @@ module.exports.TORSO = pre('torso.js');
 
 module.exports.loadModel = function(modelName, callback) {
   var loader = new THREE.JSONLoader;
+
   loader.load(modelName, function (geometry, materials) {
     callback(geometry, materials);
   });

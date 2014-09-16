@@ -12,8 +12,13 @@ function onWindowResize() {
 
 module.exports = exports = Camera;
 
-function Camera(window, scene) {
-  this.cam = new THREE.PerspectiveCamera(65, window.innerWidth/window.innerHeight, 1, 3000);
+function Camera(window, scene, config) {
+	if (!config) config = {};
+	if (!config.near) config.near = 0.1;
+	if (!config.far) config.far = 20000;
+
+
+  this.cam = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, config.near, config.far);
 	cam = this.cam;
 
   window.addEventListener('resize', onWindowResize, false);

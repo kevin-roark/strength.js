@@ -11,32 +11,26 @@ function Character(startPos, scale) {
   this.startY = startPos.y;
   this.startZ = startPos.z;
 
-  this.scale = scale || 2;
+  this.scale = scale || 5;
 
   this.twitching = false; // random motion and rotation
 
   this.melting = false; // bone shaking
 }
 
-Character.prototype.addTo = function(scene, renderer) {
+Character.prototype.addTo = function(scene) {
   this.scene = scene;
 
-  if (this.shouldHaveBillboards && !this.billboards) this.createBillboards(scene, renderer);
-
-  if (this.shouldHaveBillboards) {
-    for (var i = 0; i < this.billboards.length; i++) {
-      this.billboards[i].addTo(scene);
-    }
-
-    this.cubes.addTo(scene);
-
-    this.emeraldPath.addTo(scene);
-  }
+  console.log('ADDING CHARACTATER');
 
   // need to load a ton of models here
 
   var self = this;
-  modelNames.loadModel(modelNames.BODY, function (geometry, materials) {
+  modelNames.loadModel(modelNames.FOOTBALL_PLAYER, function (geometry, materials) {
+    console.log('wooooooooo all loaded up football');
+    console.log(geometry);
+    console.log(materials);
+
     self.bodyGeometry = geometry;
     self.bodyMaterials = materials;
 
@@ -44,7 +38,7 @@ Character.prototype.addTo = function(scene, renderer) {
 
     self.bodyMesh.scale.set(self.scale, self.scale, self.scale);
 
-    self.move(self.startX, self.startY, self.startZ);
+    self.moveTo(self.startX, self.startY, self.startZ);
 
     scene.add(self.bodyMesh);
   });
@@ -72,6 +66,10 @@ Character.prototype.moveTo = function(x, y, z) {
   this.bodyMesh.position.set(x, y, z);
 
   this.move(0, 0, 0);
+}
+
+Character.prototype.scale = function(s) {
+  this.bodyMesh.scale.set(s, s, s);
 }
 
 Character.prototype.render = function() {

@@ -3,6 +3,8 @@ $(function() {
   var kt = require('./lib/kutility');
   var Camera = require('./camera');
   var Character = require('./character');
+  var Skybox = require('./skybox');
+  var io = require('./io');
 
   var scene = new THREE.Scene();
 
@@ -10,15 +12,9 @@ $(function() {
   var rendermode = 'webgl';
   try {
     renderer = new THREE.WebGLRenderer();
-    renderer.setClearColor(0xffffff, 1);
+    renderer.setClearColor(0x222222, 1);
   } catch(e) {
     $('.error').show();
-    setTimeout(function() {
-      $('.error').fadeOut();
-    }, 6666);
-    renderer = new THREE.CanvasRenderer();
-    renderer.setClearColor(0xffffff, 1);
-    rendermode = 'canvas';
   }
 
 	renderer.setSize(window.innerWidth, window.innerHeight);
@@ -27,6 +23,9 @@ $(function() {
 
   var canvas = document.querySelector('canvas');
   var $canvas = $(canvas);
+
+  var skybox = new Skybox();
+  skybox.addTo(scene);
 
   var camera = new Camera(window, scene);
 
@@ -46,9 +45,25 @@ $(function() {
 
   var active = {wrestlers: true};
 
+  var kevinWrestler;
+  var dylanWrestler;
+  var wrestlers = [];
+
   start();
 
   function start() {
+    kevinWrestler = new Character({x: -10, y: 0, z: -25}, 20);
+    dylanWrestler = new Character({x:10, y: 0, z: -25}, 20);
+    wrestlers = [kevinWrestler, dylanWrestler];
+
+    io.begin();
+
+    camera.cam.position.set(0, 6, 10);
+
+    for (var i = 0; i < wrestlers.length; i++) {
+      wrestlers[i].addTo(scene);
+    }
+
     render();
   }
 
@@ -57,6 +72,7 @@ $(function() {
 
     if (active.wrestlers) {
       // render the wrestlers
+      for (var i = 0; i < wrestlers.count; i++) wrestlers[i].render();
     }
 
     if (active.character) {

@@ -13,8 +13,13 @@ function onWindowResize() {
 
 module.exports = exports = Camera;
 
-function Camera(window, scene) {
-  this.cam = new THREE.PerspectiveCamera(65, window.innerWidth/window.innerHeight, 1, 3000);
+function Camera(window, scene, config) {
+	if (!config) config = {};
+	if (!config.near) config.near = 0.1;
+	if (!config.far) config.far = 20000;
+
+
+  this.cam = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, config.near, config.far);
 	cam = this.cam;
 
   window.addEventListener('resize', onWindowResize, false);
@@ -32,7 +37,7 @@ Camera.prototype.render = function() {
 	// doesn't actually need to do anything yet
 }
 
-},{"./lib/kutility":3}],2:[function(require,module,exports){
+},{"./lib/kutility":4}],2:[function(require,module,exports){
 
 var kt = require('./lib/kutility');
 
@@ -46,32 +51,26 @@ function Character(startPos, scale) {
   this.startY = startPos.y;
   this.startZ = startPos.z;
 
-  this.scale = scale || 2;
+  this.scale = scale || 5;
 
   this.twitching = false; // random motion and rotation
 
   this.melting = false; // bone shaking
 }
 
-Character.prototype.addTo = function(scene, renderer) {
+Character.prototype.addTo = function(scene) {
   this.scene = scene;
 
-  if (this.shouldHaveBillboards && !this.billboards) this.createBillboards(scene, renderer);
-
-  if (this.shouldHaveBillboards) {
-    for (var i = 0; i < this.billboards.length; i++) {
-      this.billboards[i].addTo(scene);
-    }
-
-    this.cubes.addTo(scene);
-
-    this.emeraldPath.addTo(scene);
-  }
+  console.log('ADDING CHARACTATER');
 
   // need to load a ton of models here
 
   var self = this;
-  modelNames.loadModel(modelNames.BODY, function (geometry, materials) {
+  modelNames.loadModel(modelNames.FOOTBALL_PLAYER, function (geometry, materials) {
+    console.log('wooooooooo all loaded up football');
+    console.log(geometry);
+    console.log(materials);
+
     self.bodyGeometry = geometry;
     self.bodyMaterials = materials;
 
@@ -79,7 +78,7 @@ Character.prototype.addTo = function(scene, renderer) {
 
     self.bodyMesh.scale.set(self.scale, self.scale, self.scale);
 
-    self.move(self.startX, self.startY, self.startZ);
+    self.moveTo(self.startX, self.startY, self.startZ);
 
     scene.add(self.bodyMesh);
   });
@@ -109,6 +108,10 @@ Character.prototype.moveTo = function(x, y, z) {
   this.move(0, 0, 0);
 }
 
+Character.prototype.scale = function(s) {
+  this.bodyMesh.scale.set(s, s, s);
+}
+
 Character.prototype.render = function() {
   if (this.twitching) {
     var x = (Math.random() - 0.5) * 2;
@@ -127,7 +130,20 @@ Character.prototype.render = function() {
   }
 }
 
-},{"./lib/kutility":3,"./model_names":5}],3:[function(require,module,exports){
+},{"./lib/kutility":4,"./model_names":6}],3:[function(require,module,exports){
+var socket = io('http://localhost:8888');
+
+module.exports.begin = function() {
+  socket.on('leftHand', function(position) {
+    console.log('left hand position: ' + position);
+  });
+
+  socket.on('rightHand', function(position) {
+    console.log('right hand position: ' + position);
+  });
+}
+
+},{}],4:[function(require,module,exports){
 /* export something */
 module.exports = new Kutility;
 
@@ -692,12 +708,14 @@ Kutility.prototype.blur = function(el, x) {
   this.setFilter(el, cf + f);
 }
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 $(function() {
 
   var kt = require('./lib/kutility');
   var Camera = require('./camera');
   var Character = require('./character');
+  var Skybox = require('./skybox');
+  var io = require('./io');
 
   var scene = new THREE.Scene();
 
@@ -705,15 +723,9 @@ $(function() {
   var rendermode = 'webgl';
   try {
     renderer = new THREE.WebGLRenderer();
-    renderer.setClearColor(0xffffff, 1);
+    renderer.setClearColor(0x222222, 1);
   } catch(e) {
     $('.error').show();
-    setTimeout(function() {
-      $('.error').fadeOut();
-    }, 6666);
-    renderer = new THREE.CanvasRenderer();
-    renderer.setClearColor(0xffffff, 1);
-    rendermode = 'canvas';
   }
 
 	renderer.setSize(window.innerWidth, window.innerHeight);
@@ -722,6 +734,9 @@ $(function() {
 
   var canvas = document.querySelector('canvas');
   var $canvas = $(canvas);
+
+  var skybox = new Skybox();
+  skybox.addTo(scene);
 
   var camera = new Camera(window, scene);
 
@@ -741,9 +756,25 @@ $(function() {
 
   var active = {wrestlers: true};
 
+  var kevinWrestler;
+  var dylanWrestler;
+  var wrestlers = [];
+
   start();
 
   function start() {
+    kevinWrestler = new Character({x: -10, y: 0, z: -25}, 20);
+    dylanWrestler = new Character({x:10, y: 0, z: -25}, 20);
+    wrestlers = [kevinWrestler, dylanWrestler];
+
+    io.begin();
+
+    camera.cam.position.set(0, 6, 10);
+
+    for (var i = 0; i < wrestlers.length; i++) {
+      wrestlers[i].addTo(scene);
+    }
+
     render();
   }
 
@@ -752,6 +783,7 @@ $(function() {
 
     if (active.wrestlers) {
       // render the wrestlers
+      for (var i = 0; i < wrestlers.count; i++) wrestlers[i].render();
     }
 
     if (active.character) {
@@ -783,7 +815,7 @@ $(function() {
 
 });
 
-},{"./camera":1,"./character":2,"./lib/kutility":3}],5:[function(require,module,exports){
+},{"./camera":1,"./character":2,"./io":3,"./lib/kutility":4,"./skybox":7}],6:[function(require,module,exports){
 
 var prefix = '/js/models/';
 
@@ -825,9 +857,35 @@ module.exports.TORSO = pre('torso.js');
 
 module.exports.loadModel = function(modelName, callback) {
   var loader = new THREE.JSONLoader;
+
   loader.load(modelName, function (geometry, materials) {
     callback(geometry, materials);
   });
 }
 
-},{}]},{},[4])
+},{}],7:[function(require,module,exports){
+
+
+module.exports = Skybox;
+
+function Skybox() {
+  var size = 15000;
+  var sections = 22;
+  this.geometry = new THREE.BoxGeometry(size, size, size, sections, sections, sections);
+
+  this.material = new THREE.MeshBasicMaterial({
+    color: 0xababab,
+    wireframe: true,
+    wireframeLinewidth: 0.2,
+    opacity: 0.2,
+    transparent: true
+  });
+
+  this.mesh = new THREE.Mesh(this.geometry, this.material);
+}
+
+Skybox.prototype.addTo = function(scene) {
+  scene.add(this.mesh);
+}
+
+},{}]},{},[5])
