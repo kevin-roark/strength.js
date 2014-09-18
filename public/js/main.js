@@ -52,13 +52,13 @@ $(function() {
   start();
 
   function start() {
-    kevinWrestler = new Character({x: -10, y: 0, z: -25}, 20);
-    dylanWrestler = new Character({x:10, y: 0, z: -25}, 20);
+    kevinWrestler = new Character({x: -20, y: 0, z: -25}, 20);
+    dylanWrestler = new Character({x:20, y: 0, z: -25}, 20);
     wrestlers = [kevinWrestler, dylanWrestler];
 
     io.begin();
 
-    camera.cam.position.set(0, 6, 10);
+    camera.cam.position.set(0, 6, 100);
 
     for (var i = 0; i < wrestlers.length; i++) {
       wrestlers[i].addTo(scene);

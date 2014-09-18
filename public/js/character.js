@@ -2,6 +2,12 @@
 var kt = require('./lib/kutility');
 
 var modelNames = require('./model_names');
+var Arm = require('./arm');
+var Leg = require('./leg');
+var Head = require('./head');
+var Body = require('./body');
+var Hand = require('./hand');
+var Foot = require('./foot');
 
 module.exports = Character;
 
@@ -13,6 +19,30 @@ function Character(startPos, scale) {
 
   this.scale = scale || 5;
 
+  this.leftArm = new Arm({x: this.startX - scale, y: this.startY + scale * 0.5, z: this.startZ}, scale);
+
+  this.rightArm = new Arm({x: this.startX + scale, y: this.startY + scale * 0.5, z: this.startZ}, scale);
+
+  this.leftHand = new Hand({x: this.startX - scale, y: this.startY + scale * 0.5, z: this.startZ}, scale);
+
+  this.rightHand = new Hand({x: this.startX + scale, y: this.startY + scale * 0.5, z: this.startZ}, scale);
+
+  this.legs = new Leg({x: this.startX, y: this.startY - 2 * scale, z: this.startZ}, scale);
+
+  this.leftFoot = new Foot({x: this.startX - scale * 0.5, y: this.startY - scale * 1.5, z: this.startZ}, scale);
+
+  this.rightFoot = new Foot({x: this.startX + scale * 0.5, y: this.startY - scale * 1.5, z: this.startZ}, scale);
+
+  this.body = new Body({x: this.startX, y: this.startY, z: this.startZ}, scale);
+
+  this.head = new Head({x: this.startX, y: this.startY + 5 * scale, z: this.startZ}, scale);
+
+  this.bodyParts = [this.leftArm, this.rightArm,
+                    this.leftHand, this.rightHand,
+                    this.legs,
+                    this.leftFoot, this.rightFoot,
+                    this.body, this.head];
+
   this.twitching = false; // random motion and rotation
 
   this.melting = false; // bone shaking
@@ -21,55 +51,35 @@ function Character(startPos, scale) {
 Character.prototype.addTo = function(scene) {
   this.scene = scene;
 
-  console.log('ADDING CHARACTATER');
-
-  // need to load a ton of models here
-
-  var self = this;
-  modelNames.loadModel(modelNames.FOOTBALL_PLAYER, function (geometry, materials) {
-    console.log('wooooooooo all loaded up football');
-    console.log(geometry);
-    console.log(materials);
-
-    self.bodyGeometry = geometry;
-    self.bodyMaterials = materials;
-
-    self.bodyMesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
-
-    self.bodyMesh.scale.set(self.scale, self.scale, self.scale);
-
-    self.moveTo(self.startX, self.startY, self.startZ);
-
-    scene.add(self.bodyMesh);
+  this.bodyParts.forEach(function(part) {
+    part.addTo(scene);
   });
 }
 
 Character.prototype.move = function(x, y, z) {
-  if (!this.bodyMesh) return;
-
-  this.bodyMesh.position.x += x;
-  this.bodyMesh.position.y += y;
-  this.bodyMesh.position.z += z;
+  this.bodyParts.forEach(function(part) {
+    part.move(x, y, z);
+  });
 }
 
 Character.prototype.rotate = function(rx, ry, rz) {
-  if (!this.bodyMesh) return;
-
-  this.bodyMesh.rotation.x += rx;
-  this.bodyMesh.rotation.y += ry;
-  this.bodyMesh.rotation.z += rz;
+  this.bodyParts.forEach(function(part) {
+    part.rotate(rx, ry, rz);
+  });
 }
 
 Character.prototype.moveTo = function(x, y, z) {
-  if (!this.bodyMesh) return;
-
-  this.bodyMesh.position.set(x, y, z);
+  this.bodyParts.forEach(function(part) {
+    part.moveTo(x, y, z);
+  });
 
   this.move(0, 0, 0);
 }
 
 Character.prototype.scale = function(s) {
-  this.bodyMesh.scale.set(s, s, s);
+  this.bodyParts.forEach(function(part) {
+    part.scale(s);
+  });
 }
 
 Character.prototype.render = function() {

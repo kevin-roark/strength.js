@@ -1,5 +1,135 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 
+var kt = require('./lib/kutility');
+
+var modelNames = require('./model_names');
+
+var BodyPart = require('./bodypart');
+
+module.exports = Arm;
+
+function Arm(startPos, scale) {
+  if (!startPos) startPos = {x: 0, y: 0, z: 0};
+  this.startX = startPos.x;
+  this.startY = startPos.y;
+  this.startZ = startPos.z;
+
+  this.scale = scale || 1;
+  this.scale *= 0.33;
+
+  this.modelChoices = [/*modelNames.ARM,*/ modelNames.ARMS];
+}
+
+Arm.prototype.__proto__ = BodyPart.prototype;
+
+},{"./bodypart":3,"./lib/kutility":11,"./model_names":13}],2:[function(require,module,exports){
+
+var kt = require('./lib/kutility');
+
+var modelNames = require('./model_names');
+
+var BodyPart = require('./bodypart');
+
+module.exports = Body;
+
+function Body(startPos, scale) {
+  if (!startPos) startPos = {x: 0, y: 0, z: 0};
+  this.startX = startPos.x;
+  this.startY = startPos.y;
+  this.startZ = startPos.z;
+
+  this.scale = scale || 1;
+  this.scale *= 0.25;
+
+  this.modelChoices = [modelNames.FOOTBALL_PLAYER, modelNames.MALE, modelNames.FEMALE, modelNames.CHILD];
+}
+
+Body.prototype.__proto__ = BodyPart.prototype;
+
+Body.prototype.additionalInit = function() {
+  var self = this;
+
+  if (self.modelName == modelNames.FOOTBALL_PLAYER) {
+    self.scale *= 5;
+    self.scaleBody(self.scale);
+  } else if (self.modelName == modelNames.MALE) {
+    self.scale *= 2.5;
+    self.scaleBody(self.scale);
+  }
+};
+
+},{"./bodypart":3,"./lib/kutility":11,"./model_names":13}],3:[function(require,module,exports){
+var kt = require('./lib/kutility');
+
+var modelNames = require('./model_names');
+
+module.exports = BodyPart;
+
+function BodyPart(startPos, scale) {
+  this.modelChoices = [];
+}
+
+BodyPart.prototype.move = function(x, y, z) {
+  if (!this.mesh) return;
+
+  this.mesh.position.x += x;
+  this.mesh.position.y += y;
+  this.mesh.position.z += z;
+}
+
+BodyPart.prototype.rotate = function(rx, ry, rz) {
+  if (!this.mesh) return;
+
+  this.mesh.rotation.x += rx;
+  this.mesh.rotation.y += ry;
+  this.mesh.rotation.z += rz;
+}
+
+BodyPart.prototype.moveTo = function(x, y, z) {
+  if (!this.mesh) return;
+
+  this.mesh.position.set(x, y, z);
+
+  this.move(0, 0, 0);
+}
+
+BodyPart.prototype.scaleBody = function(s) {
+  if (!this.mesh) return;
+
+  this.mesh.scale.set(s, s, s);
+}
+
+BodyPart.prototype.addTo = function(scene) {
+  var self = this;
+
+  self.modelName = self.specificModelName || kt.choice(self.modelChoices);
+
+  console.log('ADDING MODEL ' + self.modelName);
+
+  modelNames.loadModel(self.modelName, function (geometry, materials) {
+    self.gometry = geometry;
+    self.materials = materials;
+
+    self.mesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
+
+    self.scaleBody(self.scale);
+
+    self.moveTo(self.startX, self.startY, self.startZ);
+
+    self.additionalInit();
+
+    scene.add(self.mesh);
+  });
+}
+
+BodyPart.prototype.render = function() {
+
+}
+
+BodyPart.prototype.additionalInit = function() {};
+
+},{"./lib/kutility":11,"./model_names":13}],4:[function(require,module,exports){
+
 var element = document.body;
 
 var cam = {};
@@ -37,11 +167,17 @@ Camera.prototype.render = function() {
 	// doesn't actually need to do anything yet
 }
 
-},{"./lib/kutility":4}],2:[function(require,module,exports){
+},{"./lib/kutility":11}],5:[function(require,module,exports){
 
 var kt = require('./lib/kutility');
 
 var modelNames = require('./model_names');
+var Arm = require('./arm');
+var Leg = require('./leg');
+var Head = require('./head');
+var Body = require('./body');
+var Hand = require('./hand');
+var Foot = require('./foot');
 
 module.exports = Character;
 
@@ -53,6 +189,30 @@ function Character(startPos, scale) {
 
   this.scale = scale || 5;
 
+  this.leftArm = new Arm({x: this.startX - scale, y: this.startY + scale * 0.5, z: this.startZ}, scale);
+
+  this.rightArm = new Arm({x: this.startX + scale, y: this.startY + scale * 0.5, z: this.startZ}, scale);
+
+  this.leftHand = new Hand({x: this.startX - scale, y: this.startY + scale * 0.5, z: this.startZ}, scale);
+
+  this.rightHand = new Hand({x: this.startX + scale, y: this.startY + scale * 0.5, z: this.startZ}, scale);
+
+  this.legs = new Leg({x: this.startX, y: this.startY - 2 * scale, z: this.startZ}, scale);
+
+  this.leftFoot = new Foot({x: this.startX - scale * 0.5, y: this.startY - scale * 1.5, z: this.startZ}, scale);
+
+  this.rightFoot = new Foot({x: this.startX + scale * 0.5, y: this.startY - scale * 1.5, z: this.startZ}, scale);
+
+  this.body = new Body({x: this.startX, y: this.startY, z: this.startZ}, scale);
+
+  this.head = new Head({x: this.startX, y: this.startY + 5 * scale, z: this.startZ}, scale);
+
+  this.bodyParts = [this.leftArm, this.rightArm,
+                    this.leftHand, this.rightHand,
+                    this.legs,
+                    this.leftFoot, this.rightFoot,
+                    this.body, this.head];
+
   this.twitching = false; // random motion and rotation
 
   this.melting = false; // bone shaking
@@ -61,55 +221,35 @@ function Character(startPos, scale) {
 Character.prototype.addTo = function(scene) {
   this.scene = scene;
 
-  console.log('ADDING CHARACTATER');
-
-  // need to load a ton of models here
-
-  var self = this;
-  modelNames.loadModel(modelNames.FOOTBALL_PLAYER, function (geometry, materials) {
-    console.log('wooooooooo all loaded up football');
-    console.log(geometry);
-    console.log(materials);
-
-    self.bodyGeometry = geometry;
-    self.bodyMaterials = materials;
-
-    self.bodyMesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
-
-    self.bodyMesh.scale.set(self.scale, self.scale, self.scale);
-
-    self.moveTo(self.startX, self.startY, self.startZ);
-
-    scene.add(self.bodyMesh);
+  this.bodyParts.forEach(function(part) {
+    part.addTo(scene);
   });
 }
 
 Character.prototype.move = function(x, y, z) {
-  if (!this.bodyMesh) return;
-
-  this.bodyMesh.position.x += x;
-  this.bodyMesh.position.y += y;
-  this.bodyMesh.position.z += z;
+  this.bodyParts.forEach(function(part) {
+    part.move(x, y, z);
+  });
 }
 
 Character.prototype.rotate = function(rx, ry, rz) {
-  if (!this.bodyMesh) return;
-
-  this.bodyMesh.rotation.x += rx;
-  this.bodyMesh.rotation.y += ry;
-  this.bodyMesh.rotation.z += rz;
+  this.bodyParts.forEach(function(part) {
+    part.rotate(rx, ry, rz);
+  });
 }
 
 Character.prototype.moveTo = function(x, y, z) {
-  if (!this.bodyMesh) return;
-
-  this.bodyMesh.position.set(x, y, z);
+  this.bodyParts.forEach(function(part) {
+    part.moveTo(x, y, z);
+  });
 
   this.move(0, 0, 0);
 }
 
 Character.prototype.scale = function(s) {
-  this.bodyMesh.scale.set(s, s, s);
+  this.bodyParts.forEach(function(part) {
+    part.scale(s);
+  });
 }
 
 Character.prototype.render = function() {
@@ -130,7 +270,87 @@ Character.prototype.render = function() {
   }
 }
 
-},{"./lib/kutility":4,"./model_names":6}],3:[function(require,module,exports){
+},{"./arm":1,"./body":2,"./foot":6,"./hand":7,"./head":8,"./leg":10,"./lib/kutility":11,"./model_names":13}],6:[function(require,module,exports){
+
+var kt = require('./lib/kutility');
+
+var modelNames = require('./model_names');
+
+var BodyPart = require('./bodypart');
+
+module.exports = Foot;
+
+function Foot(startPos, scale) {
+  if (!startPos) startPos = {x: 0, y: 0, z: 0};
+  this.startX = startPos.x;
+  this.startY = startPos.y;
+  this.startZ = startPos.z;
+
+  this.scale = scale || 1;
+  this.scale *= 0.1;
+
+  this.modelChoices = [modelNames.FOOT];
+}
+
+Foot.prototype.__proto__ = BodyPart.prototype;
+
+Foot.prototype.additionalInit = function() {
+  this.rotate(0, -Math.PI / 2, 0);
+};
+
+},{"./bodypart":3,"./lib/kutility":11,"./model_names":13}],7:[function(require,module,exports){
+
+var kt = require('./lib/kutility');
+
+var modelNames = require('./model_names');
+
+var BodyPart = require('./bodypart');
+
+module.exports = Hand;
+
+function Hand(startPos, scale) {
+  if (!startPos) startPos = {x: 0, y: 0, z: 0};
+  this.startX = startPos.x;
+  this.startY = startPos.y;
+  this.startZ = startPos.z;
+
+  this.scale = scale || 1;
+  this.scale *= 0.1;
+
+  this.modelChoices = [modelNames.HAND];
+}
+
+Hand.prototype.__proto__ = BodyPart.prototype;
+
+Hand.prototype.additionalInit = function() {
+  this.rotate(-Math.PI / 2, -Math.PI / 2, 0);
+};
+
+},{"./bodypart":3,"./lib/kutility":11,"./model_names":13}],8:[function(require,module,exports){
+
+var kt = require('./lib/kutility');
+
+var modelNames = require('./model_names');
+
+var BodyPart = require('./bodypart');
+
+module.exports = Head;
+
+function Head(startPos, scale) {
+  if (!startPos) startPos = {x: 0, y: 0, z: 0};
+  this.startX = startPos.x;
+  this.startY = startPos.y;
+  this.startZ = startPos.z;
+
+  this.scale = scale || 1;
+  this.scale *= 0.3;
+
+  this.modelChoices = [modelNames.HEAD];
+}
+
+Head.prototype.__proto__ = BodyPart.prototype;
+
+},{"./bodypart":3,"./lib/kutility":11,"./model_names":13}],9:[function(require,module,exports){
 var socket = io('http://localhost:8888');
 
 module.exports.begin = function() {
@@ -143,7 +363,31 @@ module.exports.begin = function() {
   });
 }
 
-},{}],4:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
+
+var kt = require('./lib/kutility');
+
+var modelNames = require('./model_names');
+
+var BodyPart = require('./bodypart');
+
+module.exports = Leg;
+
+function Leg(startPos, scale) {
+  if (!startPos) startPos = {x: 0, y: 0, z: 0};
+  this.startX = startPos.x;
+  this.startY = startPos.y;
+  this.startZ = startPos.z;
+
+  this.scale = scale || 1;
+  this.scale *= 0.25;
+
+  this.modelChoices = [modelNames.ANIMAL_LEGS];
+}
+
+Leg.prototype.__proto__ = BodyPart.prototype;
+
+},{"./bodypart":3,"./lib/kutility":11,"./model_names":13}],11:[function(require,module,exports){
 /* export something */
 module.exports = new Kutility;
 
@@ -708,7 +952,7 @@ Kutility.prototype.blur = function(el, x) {
   this.setFilter(el, cf + f);
 }
 
-},{}],5:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 $(function() {
 
   var kt = require('./lib/kutility');
@@ -763,13 +1007,13 @@ $(function() {
   start();
 
   function start() {
-    kevinWrestler = new Character({x: -10, y: 0, z: -25}, 20);
-    dylanWrestler = new Character({x:10, y: 0, z: -25}, 20);
+    kevinWrestler = new Character({x: -20, y: 0, z: -25}, 20);
+    dylanWrestler = new Character({x:20, y: 0, z: -25}, 20);
     wrestlers = [kevinWrestler, dylanWrestler];
 
     io.begin();
 
-    camera.cam.position.set(0, 6, 10);
+    camera.cam.position.set(0, 6, 100);
 
     for (var i = 0; i < wrestlers.length; i++) {
       wrestlers[i].addTo(scene);
@@ -815,7 +1059,7 @@ $(function() {
 
 });
 
-},{"./camera":1,"./character":2,"./io":3,"./lib/kutility":4,"./skybox":7}],6:[function(require,module,exports){
+},{"./camera":4,"./character":5,"./io":9,"./lib/kutility":11,"./skybox":14}],13:[function(require,module,exports){
 
 var prefix = '/js/models/';
 
@@ -863,7 +1107,7 @@ module.exports.loadModel = function(modelName, callback) {
   });
 }
 
-},{}],7:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 
 
 module.exports = Skybox;
@@ -888,4 +1132,4 @@ Skybox.prototype.addTo = function(scene) {
   scene.add(this.mesh);
 }
 
-},{}]},{},[5])
+},{}]},{},[12])
