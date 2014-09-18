@@ -72,11 +72,7 @@ $(function() {
 
     if (active.wrestlers) {
       // render the wrestlers
-      for (var i = 0; i < wrestlers.count; i++) wrestlers[i].render();
-    }
-
-    if (active.character) {
-      mainCharacterModel.render();
+      for (var i = 0; i < wrestlers.length; i++) wrestlers[i].render();
     }
 
     camera.render();

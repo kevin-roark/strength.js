@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 
 var element = document.body;
 
@@ -55,7 +55,7 @@ function Character(startPos, scale) {
 
   this.twitching = false; // random motion and rotation
 
-  this.melting = false; // bone shaking
+  this.melting = true; // bone shaking
 }
 
 Character.prototype.addTo = function(scene) {
@@ -67,9 +67,9 @@ Character.prototype.addTo = function(scene) {
 
   var self = this;
   modelNames.loadModel(modelNames.FOOTBALL_PLAYER, function (geometry, materials) {
-    console.log('wooooooooo all loaded up football');
+    // console.log('wooooooooo all loaded up football');
     console.log(geometry);
-    console.log(materials);
+    // console.log(materials);
 
     self.bodyGeometry = geometry;
     self.bodyMaterials = materials;
@@ -77,6 +77,12 @@ Character.prototype.addTo = function(scene) {
     self.bodyMesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
 
     self.bodyMesh.scale.set(self.scale, self.scale, self.scale);
+
+    self.maxMelt = 10000;
+    self.meltCount = 0;
+    self.meltUp = 1;
+    self.prevs = [];
+
 
     self.moveTo(self.startX, self.startY, self.startZ);
 
@@ -113,6 +119,7 @@ Character.prototype.scale = function(s) {
 }
 
 Character.prototype.render = function() {
+  // console.log('heyey');
   if (this.twitching) {
     var x = (Math.random() - 0.5) * 2;
     var y = 0;
@@ -125,8 +132,45 @@ Character.prototype.render = function() {
     this.rotate(rx, ry, rz);
   }
 
-  if (this.melting) {
-    // perform some bone shaking
+  if (this.melting && this.bodyGeometry) {
+    verts = this.bodyGeometry.vertices;
+
+    var startI = 1 //kt.randInt(99, 1);
+
+
+    for (var i=startI; i< verts.length; i=i+500) {
+      if (this.meltUp) {
+        // console.log(meltCount);
+        this.prevs.push([verts[i].x, verts[i].y, verts[i].z]);
+        verts[i].x += (Math.random() - 0.5) * 0.005;
+        verts[i].y += (Math.random() - 0.5) * 0.005;
+        verts[i].z += (Math.random() - 0.5) * 0.005;
+        this.meltCount++;
+      }
+      else {
+        // console.log(this.prevs.pop()[0]);
+        var last = this.prevs[this.prevs.length-1];
+        verts[verts.length-i].x = last[0];
+        verts[verts.length-i].y = last[1];
+        verts[verts.length-i].z = last[2];
+        this.prevs.pop();
+        this.meltCount--;
+      }
+      if (this.meltCount == this.maxMelt && this.meltUp) {
+        this.meltUp = 0;
+        this.meltCount--;
+        // console.log('-- meltCount:',this.meltCount,'maxMelt:',this.maxMelt,'prevs:',this.prevs.length);
+        console.log(this.prevs.length,': ',this.prevs[this.prevs.length-1]);
+      }
+      else if (this.meltCount == 0 && !this.meltUp) {
+        this.meltUp = 1;
+        this.meltCount++;
+        // console.log('++ meltCount:',this.meltCount,'maxMelt:',this.maxMelt,'prevs:',this.prevs.length);
+        console.log(this.prevs.length,': ',this.prevs[this.prevs.length-1]);
+      }
+    }
+
+    this.bodyGeometry.verticesNeedUpdate = true;
   }
 }
 
@@ -783,11 +827,7 @@ $(function() {
 
     if (active.wrestlers) {
       // render the wrestlers
-      for (var i = 0; i < wrestlers.count; i++) wrestlers[i].render();
-    }
-
-    if (active.character) {
-      mainCharacterModel.render();
+      for (var i = 0; i < wrestlers.length; i++) wrestlers[i].render();
     }
 
     camera.render();
@@ -888,4 +928,4 @@ Skybox.prototype.addTo = function(scene) {
   scene.add(this.mesh);
 }
 
-},{}]},{},[5])
+},{}]},{},[5]);
