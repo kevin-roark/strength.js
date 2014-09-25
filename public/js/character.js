@@ -19,9 +19,9 @@ function Character(startPos, scale) {
 
   this.scale = scale || 5;
 
-  this.leftArm = new Arm({x: this.startX - scale, y: this.startY + scale * 0.5, z: this.startZ}, scale);
+  this.leftArm = new Arm({x: this.startX - scale, y: this.startY - scale, z: this.startZ}, scale);
 
-  this.rightArm = new Arm({x: this.startX + scale, y: this.startY + scale * 0.5, z: this.startZ}, scale);
+  this.rightArm = new Arm({x: this.startX + scale, y: this.startY - scale, z: this.startZ}, scale);
 
   this.leftHand = new Hand({x: this.startX - scale, y: this.startY + scale * 0.5, z: this.startZ}, scale, 'left');
 

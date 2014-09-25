@@ -8,7 +8,7 @@ var BodyPart = require('./bodypart');
 
 module.exports = Arm;
 
-function Arm(startPos, scale) {
+function Arm(startPos, scale, side) {
   if (!startPos) startPos = {x: 0, y: 0, z: 0};
   this.startX = startPos.x;
   this.startY = startPos.y;
@@ -17,10 +17,22 @@ function Arm(startPos, scale) {
   this.scale = scale || 1;
   this.scale *= 0.33;
 
-  this.modelChoices = [/*modelNames.ARM,*/ modelNames.ARMS];
+  this.side = side || 'left';
+
+  this.modelChoices = [modelNames.ARM, /* modelNames.ARMS */];
 }
 
 Arm.prototype.__proto__ = BodyPart.prototype;
+
+Arm.prototype.additionalInit = function() {
+  this.rotate(0, -Math.PI / 2, 0);
+
+  if (this.side == 'left') {
+
+  } else {
+
+  }
+};
 
 },{"./bodypart":3,"./lib/kutility":11,"./model_names":13}],2:[function(require,module,exports){
 
@@ -189,13 +201,13 @@ function Character(startPos, scale) {
 
   this.scale = scale || 5;
 
-  this.leftArm = new Arm({x: this.startX - scale, y: this.startY + scale * 0.5, z: this.startZ}, scale);
+  this.leftArm = new Arm({x: this.startX - scale, y: this.startY - scale, z: this.startZ}, scale);
 
-  this.rightArm = new Arm({x: this.startX + scale, y: this.startY + scale * 0.5, z: this.startZ}, scale);
+  this.rightArm = new Arm({x: this.startX + scale, y: this.startY - scale, z: this.startZ}, scale);
 
-  this.leftHand = new Hand({x: this.startX - scale, y: this.startY + scale * 0.5, z: this.startZ}, scale);
+  this.leftHand = new Hand({x: this.startX - scale, y: this.startY + scale * 0.5, z: this.startZ}, scale, 'left');
 
-  this.rightHand = new Hand({x: this.startX + scale, y: this.startY + scale * 0.5, z: this.startZ}, scale);
+  this.rightHand = new Hand({x: this.startX + scale, y: this.startY + scale * 0.5, z: this.startZ}, scale, 'right');
 
   this.legs = new Leg({x: this.startX, y: this.startY - 2 * scale, z: this.startZ}, scale);
 
@@ -280,7 +292,7 @@ var BodyPart = require('./bodypart');
 
 module.exports = Foot;
 
-function Foot(startPos, scale) {
+function Foot(startPos, scale, side) {
   if (!startPos) startPos = {x: 0, y: 0, z: 0};
   this.startX = startPos.x;
   this.startY = startPos.y;
@@ -296,6 +308,10 @@ Foot.prototype.__proto__ = BodyPart.prototype;
 
 Foot.prototype.additionalInit = function() {
   this.rotate(0, -Math.PI / 2, 0);
+
+  if (this.side == 'right') {
+    this.mesh.scale.y = - this.mesh.scale.y;
+  }
 };
 
 },{"./bodypart":3,"./lib/kutility":11,"./model_names":13}],7:[function(require,module,exports){
@@ -308,11 +324,13 @@ var BodyPart = require('./bodypart');
 
 module.exports = Hand;
 
-function Hand(startPos, scale) {
+function Hand(startPos, scale, side) {
   if (!startPos) startPos = {x: 0, y: 0, z: 0};
   this.startX = startPos.x;
   this.startY = startPos.y;
   this.startZ = startPos.z;
+
+  this.side = side || 'left';
 
   this.scale = scale || 1;
   this.scale *= 0.1;
@@ -323,7 +341,12 @@ function Hand(startPos, scale) {
 Hand.prototype.__proto__ = BodyPart.prototype;
 
 Hand.prototype.additionalInit = function() {
-  this.rotate(-Math.PI / 2, -Math.PI / 2, 0);
+  if (this.side == 'left') {
+    this.rotate(-Math.PI / 2, Math.PI / 2, 0);
+  } else {
+    this.rotate(-Math.PI / 2, Math.PI / 2, 0);
+    this.mesh.scale.y = - this.mesh.scale.y;
+  }
 };
 
 },{"./bodypart":3,"./lib/kutility":11,"./model_names":13}],8:[function(require,module,exports){
@@ -1008,8 +1031,8 @@ $(function() {
 
   function start() {
     kevinWrestler = new Character({x: -20, y: 0, z: -25}, 20);
-    dylanWrestler = new Character({x:20, y: 0, z: -25}, 20);
-    wrestlers = [kevinWrestler, dylanWrestler];
+    //dylanWrestler = new Character({x:20, y: 0, z: -25}, 20);
+    wrestlers = [kevinWrestler];//, dylanWrestler];
 
     io.begin();
 

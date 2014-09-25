@@ -7,7 +7,7 @@ var BodyPart = require('./bodypart');
 
 module.exports = Foot;
 
-function Foot(startPos, scale) {
+function Foot(startPos, scale, side) {
   if (!startPos) startPos = {x: 0, y: 0, z: 0};
   this.startX = startPos.x;
   this.startY = startPos.y;
