@@ -30,20 +30,17 @@ $(function() {
   var camera = new Camera(window, scene);
 
   // spotlight shinin from above casting shadows and the like
-  var spotlight = new THREE.SpotLight(0xffffff, 0.25);
-  spotlight.position.set(0, 1000, 0);
+  var spotlight = new THREE.SpotLight(0xffffff, 5.0);
+  spotlight.position.set(0, 200, -25);
   spotlight.castShadow = true;
-  spotlight.angle = Math.PI / 2;
-  spotlight.exponent = 2.0;
-  spotlight.shadowDarkness = 0.5;
   scene.add(spotlight);
 
   // soft blue light //\\ can modify this sucker to change mood
   var ambientLight = new THREE.AmbientLight(0xeeeeff);
   ambientLight.intensity = 0.4;
-  scene.add(ambientLight);
+  //scene.add(ambientLight);
 
-  var active = {wrestlers: true};
+  var active = {wrestlers: true, lighting: true};
 
   var kevinWrestler;
   var dylanWrestler;
@@ -52,9 +49,9 @@ $(function() {
   start();
 
   function start() {
-    kevinWrestler = new Character({x: -20, y: 0, z: -25}, 20);
-    //dylanWrestler = new Character({x:20, y: 0, z: -25}, 20);
-    wrestlers = [kevinWrestler];//, dylanWrestler];
+    kevinWrestler = new Character({x: -25, y: 0, z: -25}, 20);
+    dylanWrestler = new Character({x: 25, y: 0, z: -25}, 20);
+    wrestlers = [kevinWrestler, dylanWrestler];
 
     io.begin();
 
@@ -79,9 +76,38 @@ $(function() {
       mainCharacterModel.render();
     }
 
+    changeLights();
+
     camera.render();
 
     renderer.render(scene, camera.cam);
+  }
+
+  var lightOb = {};
+  function changeLights() {
+    if (!active.lighting) return;
+
+    if (!lightOb) lightOb = {};
+
+    if (lightOb.movingUp) {
+      spotlight.position.y += 1;
+      if (spotlight.position.z > 400) {
+        lightOb.movingUp = false;
+      }
+    } else {
+      spotlight.position.y -= 1;
+      if (spotlight.position.z < 50) {
+        lightOb.movingUp = true;
+      }
+    }
+
+    spotlight.intensity = Math.random() * 5.0;
+
+    spotlight.position.x += (Math.random() - 0.5) * 20;
+    spotlight.position.z += (Math.random() - 0.5) * 20;
+
+    var gray = Math.random();
+    spotlight.color.setRGB(gray, gray, gray);
   }
 
   function landscapeWarp() {

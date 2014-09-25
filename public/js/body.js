@@ -16,7 +16,7 @@ function Body(startPos, scale) {
   this.scale = scale || 1;
   this.scale *= 0.25;
 
-  this.modelChoices = [modelNames.FOOTBALL_PLAYER, modelNames.MALE, modelNames.FEMALE, modelNames.CHILD];
+  this.modelChoices = [modelNames.FOOTBALL_PLAYER, modelNames.MALE, /*modelNames.FEMALE,*/ modelNames.CHILD];
 }
 
 Body.prototype.__proto__ = BodyPart.prototype;
@@ -28,7 +28,7 @@ Body.prototype.additionalInit = function() {
     self.scale *= 5;
     self.scaleBody(self.scale);
   } else if (self.modelName == modelNames.MALE) {
-    self.scale *= 2.5;
+    self.scale *= 1.75;
     self.scaleBody(self.scale);
   }
 };

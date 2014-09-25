@@ -48,6 +48,7 @@ BodyPart.prototype.addTo = function(scene) {
   modelNames.loadModel(self.modelName, function (geometry, materials) {
     self.gometry = geometry;
     self.materials = materials;
+    console.log(materials);
 
     self.mesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
 
