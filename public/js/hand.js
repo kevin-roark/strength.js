@@ -25,10 +25,8 @@ Hand.prototype.__proto__ = BodyPart.prototype;
 
 Hand.prototype.additionalInit = function() {
   if (this.side == 'left') {
-    //this.rotate(-Math.PI / 2, -Math.PI / 2, 0);
     this.rotate(-Math.PI / 2, Math.PI / 2, 0);
   } else {
-    //this.rotate(-Math.PI / 2, -Math.PI / 2, 0);
     this.rotate(-Math.PI / 2, Math.PI / 2, 0);
     this.mesh.scale.y = - this.mesh.scale.y;
   }

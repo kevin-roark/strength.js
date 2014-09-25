@@ -23,4 +23,8 @@ Foot.prototype.__proto__ = BodyPart.prototype;
 
 Foot.prototype.additionalInit = function() {
   this.rotate(0, -Math.PI / 2, 0);
+
+  if (this.side == 'right') {
+    this.mesh.scale.y = - this.mesh.scale.y;
+  }
 };
