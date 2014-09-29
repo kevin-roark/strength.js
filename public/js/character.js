@@ -19,29 +19,31 @@ function Character(startPos, scale) {
 
   this.scale = scale || 5;
 
-  this.leftArm = new Arm({x: this.startX - scale, y: this.startY - scale, z: this.startZ}, scale);
+  this.leftArm = new Arm({x: this.startX - scale, y: this.startY - scale, z: this.startZ}, scale, 'left');
 
-  this.rightArm = new Arm({x: this.startX + scale, y: this.startY - scale, z: this.startZ}, scale);
+  this.rightArm = new Arm({x: this.startX + scale, y: this.startY - scale, z: this.startZ}, scale, 'right');
 
-  this.leftHand = new Hand({x: this.startX - scale, y: this.startY + scale * 0.5, z: this.startZ}, scale, 'left');
+  this.leftHand = new Hand({x: this.startX - scale, y: this.startY - scale, z: this.startZ}, scale, 'left');
 
-  this.rightHand = new Hand({x: this.startX + scale, y: this.startY + scale * 0.5, z: this.startZ}, scale, 'right');
+  this.rightHand = new Hand({x: this.startX + scale, y: this.startY - scale, z: this.startZ}, scale, 'right');
 
-  this.legs = new Leg({x: this.startX, y: this.startY - 2 * scale, z: this.startZ}, scale);
+  this.leftLeg = new Leg({x: this.startX - scale * 0.4, y: this.startY - scale * 0.75, z: this.startZ}, scale);
 
-  this.leftFoot = new Foot({x: this.startX - scale * 0.5, y: this.startY - scale * 1.5, z: this.startZ}, scale);
+  this.rightLeg = new Leg({x: this.startX + scale * 0.4, y: this.startY - scale * 0.75, z: this.startZ}, scale);
 
-  this.rightFoot = new Foot({x: this.startX + scale * 0.5, y: this.startY - scale * 1.5, z: this.startZ}, scale);
+  this.leftFoot = new Foot({x: this.startX - scale * 0.5, y: this.startY - scale * 1.5, z: this.startZ}, scale, 'left');
 
-  this.body = new Body({x: this.startX, y: this.startY, z: this.startZ}, scale);
+  this.rightFoot = new Foot({x: this.startX + scale * 0.5, y: this.startY - scale * 1.5, z: this.startZ}, scale, 'right');
 
-  this.head = new Head({x: this.startX, y: this.startY + 5 * scale, z: this.startZ}, scale);
+  this.torso = new Body({x: this.startX, y: this.startY, z: this.startZ}, scale);
+
+  this.head = new Head({x: this.startX, y: this.startY + 0.25 * scale, z: this.startZ}, scale);
 
   this.bodyParts = [this.leftArm, this.rightArm,
                     this.leftHand, this.rightHand,
-                    this.legs,
+                    this.leftLeg, this.rightLeg,
                     this.leftFoot, this.rightFoot,
-                    this.body, this.head];
+                    this.torso, this.head];
 
   this.twitching = false; // random motion and rotation
 

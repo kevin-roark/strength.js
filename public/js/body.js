@@ -14,9 +14,9 @@ function Body(startPos, scale) {
   this.startZ = startPos.z;
 
   this.scale = scale || 1;
-  this.scale *= 0.25;
+  this.scale *= 0.5;
 
-  this.modelChoices = [modelNames.FOOTBALL_PLAYER, modelNames.MALE, /*modelNames.FEMALE,*/ modelNames.CHILD];
+  this.modelChoices = [modelNames.BABY_TORSO, modelNames.FOOTBALL_TORSO, modelNames.LOWPOLY_TORSO];
 }
 
 Body.prototype.__proto__ = BodyPart.prototype;
@@ -24,11 +24,15 @@ Body.prototype.__proto__ = BodyPart.prototype;
 Body.prototype.additionalInit = function() {
   var self = this;
 
-  if (self.modelName == modelNames.FOOTBALL_PLAYER) {
-    self.scale *= 5;
+  if (self.modelName == modelNames.BABY_TORSO) {
+    self.scale *= 0.75;
     self.scaleBody(self.scale);
-  } else if (self.modelName == modelNames.MALE) {
-    self.scale *= 1.75;
+    self.move(1.5, 6, 0);
+  } else if (self.modelName == modelNames.FOOTBALL_TORSO) {
+    self.scale *= 7.5;
     self.scaleBody(self.scale);
+    self.move(-2, -24, 0);
+  } else if (self.modelName == modelNames.LOWPOLY_TORSO) {
+    self.move(0, -15, 0);
   }
 };

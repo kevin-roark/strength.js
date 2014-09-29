@@ -19,18 +19,40 @@ function Arm(startPos, scale, side) {
 
   this.side = side || 'left';
 
-  this.modelChoices = [modelNames.ARM, /* modelNames.ARMS */];
+  this.modelChoices = [modelNames.BABY_ARM, modelNames.FOOTBALL_ARM, modelNames.LOWPOLY_ARM];
 }
 
 Arm.prototype.__proto__ = BodyPart.prototype;
 
 Arm.prototype.additionalInit = function() {
-  this.rotate(0, -Math.PI / 2, 0);
+  //this.rotate(0, -Math.PI / 2, 0);
 
-  if (this.side == 'left') {
-
-  } else {
-
+  if (this.modelName == modelNames.BABY_ARM) {
+    this.rotate(0, Math.PI / 2, 0);
+    this.move(0, 19, -20);
+    if (this.side == 'left') {
+      this.move(20, 0, 0);
+    } else {
+      this.move(11.5, 0, 0);
+    }
+  } else if (this.modelName == modelNames.FOOTBALL_ARM) {
+    this.scale *= 15;
+    this.scaleBody(this.scale);
+    this.move(0, -10, 0);
+    if (this.side == 'left') {
+      this.move(16, 0, 0);
+    } else {
+      this.move(-10, 0, 0);
+      this.mesh.scale.x *= -1;
+    }
+  } else if (this.modelName == modelNames.LOWPOLY_ARM) {
+    this.move(0, 10, 0);
+    if (this.side == 'left') {
+      this.move(13, 0, 0);
+      this.mesh.scale.x *= -1;
+    } else {
+      this.move(-13, 0, 0);
+    }
   }
 };
 
@@ -51,9 +73,9 @@ function Body(startPos, scale) {
   this.startZ = startPos.z;
 
   this.scale = scale || 1;
-  this.scale *= 0.25;
+  this.scale *= 0.5;
 
-  this.modelChoices = [modelNames.FOOTBALL_PLAYER, modelNames.MALE, /*modelNames.FEMALE,*/ modelNames.CHILD];
+  this.modelChoices = [modelNames.BABY_TORSO, modelNames.FOOTBALL_TORSO, modelNames.LOWPOLY_TORSO];
 }
 
 Body.prototype.__proto__ = BodyPart.prototype;
@@ -61,12 +83,16 @@ Body.prototype.__proto__ = BodyPart.prototype;
 Body.prototype.additionalInit = function() {
   var self = this;
 
-  if (self.modelName == modelNames.FOOTBALL_PLAYER) {
-    self.scale *= 5;
+  if (self.modelName == modelNames.BABY_TORSO) {
+    self.scale *= 0.75;
     self.scaleBody(self.scale);
-  } else if (self.modelName == modelNames.MALE) {
-    self.scale *= 1.75;
+    self.move(1.5, 6, 0);
+  } else if (self.modelName == modelNames.FOOTBALL_TORSO) {
+    self.scale *= 7.5;
     self.scaleBody(self.scale);
+    self.move(-2, -24, 0);
+  } else if (self.modelName == modelNames.LOWPOLY_TORSO) {
+    self.move(0, -15, 0);
   }
 };
 
@@ -202,29 +228,31 @@ function Character(startPos, scale) {
 
   this.scale = scale || 5;
 
-  this.leftArm = new Arm({x: this.startX - scale, y: this.startY - scale, z: this.startZ}, scale);
+  this.leftArm = new Arm({x: this.startX - scale, y: this.startY - scale, z: this.startZ}, scale, 'left');
 
-  this.rightArm = new Arm({x: this.startX + scale, y: this.startY - scale, z: this.startZ}, scale);
+  this.rightArm = new Arm({x: this.startX + scale, y: this.startY - scale, z: this.startZ}, scale, 'right');
 
-  this.leftHand = new Hand({x: this.startX - scale, y: this.startY + scale * 0.5, z: this.startZ}, scale, 'left');
+  this.leftHand = new Hand({x: this.startX - scale, y: this.startY - scale, z: this.startZ}, scale, 'left');
 
-  this.rightHand = new Hand({x: this.startX + scale, y: this.startY + scale * 0.5, z: this.startZ}, scale, 'right');
+  this.rightHand = new Hand({x: this.startX + scale, y: this.startY - scale, z: this.startZ}, scale, 'right');
 
-  this.legs = new Leg({x: this.startX, y: this.startY - 2 * scale, z: this.startZ}, scale);
+  this.leftLeg = new Leg({x: this.startX - scale * 0.4, y: this.startY - scale * 0.75, z: this.startZ}, scale);
 
-  this.leftFoot = new Foot({x: this.startX - scale * 0.5, y: this.startY - scale * 1.5, z: this.startZ}, scale);
+  this.rightLeg = new Leg({x: this.startX + scale * 0.4, y: this.startY - scale * 0.75, z: this.startZ}, scale);
 
-  this.rightFoot = new Foot({x: this.startX + scale * 0.5, y: this.startY - scale * 1.5, z: this.startZ}, scale);
+  this.leftFoot = new Foot({x: this.startX - scale * 0.5, y: this.startY - scale * 1.5, z: this.startZ}, scale, 'left');
 
-  this.body = new Body({x: this.startX, y: this.startY, z: this.startZ}, scale);
+  this.rightFoot = new Foot({x: this.startX + scale * 0.5, y: this.startY - scale * 1.5, z: this.startZ}, scale, 'right');
 
-  this.head = new Head({x: this.startX, y: this.startY + 5 * scale, z: this.startZ}, scale);
+  this.torso = new Body({x: this.startX, y: this.startY, z: this.startZ}, scale);
+
+  this.head = new Head({x: this.startX, y: this.startY + 0.25 * scale, z: this.startZ}, scale);
 
   this.bodyParts = [this.leftArm, this.rightArm,
                     this.leftHand, this.rightHand,
-                    this.legs,
+                    this.leftLeg, this.rightLeg,
                     this.leftFoot, this.rightFoot,
-                    this.body, this.head];
+                    this.torso, this.head];
 
   this.twitching = false; // random motion and rotation
 
@@ -302,16 +330,31 @@ function Foot(startPos, scale, side) {
   this.scale = scale || 1;
   this.scale *= 0.1;
 
-  this.modelChoices = [modelNames.FOOT];
+  this.side == side || 'left';
+
+  this.modelChoices = [modelNames.FOOT, modelNames.FOOTBALL_FOOT];
 }
 
 Foot.prototype.__proto__ = BodyPart.prototype;
 
 Foot.prototype.additionalInit = function() {
-  this.rotate(0, -Math.PI / 2, 0);
+  if (this.modelName == modelNames.FOOT) {
+    this.rotate(0, -Math.PI / 2, 0);
+    this.scale *= 1.5;
+    this.scaleBody(this.scale);
+    this.move(0, -5, 0);
 
-  if (this.side == 'right') {
-    this.mesh.scale.y = - this.mesh.scale.y;
+    if (this.side == 'right') {
+      this.mesh.scale.x *= -1;
+    }
+  } else if (this.modelName == modelNames.FOOTBALL_FOOT) {
+    this.scale *= 60;
+    this.scaleBody(this.scale);
+    this.move(0, -13, 0);
+
+    if (this.side == 'right') {
+      this.mesh.scale.x *= -1;
+    }
   }
 };
 
@@ -336,17 +379,33 @@ function Hand(startPos, scale, side) {
   this.scale = scale || 1;
   this.scale *= 0.1;
 
-  this.modelChoices = [modelNames.HAND];
+  this.modelChoices = [modelNames.HAND, modelNames.FOOTBALL_HAND];
 }
 
 Hand.prototype.__proto__ = BodyPart.prototype;
 
 Hand.prototype.additionalInit = function() {
-  if (this.side == 'left') {
-    this.rotate(-Math.PI / 2, Math.PI / 2, 0);
-  } else {
-    this.rotate(-Math.PI / 2, Math.PI / 2, 0);
-    this.mesh.scale.y = - this.mesh.scale.y;
+
+
+  if (this.modelName == modelNames.HAND) {
+    this.move(0, 9, 0);
+
+    if (this.side == 'left') {
+      this.rotate(-Math.PI / 2, Math.PI / 2, 0);
+    } else {
+      this.rotate(-Math.PI / 2, Math.PI / 2, 0);
+    }
+  } else if (this.modelName == modelNames.FOOTBALL_HAND) {
+    this.scale *= 45;
+    this.scaleBody(this.scale);
+    this.move(0, -6, 0);
+
+    if (this.side == 'left') {
+      this.move(8, 0, 0);
+    } else {
+      this.move(-10, 0, 0);
+      this.mesh.scale.x *= -1;
+    }
   }
 };
 
@@ -369,10 +428,31 @@ function Head(startPos, scale) {
   this.scale = scale || 1;
   this.scale *= 0.3;
 
-  this.modelChoices = [modelNames.HEAD];
+  this.modelChoices = [modelNames.HEAD, modelNames.BABY_HEAD, modelNames.FOOTBALL_HEAD, modelNames.LOWPOLY_HEAD];
 }
 
 Head.prototype.__proto__ = BodyPart.prototype;
+
+Head.prototype.additionalInit = function() {
+  var self = this;
+
+  if (self.modelName == modelNames.HEAD) {
+    self.scale *= 0.35;
+    self.scaleBody(self.scale);
+    self.move(0, 12, 0);
+  } else if (self.modelName == modelNames.BABY_HEAD) {
+    self.scale *= 1.2;
+    self.scaleBody(self.scale);
+  } else if (self.modelName == modelNames.FOOTBALL_HEAD) {
+    self.scale *= 25;
+    self.scaleBody(self.scale);
+    self.move(1.5, -63, 0);
+  } else if (self.modelName == modelNames.LOWPOLY_HEAD) {
+    self.scale *= 1.5;
+    self.scaleBody(self.scale);
+    self.move(0, -15, 0);
+  }
+};
 
 },{"./bodypart":3,"./lib/kutility":11,"./model_names":13}],9:[function(require,module,exports){
 var socket = io('http://localhost:8888');
@@ -406,10 +486,22 @@ function Leg(startPos, scale) {
   this.scale = scale || 1;
   this.scale *= 0.25;
 
-  this.modelChoices = [modelNames.ANIMAL_LEGS];
+  this.modelChoices = [modelNames.FOOTBALL_LEG,/* modelNames.LOWPOLY_LEG*/];
 }
 
 Leg.prototype.__proto__ = BodyPart.prototype;
+
+Leg.prototype.additionalInit = function() {
+  var self = this;
+
+  if (self.modelName == modelNames.FOOTBALL_LEG) {
+    self.scale *= 15;
+    self.scaleBody(self.scale);
+    self.move(3, -20, 0);
+  } else if (self.modelName == modelNames.LOWPOLY_LEG) {
+
+  }
+};
 
 },{"./bodypart":3,"./lib/kutility":11,"./model_names":13}],11:[function(require,module,exports){
 /* export something */
@@ -1028,8 +1120,8 @@ $(function() {
   start();
 
   function start() {
-    kevinWrestler = new Character({x: -25, y: 0, z: -25}, 20);
-    dylanWrestler = new Character({x: 25, y: 0, z: -25}, 20);
+    kevinWrestler = new Character({x: -25, y: 5, z: -25}, 20);
+    dylanWrestler = new Character({x: 25, y: 5, z: -25}, 20);
     wrestlers = [kevinWrestler, dylanWrestler];
 
     io.begin();
@@ -1117,37 +1209,81 @@ function pre(text) {
   return prefix + text;
 }
 
+/* LEGS */
+
 module.exports.ANIMAL_LEGS = pre('animal_legs.js');
 
+module.exports.BABY_LEG = pre('baby_leg.js');
+
+module.exports.FOOTBALL_LEG = pre('football_leg.js');
+
+module.exports.LOWPOLY_LEG = pre('low_poly_leg.js');
+
+/* HEADS */
+
 module.exports.ANIME_HEAD = pre('anime_heads.js');
+
+module.exports.HEAD = pre('head.js');
+
+module.exports.BABY_HEAD = pre('baby_head.js');
+
+module.exports.FOOTBALL_HEAD = pre('football_head.js');
+
+module.exports.LOWPOLY_HEAD = pre('low_poly_head.js');
+
+/* ARMS */
 
 module.exports.ARM = pre('arm.js');
 
 module.exports.ARMS = pre('arms.js');
 
-module.exports.BOXING_RING = pre('boxing_ring.js');
+module.exports.BABY_ARM = pre('baby_arm.js');
+
+module.exports.FOOTBALL_ARM = pre('football_arm.js');
+
+module.exports.LOWPOLY_ARM = pre('low_poly_arm.js');
+
+/* BODIES */
 
 module.exports.CHILD = pre('child.js');
 
 module.exports.FEMALE = pre('female.js');
 
-module.exports.FITNESS_TOWER = pre('fitness_tower.js');
+module.exports.MALE = pre('male.js');
 
-module.exports.FOOT = pre('foot.js');
+module.exports.TORSO = pre('torso.js');
 
 module.exports.FOOTBALL_PLAYER = pre('football_player.js');
 
+module.exports.BABY_TORSO = pre('baby_torso.js');
+
+module.exports.FOOTBALL_TORSO = pre('football_torso.js');
+
+module.exports.LOWPOLY_TORSO = pre('low_poly_torso.js');
+
+/* HANDS */
+
 module.exports.HAND = pre('hand.js');
 
-module.exports.HEAD = pre('head.js');
+module.exports.FOOTBALL_HAND = pre('football_hand.js');
+
+/* FEET */
+
+module.exports.FOOT = pre('foot.js');
+
+module.exports.FOOTBALL_FOOT = pre('football_foot.js');
+
+/* OBJECTS */
+
+module.exports.BOXING_RING = pre('boxing_ring.js');
+
+module.exports.FITNESS_TOWER = pre('fitness_tower.js');
 
 module.exports.IPHONE = pre('iPhone.js');
 
 module.exports.LAPTOP = pre('laptop.js');
 
-module.exports.MALE = pre('male.js');
-
-module.exports.TORSO = pre('torso.js');
+/* FUNCTIONS */
 
 module.exports.loadModel = function(modelName, callback) {
   var loader = new THREE.JSONLoader;

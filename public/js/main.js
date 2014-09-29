@@ -49,8 +49,8 @@ $(function() {
   start();
 
   function start() {
-    kevinWrestler = new Character({x: -25, y: 0, z: -25}, 20);
-    dylanWrestler = new Character({x: 25, y: 0, z: -25}, 20);
+    kevinWrestler = new Character({x: -25, y: 5, z: -25}, 20);
+    dylanWrestler = new Character({x: 25, y: 5, z: -25}, 20);
     wrestlers = [kevinWrestler, dylanWrestler];
 
     io.begin();

@@ -16,15 +16,30 @@ function Foot(startPos, scale, side) {
   this.scale = scale || 1;
   this.scale *= 0.1;
 
-  this.modelChoices = [modelNames.FOOT];
+  this.side == side || 'left';
+
+  this.modelChoices = [modelNames.FOOT, modelNames.FOOTBALL_FOOT];
 }
 
 Foot.prototype.__proto__ = BodyPart.prototype;
 
 Foot.prototype.additionalInit = function() {
-  this.rotate(0, -Math.PI / 2, 0);
+  if (this.modelName == modelNames.FOOT) {
+    this.rotate(0, -Math.PI / 2, 0);
+    this.scale *= 1.5;
+    this.scaleBody(this.scale);
+    this.move(0, -5, 0);
 
-  if (this.side == 'right') {
-    this.mesh.scale.y = - this.mesh.scale.y;
+    if (this.side == 'right') {
+      this.mesh.scale.x *= -1;
+    }
+  } else if (this.modelName == modelNames.FOOTBALL_FOOT) {
+    this.scale *= 60;
+    this.scaleBody(this.scale);
+    this.move(0, -13, 0);
+
+    if (this.side == 'right') {
+      this.mesh.scale.x *= -1;
+    }
   }
 };
