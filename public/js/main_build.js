@@ -1111,11 +1111,13 @@ $(function() {
   ambientLight.intensity = 0.4;
   //scene.add(ambientLight);
 
-  var active = {wrestlers: true, lighting: true};
+  var active = {wrestlers: true, lighting: true, sliding: true};
 
   var kevinWrestler;
   var dylanWrestler;
   var wrestlers = [];
+
+  var slideOb = {left: true, moveCount: 0};
 
   start();
 
@@ -1147,7 +1149,13 @@ $(function() {
       mainCharacterModel.render();
     }
 
-    changeLights();
+    if (active.sliding) {
+      slideWrestlers();
+    }
+
+    if (active.lighting) {
+      changeLights();
+    }
 
     camera.render();
 
@@ -1156,8 +1164,6 @@ $(function() {
 
   var lightOb = {};
   function changeLights() {
-    if (!active.lighting) return;
-
     if (!lightOb) lightOb = {};
 
     if (lightOb.movingUp) {
@@ -1179,6 +1185,22 @@ $(function() {
 
     var gray = Math.random();
     spotlight.color.setRGB(gray, gray, gray);
+  }
+
+  function slideWrestlers() {
+    wrestlers.forEach(function(wrestler) {
+      if (slideOb.left) {
+        wrestler.move(-1, 0, 0);
+      } else {
+        wrestler.move(1, 0, 0);
+      }
+    });
+
+    slideOb.moveCount++;
+    if (slideOb.moveCount > 40) {
+      slideOb.moveCount = 0;
+      slideOb.left = !slideOb.left;
+    }
   }
 
   function landscapeWarp() {
