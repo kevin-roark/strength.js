@@ -17,22 +17,46 @@ app.use(function(req, res, next){
 server.listen(8888);
 console.log('LISTENING ON 8888');
 
-var connectedSocket;
+var browserSocket;
+var forwarderSocket;
 io.on('connection', function(socket) {
-  connectedSocket = socket;
+  console.log('got a connection');
+
+  if (!forwarderSocket) {
+    console.log('setting forwarder');
+    forwarderSocket = socket;
+
+    forwarderSocket.on('leftHand', function(argString) {
+      module.exports.leftHand(argString, 2);
+    });
+
+    forwarderSocket.on('rightHand', function(argString) {
+      module.exports.rightHand(argString, 2);
+    });
+  } else {
+    console.log('setting browser');
+    browserSocket = socket;
+  }
 });
 
-module.exports.leftHand = function(argString) {
+module.exports.leftHand = function(argString, kinectNum) {
+  if (!kinectNum) kinectNum = 1;
+
+  console.log('got lefthand');
+
   var pos = parseHandPositionString(argString); 
-  if (connectedSocket) {
-    connectedSocket.emit('leftHand', pos);
+  if (browserSocket) {
+    console.log('emitting lefthand');
+    browserSocket.emit('leftHand-' + kinectNum, pos);
   }
 }
 
-module.exports.rightHand = function(argString) {
+module.exports.rightHand = function(argString, kinectNum) {
+  if (!kinectNum) kinectNum = 1;
+
   var pos = parseHandPositionString(argString); 
-  if (connectedSocket) {
-    connectedSocket.emit('rightHand', pos);
+  if (browserSocket) {
+    browserSocket.emit('rightHand-' + kinectNum, pos);
   }
 };
 
