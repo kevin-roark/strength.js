@@ -26,36 +26,19 @@ socket.on('connect', function() {
     socketConnected = true;
 });
 
-var synapseClient = dgram.createSocket('udp4');
-setInterval(function() {
-  var message1 = new Buffer('/righthand_trackjointpos 1');
-  var message2 = new Buffer('/lefthand_trackjointpos 1');
-
-
-    // synapseClient.send(message1, 0, message1.length, 12346, 'localhost', function(err, bytes) {
-    //     if (err) throw err;
-    // });
-
-    // synapseClient.send(message2, 0, message2.length, 12346, 'localhost', function(err, bytes) {
-    //     if (err) throw err;
-    // });
-}, 2000);
-
 // Listen for incoming OSC bundles.
 udpPort.on("bundle", function (oscBundle) {
     if (!socketConnected) {
       console.log('not ready');
-      return;
+      //return;
     }
 
    for (var i = 0; i < oscBundle.packets.length; i++) {
      var packet = oscBundle.packets[i];
 
-     console.log(packet.address);
-
-     if (packet.address == '/righthand') {
+     if (packet.address == '/righthand_pos_screen') {
        socket.emit('rightHand', packet.args);
-     } else if (packet.address == '/lefthand') {
+     } else if (packet.address == '/lefthand_pos_screen') {
        socket.emit('leftHand', packet.args);
      }
    }
