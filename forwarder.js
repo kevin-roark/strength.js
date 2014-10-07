@@ -37,9 +37,9 @@ udpPort.on("bundle", function (oscBundle) {
      var packet = oscBundle.packets[i];
 
      if (packet.address == '/righthand_pos_screen') {
-       socket.emit('rightHand', packet.args);
+       socket.emit('rightHand', packet);
      } else if (packet.address == '/lefthand_pos_screen') {
-       socket.emit('leftHand', packet.args);
+       socket.emit('leftHand', packet);
      }
    }
 });
