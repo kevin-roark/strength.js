@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 
 var kt = require('./lib/kutility');
 
@@ -458,12 +458,20 @@ Head.prototype.additionalInit = function() {
 var socket = io('http://localhost:8888');
 
 module.exports.begin = function() {
-  socket.on('leftHand', function(position) {
-    console.log('left hand position: ' + position);
+  socket.on('leftHand-1', function(position) {
+    console.log('1st left hand position: ' + position);
   });
 
-  socket.on('rightHand', function(position) {
-    console.log('right hand position: ' + position);
+  socket.on('rightHand-1', function(position) {
+    console.log('1st right hand position: ' + position);
+  });
+
+  socket.on('leftHand-2', function(position) {
+    console.log('2nd left hand position: ' + position);
+  });
+
+  socket.on('rightHand-2', function(position) {
+    console.log('2nd right hand position: ' + position);
   });
 }
 
@@ -1340,4 +1348,4 @@ Skybox.prototype.addTo = function(scene) {
   scene.add(this.mesh);
 }
 
-},{}]},{},[12])
+},{}]},{},[12]);
