@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 
 var kt = require('./lib/kutility');
 
@@ -457,21 +457,55 @@ Head.prototype.additionalInit = function() {
 },{"./bodypart":3,"./lib/kutility":11,"./model_names":13}],9:[function(require,module,exports){
 var socket = io('http://localhost:8888');
 
-module.exports.begin = function() {
+var previousPositions = {};
+
+module.exports.begin = function(wrestler1, wrestler2) {
   socket.on('leftHand-1', function(position) {
-    console.log('1st left hand position: ' + position);
+    console.log('1st left hand position:');
+    console.log(position);
+
+    if (previousPositions.leftHand1) {
+      var lastPos = previousPositions.leftHand1;
+      wrestler2.move(position.x - lastPos.x, 0, position.z - lastPos.z);
+    }
+
+    previousPositions.leftHand1 = position; 
   });
 
   socket.on('rightHand-1', function(position) {
-    console.log('1st right hand position: ' + position);
+    console.log('1st right hand position:');
+    console.log(position);
+
+    if (previousPositions.rightHand1) {
+      var lastPos = previousPositions.rightHand1;
+      wrestler2.move(position.x - lastPos.x, 0, position.z - lastPos.z);
+    }
+
+    previousPositions.rightHand1 = position; 
   });
 
   socket.on('leftHand-2', function(position) {
-    console.log('2nd left hand position: ' + position);
+    console.log('2nd left hand position:');
+    console.log(position);
+
+    if (previousPositions.leftHand2) {
+      var lastPos = previousPositions.leftHand2;
+      wrestler2.move(position.x - lastPos.x, 0, position.z - lastPos.z);
+    }
+
+    previousPositions.leftHand2 = position; 
   });
 
   socket.on('rightHand-2', function(position) {
-    console.log('2nd right hand position: ' + position);
+    console.log('2nd right hand position:');
+    console.log(position);
+
+    if (previousPositions.rightHand2) {
+      var lastPos = previousPositions.rightHand2;
+      wrestler2.move(position.x - lastPos.x, 0, position.z - lastPos.z);
+    }
+
+    previousPositions.rightHand2 = position; 
   });
 }
 
@@ -1119,7 +1153,7 @@ $(function() {
   ambientLight.intensity = 0.4;
   //scene.add(ambientLight);
 
-  var active = {wrestlers: true, lighting: true, sliding: true};
+  var active = {wrestlers: true, lighting: true, sliding: false};
 
   var kevinWrestler;
   var dylanWrestler;
@@ -1134,7 +1168,7 @@ $(function() {
     dylanWrestler = new Character({x: 25, y: 5, z: -25}, 20);
     wrestlers = [kevinWrestler, dylanWrestler];
 
-    io.begin();
+    io.begin(kevinWrestler, dylanWrestler);
 
     camera.cam.position.set(0, 6, 100);
 
@@ -1348,4 +1382,4 @@ Skybox.prototype.addTo = function(scene) {
   scene.add(this.mesh);
 }
 
-},{}]},{},[12]);
+},{}]},{},[12])

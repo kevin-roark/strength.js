@@ -40,7 +40,7 @@ $(function() {
   ambientLight.intensity = 0.4;
   //scene.add(ambientLight);
 
-  var active = {wrestlers: true, lighting: true, sliding: true};
+  var active = {wrestlers: true, lighting: true, sliding: false};
 
   var kevinWrestler;
   var dylanWrestler;
