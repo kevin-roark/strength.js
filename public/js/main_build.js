@@ -525,6 +525,9 @@ Head.prototype.additionalInit = function() {
 // left and right hands correspond to left and right arms for the character
 // delta between hands corresponds to degree of melt (closer together means more melt)
 
+// TODO: all these things are separate and repetitive right now because there is no
+// guarantee that each wrestler will behave the same. please fix later.
+
 var socket = io('http://localhost:8888');
 
 var previousPositions = {};
@@ -615,11 +618,11 @@ module.exports.begin = function(w1, w2) {
   });
 }
 
-function moveDelta(wrestler, position, lastPos, divisor) {
+function moveDelta(bodypart, position, lastPos, divisor) {
   var deltaX = (position.x - lastPos.x) / divisor;
   var deltaZ = (position.z - lastPos.z) / -divisor;
 
-  wrestler.move(deltaX, 0, deltaZ);
+  bodypart.move(deltaX, 0, deltaZ);
 }
 
 function scaleWrestler(wrestler, rapidHeadTicks) {
@@ -636,6 +639,10 @@ function totalMagnitude(pos) {
 }
 
 function rightHand1(position) {
+  if (previousPositions.rightHand1) {
+    moveDelta(wrestler1.rightHand, position, previousPositions.rightHand1, 10);
+    moveDelta(wrestler1.rightArm, position, previousPositions.rightHand1, 10);
+  }
 
   previousPositions.rightHand1 = position;
 }
@@ -645,6 +652,11 @@ function leftHand1(position) {
     var rh = previousPositions.rightHand1;
     positionDeltas.hand1 = {x: position.x - rh.x, y: position.y - rh.y, z: position.z - rh.z};
     hand1DeltaAction(positionDeltas.hand1);
+  }
+
+  if (previousPositions.leftHand1) {
+    moveDelta(wrestler1.leftHand, position, previousPositions.leftHand1, 10);
+    moveDelta(wrestler1.leftArm, position, previousPositions.leftHand1, 10);
   }
 
   previousPositions.leftHand1 = position;
@@ -713,6 +725,10 @@ function torso1(position) {
 }
 
 function rightHand2(position)  {
+  if (previousPositions.rightHand2) {
+    moveDelta(wrestler2.rightHand, position, previousPositions.rightHand2, 10);
+    moveDelta(wrestler2.rightArm, position, previousPositions.rightHand2, 10);
+  }
 
   previousPositions.rightHand2 = position;
 }
@@ -722,6 +738,11 @@ function leftHand2(position) {
     var rh = previousPositions.rightHand2;
     positionDeltas.hand2 = {x: position.x - rh.x, y: position.y - rh.y, z: position.z - rh.z};
     hand2DeltaAction(positionDeltas.hand2);
+  }
+
+  if (previousPositions.leftHand2) {
+    moveDelta(wrestler2.leftHand, position, previousPositions.leftHand2, 10);
+    moveDelta(wrestler2.leftArm, position, previousPositions.leftHand2, 10);
   }
 
   previousPositions.leftHand2 = position;
