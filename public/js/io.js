@@ -6,10 +6,11 @@
 // left and right hands correspond to left and right arms for the character
 // delta between hands corresponds to degree of melt (closer together means more melt)
 // left and right knees handle the legs of the character
-// delta between knees controls rotation
+// delta between knees controls rotation about y
+// delta between elbows controls rotation about x
 
 // what does closest hand do?
-// what do elbows do?
+// what do elbows themselves control?
 
 // TODO: all these things are separate and repetitive right now because there is no
 // guarantee that each wrestler will behave the same. please fix later.
@@ -18,6 +19,7 @@ var socket = io('http://localhost:8888');
 
 var previousPositions = {};
 var positionDeltas = {};
+var previousPositionDeltas = {};
 
 var eventsWithRapidHeadVelocity = {one: 0, two: 0};
 
@@ -26,6 +28,9 @@ var MAX_HEAD_SWELL = 500;
 var TORSO_CLOSE_MAG = 11;
 
 var CLOSE_KNEE_MAG = 60;
+var CLOSE_ELBOW_MAG = 60;
+var FAR_ELBOW_MAG = 300;
+var RIDICULOUS_ELBOW_MAG = 600;
 
 var wrestler1, wrestler2;
 
@@ -199,7 +204,7 @@ function leftKnee1(position) {
 
   if (previousPositions.leftKnee1) {
     [wrestler1.leftLeg, wrestler1.leftFoot].forEach(function(part) {
-      moveDelta(part, position, previousPositions.leftKnee1, 10);
+      moveDelta(part, position, previousPositions.leftKnee1, 8);
     });
   }
 
@@ -209,7 +214,7 @@ function leftKnee1(position) {
 function rightKnee1(position) {
   if (previousPositions.rightKnee1) {
     [wrestler1.rightLeg, wrestler1.rightFoot].forEach(function(part) {
-      moveDelta(part, position, previousPositions.rightKnee1, 10);
+      moveDelta(part, position, previousPositions.rightKnee1, 8);
     });
   }
 
@@ -298,7 +303,7 @@ function leftKnee2(position) {
 
   if (previousPositions.leftKnee2) {
     [wrestler2.leftLeg, wrestler2.leftFoot].forEach(function(part) {
-      moveDelta(part, position, previousPositions.leftKnee2, 10, {x: true, y: true, z: true});
+      moveDelta(part, position, previousPositions.leftKnee2, 8, {x: true, y: true, z: true});
     });
   }
 
@@ -308,7 +313,7 @@ function leftKnee2(position) {
 function rightKnee2(position) {
   if (previousPositions.rightKnee2) {
     [wrestler2.rightLeg, wrestler2.rightFoot].forEach(function(part) {
-      moveDelta(part, position, previousPositions.rightKnee2, 10, {x: true, y: true, z: true});
+      moveDelta(part, position, previousPositions.rightKnee2, 8, {x: true, y: true, z: true});
     });
   }
 
@@ -364,9 +369,61 @@ function knee2DeltaAction(positionDelta) {
 }
 
 function elbow1DeltaAction(positionDelta) {
+  var mag = totalMagnitude(positionDelta);
 
+  if (mag > FAR_ELBOW_MAG && handsBetweenElbows(1)) {
+    if (previousPositions.rightHand1.y < previousPositions.rightElbow1.y - 10 &&
+        previousPositions.leftHand1.y > previousPositions.leftElbow1.y + 10) {
+      wrestler1.rotate(0.1, 0, 0);
+    }
+    else if (previousPositions.rightHand1.y > previousPositions.rightElbow1.y + 10 &&
+             previousPositions.leftHand1.y < previousPositions.leftElbow1.y - 10) {
+      wrestler1.rotate(-0.1, 0, 0);
+    }
+  }
+
+  previousPositionDeltas.elbow1 = positionDelta;
 }
 
 function elbow2DeltaAction(positionDelta) {
+  var mag = totalMagnitude(positionDelta);
 
+  if (mag > FAR_ELBOW_MAG && handsBetweenElbows(2)) {
+    if (previousPositions.rightHand1.y < previousPositions.rightElbow1.y - 10 &&
+        previousPositions.leftHand1.y > previousPositions.leftElbow1.y + 10) {
+      wrestler2.rotate(-0.1, 0, 0);
+    }
+    else if (previousPositions.rightHand1.y > previousPositions.rightElbow1.y + 10 &&
+             previousPositions.leftHand1.y < previousPositions.leftElbow1.y - 10) {
+      wrestler2.rotate(0.1, 0, 0);
+    }
+  }
+
+  previousPositionDeltas.elbow2 = positionDelta;
+}
+
+function handsBetweenElbows(playerNum) {
+  var leftHand, rightHand, leftElbow, rightElbow;
+
+  if (playerNum == 1) {
+    leftHand = previousPositions.leftHand1;
+    rightHand = previousPositions.rightHand1;
+    leftElbow = previousPositions.leftElbow1;
+    rightElbow = previousPositions.rightElbow1;
+  } else {
+    leftHand = previousPositions.leftHand2;
+    rightHand = previousPositions.rightHand2;
+    leftElbow = previousPositions.leftElbow2;
+    rightElbow = previousPositions.rightElbow2;
+  }
+
+  if (!leftHand || !rightHand || !leftElbow || !rightElbow) return false;
+
+  // left hand above and to right of left elbow
+  // right hand below and to the left of the right elbow
+
+  // left hand below and to the right of left elbow
+  // right hand above and to the left of right elbow
+
+  return (leftHand.x > leftElbow.x) && (rightHand.x < rightElbow.x);
 }
