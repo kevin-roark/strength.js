@@ -17,6 +17,8 @@ function Character(startPos, scale) {
   this.startY = startPos.y;
   this.startZ = startPos.z;
 
+  this.position = startPos;
+
   this.scale = scale || 5;
 
   this.leftArm = new Arm({x: this.startX - scale, y: this.startY - scale, z: this.startZ}, scale, 'left');
@@ -59,23 +61,27 @@ Character.prototype.addTo = function(scene) {
 }
 
 Character.prototype.move = function(x, y, z) {
+  this.position.x += x;
+  this.position.y += y;
+  this.position.z += z;
+
   this.bodyParts.forEach(function(part) {
     part.move(x, y, z);
   });
+}
+
+Character.prototype.moveTo = function(x, y, z) {
+  var dx = x - this.position.x;
+  var dy = y - this.position.y;
+  var dz = z - this.position.z;
+
+  this.move(dx, dy, dz);
 }
 
 Character.prototype.rotate = function(rx, ry, rz) {
   this.bodyParts.forEach(function(part) {
     part.rotate(rx, ry, rz);
   });
-}
-
-Character.prototype.moveTo = function(x, y, z) {
-  this.bodyParts.forEach(function(part) {
-    part.moveTo(x, y, z);
-  });
-
-  this.move(0, 0, 0);
 }
 
 Character.prototype.scale = function(s) {
