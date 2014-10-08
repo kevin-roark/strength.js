@@ -76,14 +76,17 @@ function leftHand1(position) {
 
 function head1(position) {
 
+  previousPositions.head1 = position;
 }
 
 function leftKnee1(position) {
 
+  previousPositions.leftKnee1 = position;
 }
 
 function rightKnee1(position) {
 
+  previousPositions.rightKnee1 = position;
 }
 
 function rightHand2(position)  {
@@ -107,12 +110,15 @@ function leftHand2(position) {
 
 function head2(position) {
 
+  previousPositions.head2 = position;
 }
 
 function leftKnee2(position) {
 
+  previousPositions.leftKnee2 = position;
 }
 
 function rightKnee2(position) {
 
+  previousPositions.rightKnee2 = position;
 }
