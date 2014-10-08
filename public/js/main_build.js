@@ -226,6 +226,8 @@ function Character(startPos, scale) {
   this.startY = startPos.y;
   this.startZ = startPos.z;
 
+  this.position = startPos;
+
   this.scale = scale || 5;
 
   this.leftArm = new Arm({x: this.startX - scale, y: this.startY - scale, z: this.startZ}, scale, 'left');
@@ -268,23 +270,27 @@ Character.prototype.addTo = function(scene) {
 }
 
 Character.prototype.move = function(x, y, z) {
+  this.position.x += x;
+  this.position.y += y;
+  this.position.z += z;
+
   this.bodyParts.forEach(function(part) {
     part.move(x, y, z);
   });
+}
+
+Character.prototype.moveTo = function(x, y, z) {
+  var dx = x - this.position.x;
+  var dy = y - this.position.y;
+  var dz = z - this.position.z;
+
+  this.move(dx, dy, dz);
 }
 
 Character.prototype.rotate = function(rx, ry, rz) {
   this.bodyParts.forEach(function(part) {
     part.rotate(rx, ry, rz);
   });
-}
-
-Character.prototype.moveTo = function(x, y, z) {
-  this.bodyParts.forEach(function(part) {
-    part.moveTo(x, y, z);
-  });
-
-  this.move(0, 0, 0);
 }
 
 Character.prototype.scale = function(s) {
@@ -458,55 +464,120 @@ Head.prototype.additionalInit = function() {
 var socket = io('http://localhost:8888');
 
 var previousPositions = {};
+var wrestler1, wrestler2;
 
-module.exports.begin = function(wrestler1, wrestler2) {
-  socket.on('leftHand-1', function(position) {
-    console.log('1st left hand position:');
-    console.log(position);
+module.exports.begin = function(w1, w2) {
+  wrestler1 = w1;
+  wrestler2 = w2;
 
-    if (previousPositions.leftHand1) {
-      var lastPos = previousPositions.leftHand1;
-      wrestler2.move(position.x - lastPos.x, 0, position.z - lastPos.z);
+  socket.on('leftHand', function(data) {
+    if (data.wrestler == 1) {
+      leftHand1(data.position);
+    } else {
+      leftHand2(data.position);
     }
-
-    previousPositions.leftHand1 = position; 
   });
 
-  socket.on('rightHand-1', function(position) {
-    console.log('1st right hand position:');
-    console.log(position);
-
-    if (previousPositions.rightHand1) {
-      var lastPos = previousPositions.rightHand1;
-      wrestler2.move(position.x - lastPos.x, 0, position.z - lastPos.z);
+  socket.on('rightHand', function(data) {
+    if (data.wrestler == 1) {
+      rightHand1(data.position);
+    } else {
+      rightHand2(data.position);
     }
-
-    previousPositions.rightHand1 = position; 
   });
 
-  socket.on('leftHand-2', function(position) {
-    console.log('2nd left hand position:');
-    console.log(position);
-
-    if (previousPositions.leftHand2) {
-      var lastPos = previousPositions.leftHand2;
-      wrestler2.move(position.x - lastPos.x, 0, position.z - lastPos.z);
+  socket.on('head', function(data) {
+    if (data.wrestler == 1) {
+      head1(data.position);
+    } else {
+      head2(data.position);
     }
-
-    previousPositions.leftHand2 = position; 
   });
 
-  socket.on('rightHand-2', function(position) {
-    console.log('2nd right hand position:');
-    console.log(position);
-
-    if (previousPositions.rightHand2) {
-      var lastPos = previousPositions.rightHand2;
-      wrestler2.move(position.x - lastPos.x, 0, position.z - lastPos.z);
+  socket.on('leftKnee', function(data) {
+    if (data.wrestler == 1) {
+      leftKnee1(data.position);
+    } else {
+      leftKnee2(data.position);
     }
-
-    previousPositions.rightHand2 = position; 
   });
+
+  socket.on('rightKnee', function(data) {
+    if (data.wrestler == 1) {
+      rightKnee1(data.position);
+    } else {
+      rightKnee2(data.position);
+    }
+  });
+}
+
+function moveDelta(wrestler, position, lastPos) {
+  var deltaX = (position.x - lastPos.x) / 10;
+  var deltaZ = (position.z - lastPos.z) / 10;
+
+  wrestler.move(deltaX, 0, deltaZ);
+}
+
+function rightHand1(position) {
+  console.log('1st right hand position:');
+  console.log(position);
+
+  if (previousPositions.rightHand1) {
+    moveDelta(wrestler1, position, previousPositions.rightHand1);
+  }
+
+  previousPositions.rightHand1 = position;
+}
+
+function leftHand1(position) {
+  if (previousPositions.leftHand1) {
+    moveDelta(wrestler1, position, previousPositions.leftHand1);
+  }
+
+  previousPositions.leftHand1 = position;
+}
+
+function head1(position) {
+
+}
+
+function leftKnee1(position) {
+
+}
+
+function rightKnee1(position) {
+
+}
+
+function rightHand2(position)  {
+  console.log('2nd right hand position:');
+  console.log(position);
+
+  if (previousPositions.rightHand2) {
+    moveDelta(wrestler2, position, previousPositions.rightHand2);
+  }
+
+  previousPositions.rightHand2 = position;
+}
+
+function leftHand2(position) {
+  if (previousPositions.leftHand2) {
+    moveDelta(wrestler2, position, previousPositions.leftHand2);
+  }
+
+  previousPositions.leftHand2 = position;
+}
+
+function head2(position) {
+
+}
+
+function leftKnee2(position) {
+
+}
+
+function rightKnee2(position) {
+
 }
 
 },{}],10:[function(require,module,exports){
@@ -1177,6 +1248,12 @@ $(function() {
     }
 
     render();
+
+    $('body').keypress(function(ev) {
+      if (ev.which == 32) { // spacebar
+        resetWrestlerPositions();
+      }
+    });
   }
 
   function render() {
@@ -1202,6 +1279,11 @@ $(function() {
     camera.render();
 
     renderer.render(scene, camera.cam);
+  }
+
+  function resetWrestlerPositions() {
+    dylanWrestler.moveTo(25, 5, -25);
+    kevinWrestler.moveTo(-25, 5, -25);
   }
 
   var lightOb = {};

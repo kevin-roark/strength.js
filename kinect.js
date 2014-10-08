@@ -45,6 +45,21 @@ io.on('connection', function(socket) {
       module.exports.rightHand(oscPacket.args, 2); // send right hand to browser
       sendPacketToMax(oscPacket);
     });
+
+    forwarderSocket.on('head', function(oscPacket) {
+      module.exports.head(oscPacket.args, 2); // send head to browser
+      sendPacketToMax(oscPacket);
+    });
+
+    forwarderSocket.on('leftKnee', function(oscPacket) {
+      module.exports.leftKnee(oscPacket.args, 2);
+      sendPacketToMax(oscPacket);
+    });
+
+    forwarderSocket.on('rightKnee', function(oscPacket) {
+      module.exports.rightKnee(oscPacket.args, 2);
+      sendPacketToMax(oscPacket);
+    });
   } else {
     console.log('setting browser');
     browserSocket = socket;
@@ -52,25 +67,37 @@ io.on('connection', function(socket) {
 });
 
 module.exports.leftHand = function(argString, kinectNum) {
-  if (!kinectNum) kinectNum = 1;
-
-  var pos = parseHandPositionString(argString); 
-  if (browserSocket) {
-    browserSocket.emit('leftHand-' + kinectNum, pos);
-  }
+  emit('leftHand', argString, kinectNum);
 }
 
 module.exports.rightHand = function(argString, kinectNum) {
-  if (!kinectNum) kinectNum = 1;
-
-  var pos = parseHandPositionString(argString); 
-  if (browserSocket) {
-    browserSocket.emit('rightHand-' + kinectNum, pos);
-  }
+  emit('rightHand', argString, kinectNum);
 };
 
+module.exports.head = function(argString, kinectNum) {
+  emit('head', argString, kinectNum);
+};
+
+module.exports.leftKnee = function(argString, kinectNum) {
+  emit('leftKnee', argString, kinectNum);
+}
+
+module.exports.rightKnee = function(argString, kinectNum) {
+  emit('rightKnee', argString, kinectNum);
+}
+
+function emit(name, argString, kinectNum) {
+  if (!kinectNum) kinectNum = 1;
+
+  var position = parsePositionString(argString);
+
+  if (browserSocket) {
+    browserSocket.emit(name, {position: position, wrestler: kinectNum});
+  }
+}
+
 // example: 340.5114440917969,448.6510925292969,776.2993774414062
-function parseHandPositionString(positionString) {
+function parsePositionString(positionString) {
   var numbers = positionString;
 
   var x = parseFloat(numbers[0]);

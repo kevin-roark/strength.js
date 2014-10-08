@@ -64,6 +64,12 @@ $(function() {
     }
 
     render();
+
+    $('body').keypress(function(ev) {
+      if (ev.which == 32) { // spacebar
+        resetWrestlerPositions();
+      }
+    });
   }
 
   function render() {
@@ -89,6 +95,11 @@ $(function() {
     camera.render();
 
     renderer.render(scene, camera.cam);
+  }
+
+  function resetWrestlerPositions() {
+    dylanWrestler.moveTo(25, 5, -25);
+    kevinWrestler.moveTo(-25, 5, -25);
   }
 
   var lightOb = {};
