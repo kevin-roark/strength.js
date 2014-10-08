@@ -374,11 +374,11 @@ function elbow1DeltaAction(positionDelta) {
   if (mag > FAR_ELBOW_MAG && handsBetweenElbows(1)) {
     if (previousPositions.rightHand1.y < previousPositions.rightElbow1.y - 10 &&
         previousPositions.leftHand1.y > previousPositions.leftElbow1.y + 10) {
-      wrestler1.rotate(0.1, 0, 0);
+      wrestler1.rotate(0.08, 0, 0);
     }
     else if (previousPositions.rightHand1.y > previousPositions.rightElbow1.y + 10 &&
              previousPositions.leftHand1.y < previousPositions.leftElbow1.y - 10) {
-      wrestler1.rotate(-0.1, 0, 0);
+      wrestler1.rotate(-0.08, 0, 0);
     }
   }
 
@@ -391,11 +391,11 @@ function elbow2DeltaAction(positionDelta) {
   if (mag > FAR_ELBOW_MAG && handsBetweenElbows(2)) {
     if (previousPositions.rightHand1.y < previousPositions.rightElbow1.y - 10 &&
         previousPositions.leftHand1.y > previousPositions.leftElbow1.y + 10) {
-      wrestler2.rotate(-0.1, 0, 0);
+      wrestler2.rotate(-0.08, 0, 0);
     }
     else if (previousPositions.rightHand1.y > previousPositions.rightElbow1.y + 10 &&
              previousPositions.leftHand1.y < previousPositions.leftElbow1.y - 10) {
-      wrestler2.rotate(0.1, 0, 0);
+      wrestler2.rotate(0.08, 0, 0);
     }
   }
 
