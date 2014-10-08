@@ -77,15 +77,15 @@ Character.prototype.addTo = function(scene) {
     self.bodyMesh.scale.set(self.scale, self.scale, self.scale);
 
     self.verts = geometry.vertices;
-    // self.maxMelt = 5000;
+
+    self.vertexStack = {};
+    self.lastVertexModified = -1;
     self.maxMelt = 50;
     self.meltCount = 0;
-    self.meltUp = 1;
-    self.prevs = [];
-    self.startI = 1 //kt.randInt(99, 1);
-    // self.step = 500;
-    self.step = 1;
-    self.vstep = .001;
+    self.meltUp = true;
+    self.step = 1000;
+    self.startI = 0;
+    self.pp = [Math.random()/1000, -Math.random()/1000, -Math.random()/1000];
 
     self.moveTo(self.startX, self.startY, self.startZ);
 
@@ -136,122 +136,68 @@ Character.prototype.render = function() {
   }
 
   if (this.melting && this.bodyGeometry) {
-
     // short names
     var v = this.verts;
-    var p = this.prevs;
-    var pp = [0.001, 0.001, 0.001]
 
-    // go
-    for (var i=0; i<v.length; i += 1000) {
-      if (this.meltUp) {
-        // p.push([(Math.random() - 0.5) * 0.005, (Math.random() - 0.5) * 0.005, (Math.random() - 0.5) * 0.005]);
-        // var pp = [3]
-        // for (var i=0; i<3; i++) {
-        //   pp[i] = .001;
-        // }
-        p.push(pp);
+    // LOL U SHOULD MAKE ANOTEHR ARRAY OF VERTICES FROM 0-1000* THING THEN POP ENTRIES OF THAT!!
+    
 
-        v[i].x += pp[0];
-        v[i].y += pp[1];
-        v[i].z += pp[2];
+    if (this.meltUp) {
+      for (var i = this.startI; i < v.length; i += this.step) {
+        if (!this.vertexStack[i]) this.vertexStack[i] = [];
+
+        var vert = v[i];
+        this.vertexStack[i].push({x: vert.x, y: vert.y, z: vert.z});
+
+        vert.x += this.pp[0];
+        vert.y += this.pp[1];
+        vert.z += this.pp[2];
+
+        var chance = Math.random();
+        if (chance < 0.2) {
+          this.pp[0] /= 1.1;
+          this.pp[1] /= 1.1;
+          this.pp[2] /= 1.1;
+        } else if (chance < 0.4) {
+          this.pp[0] *= 1.1;
+          this.pp[1] *= 1.1;
+          this.pp[2] *= 1.1;
+        } else if (chance < 0.6) {
+          this.pp[0] *= -1;
+        } else if (chance < 0.8) {
+          this.pp[1] *= -1;
+        } else {
+          this.pp[2] *= -1;
+        }
+
+        if (i + this.step >= v.length) {
+          this.lastVertexModified = i;
+        }
       }
-      else {
-        // p.push([(Math.random() - 0.5) * 0.005, (Math.random() - 0.5) * 0.005, (Math.random() - 0.5) * 0.005]);
-        last = p.pop();
-        v[i].x = last[0];
-        v[i].y = last[1];
-        v[i].z = last[2];
+    } else {
+      for (var i = this.lastVertexModified; i >= this.startI; i -= this.step) {
+        if (!this.vertexStack[i]) this.vertexStack[i] = [];
+        var vert = this.vertexStack[i].pop();
+        v[i].x = vert.x;
+        v[i].y = vert.y;
+        v[i].z = vert.z;
       }
     }
-    this.meltCount++;
-    this.prevs = p;
-    this.verts = v;       // bring her back
 
-
-
-    if (this.meltCount == this.maxMelt) {
-      // console.log("meltUp", this.meltUp);
-      console.log("V >>", v[0]);
-      console.log("P >>", p[0]);
+    if (++this.meltCount == this.maxMelt) {
       this.meltCount = 0;
-      if (this.meltUp) {
-        this.meltUp = 0;
+      this.meltUp = !this.meltUp;
+      if (!this.meltUp) {
+        if (this.pp[0] < .0001 || this.pp[1] < .0001 || this.pp[2] < .0001) {
+          self.pp = [Math.random()/1, -Math.random()/1, -Math.random()/1];
+          console.log('shit');
+        }
+        // this.startI = (this.startI + 100) % 1000;
+        // this.pp[0] = -(this.pp[0] + .0002);
+        // this.pp[1] = (this.pp[1] - .0008);
+        // this.pp[2] = (this.pp[2] + .0035);
       }
-      else
-        this.meltUp = 1;
     }
-
-
-
-
-    // // increment or decrement
-    // if (this.meltUp)
-    //   this.meltCount++;
-    // else
-    //   this.meltCount --;
-
-    // if (this.meltCount == this.maxMelt && this.meltUp) {
-    //   this.meltUp = 0;
-    //   this.meltCount--;
-    //   this.prevs *= -1;
-    //   // console.log(this.prevs.length,': ',this.prevs[this.prevs.length-1]);
-    // }
-    // // if reached top of bottom cycle, reverse
-    // else if (this.meltCount == 0 && !this.meltUp) {
-    //   this.meltUp = 1;
-    //   this.meltCount++;
-    //   this.prevs *= -1;
-    //   // console.log(this.prevs.length,': ',this.prevs[this.prevs.length-1]);
-    // }
-
-    // var indices = [];
-    // for (var i=0; i<this.verts.length/this.step; i++) {
-    //   indices[i] = 1 + i*this.step;
-    // }  
-
-
-
-
-
-    // for (var i=0; i<indices.length; i++) {   // every ith vertex
-    //   // if melting UP
-    //   if (this.meltUp) {
-    //     this.prevs.push([this.verts[indices[i]].x, this.verts[indices[i]].y, this.verts[indices[i]].z]); // save pos
-    //     this.verts[indices[i]].x += (Math.random() - 0.5) * 0.005;
-    //     this.verts[indices[i]].y += (Math.random() - 0.5) * 0.005;
-    //     this.verts[indices[i]].z += (Math.random() - 0.5) * 0.005;
-    //     if (this.meltCount == 1 || this.meltCount == 1000 || this.meltCount == 2000 || this.meltCount == 3000 || this.meltCount == 4000 || this.meltCount == this.maxMelt - 1) {
-    //       console.log('UP: ',this.verts[this.meltCount-1]);
-    //     }
-    //     this.meltCount++; 
-    //   }
-    //   // if melting DOWN
-    //   else {
-    //     // var last = this.prevs[this.meltCount-1];   // get last pos, begin rewinding
-    //     var last = this.prevs.pop();
-    //     this.verts[indices[indices.length-1]].x = last[0];
-    //     this.verts[indices[indices.length-1]].y = last[1];
-    //     this.verts[indices[indices.length-1]].z = last[2];
-    //     // this.prevs.pop();    // fuck outta here
-    //     if (this.meltCount == 1 || this.meltCount == 1000 || this.meltCount == 2000 || this.meltCount == 3000 || this.meltCount == 4000 || this.meltCount == this.maxMelt - 1) {
-    //       console.log('DOWN: ',last);
-    //     }
-    //     this.meltCount--;
-    //   }
-    //   // if reached top of melting cycle, reverse
-    //   if (this.meltCount == this.maxMelt && this.meltUp) {
-    //     this.meltUp = 0;
-    //     this.meltCount--;
-    //     console.log(this.prevs.length,': ',this.prevs[this.prevs.length-1]);
-    //   }
-    //   // if reached top of bottom cycle, reverse
-    //   else if (this.meltCount == 0 && !this.meltUp) {
-    //     this.meltUp = 1;
-    //     this.meltCount++;
-    //     console.log(this.prevs.length,': ',this.prevs[this.prevs.length-1]);
-    //   }
-    // }
 
     this.bodyGeometry.verticesNeedUpdate = true;
   }
