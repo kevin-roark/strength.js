@@ -38,6 +38,12 @@ BodyPart.prototype.scaleBody = function(s) {
   this.mesh.scale.set(s, s, s);
 }
 
+BodyPart.prototype.scaleMultiply = function(s) {
+  if (!this.mesh) return;
+
+  this.mesh.scale.set(this.initialScale.x * s, this.initialScale.y * s, this.initialScale.z * s);
+}
+
 BodyPart.prototype.addTo = function(scene) {
   var self = this;
 
@@ -57,6 +63,8 @@ BodyPart.prototype.addTo = function(scene) {
     self.moveTo(self.startX, self.startY, self.startZ);
 
     self.additionalInit();
+
+    self.initialScale = {x: self.mesh.scale.x, y: self.mesh.scale.y, z: self.mesh.scale.z};
 
     scene.add(self.mesh);
   });

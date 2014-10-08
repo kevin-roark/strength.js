@@ -137,6 +137,12 @@ BodyPart.prototype.scaleBody = function(s) {
   this.mesh.scale.set(s, s, s);
 }
 
+BodyPart.prototype.scaleMultiply = function(s) {
+  if (!this.mesh) return;
+
+  this.mesh.scale.set(this.initialScale.x * s, this.initialScale.y * s, this.initialScale.z * s);
+}
+
 BodyPart.prototype.addTo = function(scene) {
   var self = this;
 
@@ -156,6 +162,8 @@ BodyPart.prototype.addTo = function(scene) {
     self.moveTo(self.startX, self.startY, self.startZ);
 
     self.additionalInit();
+
+    self.initialScale = {x: self.mesh.scale.x, y: self.mesh.scale.y, z: self.mesh.scale.z};
 
     scene.add(self.mesh);
   });
@@ -293,9 +301,15 @@ Character.prototype.rotate = function(rx, ry, rz) {
   });
 }
 
-Character.prototype.scale = function(s) {
+Character.prototype.scaleBody = function(s) {
   this.bodyParts.forEach(function(part) {
-    part.scale(s);
+    part.scaleBody(s);
+  });
+}
+
+Character.prototype.scaleMultiply = function(s) {
+  this.bodyParts.forEach(function(part) {
+    part.scaleMultiply(s);
   });
 }
 
@@ -465,6 +479,13 @@ var socket = io('http://localhost:8888');
 
 var previousPositions = {};
 var positionDeltas = {};
+
+var eventsWithRapidHeadVelocity = {one: 0, two: 0};
+
+var BIG_HEAD_MAG = 15;
+var MAX_HEAD_SWELL = 500;
+var TORSO_CLOSE_MAG = 11;
+
 var wrestler1, wrestler2;
 
 module.exports.begin = function(w1, w2) {
@@ -551,6 +572,20 @@ function moveDelta(wrestler, position, lastPos, divisor) {
   wrestler.move(deltaX, 0, deltaZ);
 }
 
+function scaleWrestler(wrestler, rapidHeadTicks) {
+  var s = 1.0 + 20.0 * (rapidHeadTicks / MAX_HEAD_SWELL);
+
+  wrestler.scaleMultiply(s);
+}
+
+function delta(current, previous) {
+  return {x: current.x - previous.x, y: current.y - previous.y, z: current.z - previous.z};
+}
+
+function totalMagnitude(pos) {
+  return Math.abs(pos.x) + Math.abs(pos.y) + Math.abs(pos.z);
+}
+
 function rightHand1(position) {
 
   previousPositions.rightHand1 = position;
@@ -571,6 +606,20 @@ function closestHand1(position) {
 }
 
 function head1(position) {
+  if (previousPositions.head1) {
+    if (positionDeltas.torso1 && totalMagnitude(positionDeltas.torso1) < TORSO_CLOSE_MAG) {
+      var positionChange = delta(position, previousPositions.head1);
+      var mag = totalMagnitude(positionChange);
+
+      if (mag > BIG_HEAD_MAG) {
+        eventsWithRapidHeadVelocity.one = Math.min(eventsWithRapidHeadVelocity.one + 1, MAX_HEAD_SWELL);
+      } else {
+        eventsWithRapidHeadVelocity.one = Math.max(eventsWithRapidHeadVelocity.one - 1, 0);
+      }
+
+      scaleWrestler(wrestler1, eventsWithRapidHeadVelocity.one);
+    }
+  }
 
   previousPositions.head1 = position;
 }
@@ -607,6 +656,9 @@ function rightElbow1(position) {
 function torso1(position) {
   if (previousPositions.torso1) {
     moveDelta(wrestler1, position, previousPositions.torso1, 8);
+
+    positionDeltas.torso1 = delta(position, previousPositions.torso1);
+    console.log(totalMagnitude(positionDeltas.torso1));
   }
 
   previousPositions.torso1 = position;
@@ -632,6 +684,20 @@ function closestHand2(position) {
 }
 
 function head2(position) {
+  if (previousPositions.head2) {
+    if (positionDeltas.torso2 && totalMagnitude(positionDeltas.torso2) < TORSO_CLOSE_MAG) {
+      var positionChange = delta(position, previousPositions.head2);
+      var mag = totalMagnitude(positionChange);
+
+      if (mag > BIG_HEAD_MAG) {
+        eventsWithRapidHeadVelocity.two = Math.min(eventsWithRapidHeadVelocity.two + 1, MAX_HEAD_SWELL);
+      } else {
+        eventsWithRapidHeadVelocity.two = Math.max(eventsWithRapidHeadVelocity.two - 1, 0);
+      }
+
+      scaleWrestler(wrestler2, eventsWithRapidHeadVelocity.two);
+    }
+  }
 
   previousPositions.head2 = position;
 }
@@ -668,6 +734,8 @@ function rightElbow2(position) {
 function torso2(position) {
   if (previousPositions.torso2) {
     moveDelta(wrestler2, position, previousPositions.torso2, 8);
+
+    positionDeltas.torso2 = delta(position, previousPositions.torso2);
   }
 
   previousPositions.torso2 = position;
@@ -1401,6 +1469,10 @@ $(function() {
   function resetWrestlerPositions() {
     dylanWrestler.moveTo(25, 5, -25);
     kevinWrestler.moveTo(-25, 5, -25);
+
+    wrestlers.forEach(function(wrestler) {
+      wrestler.scaleMultiply(1);
+    });
   }
 
   var lightOb = {};

@@ -84,9 +84,15 @@ Character.prototype.rotate = function(rx, ry, rz) {
   });
 }
 
-Character.prototype.scale = function(s) {
+Character.prototype.scaleBody = function(s) {
   this.bodyParts.forEach(function(part) {
-    part.scale(s);
+    part.scaleBody(s);
+  });
+}
+
+Character.prototype.scaleMultiply = function(s) {
+  this.bodyParts.forEach(function(part) {
+    part.scaleMultiply(s);
   });
 }
 

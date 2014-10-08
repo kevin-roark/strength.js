@@ -100,6 +100,10 @@ $(function() {
   function resetWrestlerPositions() {
     dylanWrestler.moveTo(25, 5, -25);
     kevinWrestler.moveTo(-25, 5, -25);
+
+    wrestlers.forEach(function(wrestler) {
+      wrestler.scaleMultiply(1);
+    });
   }
 
   var lightOb = {};
