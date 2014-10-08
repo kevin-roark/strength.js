@@ -40,7 +40,7 @@ $(function() {
   ambientLight.intensity = 0.4;
   //scene.add(ambientLight);
 
-  var active = {wrestlers: true, lighting: true, sliding: true};
+  var active = {wrestlers: true, lighting: true, sliding: false};
 
   var kevinWrestler;
   var dylanWrestler;
@@ -55,7 +55,7 @@ $(function() {
     dylanWrestler = new Character({x: 25, y: 5, z: -25}, 20);
     wrestlers = [kevinWrestler, dylanWrestler];
 
-    io.begin();
+    io.begin(kevinWrestler, dylanWrestler);
 
     camera.cam.position.set(0, 6, 100);
 
