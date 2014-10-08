@@ -2,9 +2,15 @@
 // CONTROLS::::
 
 // move torso to move character
-// shake head to swell character (please make this turn him red)
+// shake head to swell character
 // left and right hands correspond to left and right arms for the character
 // delta between hands corresponds to degree of melt (closer together means more melt)
+// left and right knees handle the legs of the character
+// delta between knees controls rotation about y
+// delta between elbows controls rotation about x
+
+// what does closest hand do?
+// what do elbows themselves control?
 
 // TODO: all these things are separate and repetitive right now because there is no
 // guarantee that each wrestler will behave the same. please fix later.
@@ -13,12 +19,18 @@ var socket = io('http://localhost:8888');
 
 var previousPositions = {};
 var positionDeltas = {};
+var previousPositionDeltas = {};
 
 var eventsWithRapidHeadVelocity = {one: 0, two: 0};
 
 var BIG_HEAD_MAG = 15;
 var MAX_HEAD_SWELL = 500;
 var TORSO_CLOSE_MAG = 11;
+
+var CLOSE_KNEE_MAG = 60;
+var CLOSE_ELBOW_MAG = 60;
+var FAR_ELBOW_MAG = 300;
+var RIDICULOUS_ELBOW_MAG = 600;
 
 var wrestler1, wrestler2;
 
@@ -99,11 +111,26 @@ module.exports.begin = function(w1, w2) {
   });
 }
 
-function moveDelta(bodypart, position, lastPos, divisor) {
-  var deltaX = (position.x - lastPos.x) / divisor;
-  var deltaZ = (position.z - lastPos.z) / -divisor;
+function moveDelta(bodypart, position, lastPos, divisor, directions) {
+  if (!directions) directions = {x: true, y: true, z: true};
 
-  bodypart.move(deltaX, 0, deltaZ);
+  var deltaX = 0;
+  var deltaY = 0;
+  var deltaZ = 0;
+
+  if (directions.x) {
+    deltaX = (position.x - lastPos.x) / divisor;
+  }
+
+  if (directions.y) {
+    deltaY = (position.y - lastPos.y) / -divisor;
+  }
+
+  if (directions.z) {
+    deltaZ = (position.z - lastPos.z) / -divisor;
+  }
+
+  bodypart.move(deltaX, deltaY, deltaZ);
 }
 
 function scaleWrestler(wrestler, rapidHeadTicks) {
@@ -121,8 +148,9 @@ function totalMagnitude(pos) {
 
 function rightHand1(position) {
   if (previousPositions.rightHand1) {
-    moveDelta(wrestler1.rightHand, position, previousPositions.rightHand1, 10);
-    moveDelta(wrestler1.rightArm, position, previousPositions.rightHand1, 10);
+    [wrestler1.rightHand, wrestler1.rightArm].forEach(function(part) {
+      moveDelta(part, position, previousPositions.rightHand1, 10);
+    });
   }
 
   previousPositions.rightHand1 = position;
@@ -136,8 +164,9 @@ function leftHand1(position) {
   }
 
   if (previousPositions.leftHand1) {
-    moveDelta(wrestler1.leftHand, position, previousPositions.leftHand1, 10);
-    moveDelta(wrestler1.leftArm, position, previousPositions.leftHand1, 10);
+    [wrestler1.leftHand, wrestler1.leftArm].forEach(function(part) {
+      moveDelta(part, position, previousPositions.leftHand1, 10);
+    });
   }
 
   previousPositions.leftHand1 = position;
@@ -173,10 +202,21 @@ function leftKnee1(position) {
     knee1DeltaAction(positionDeltas.knee1);
   }
 
+  if (previousPositions.leftKnee1) {
+    [wrestler1.leftLeg, wrestler1.leftFoot].forEach(function(part) {
+      moveDelta(part, position, previousPositions.leftKnee1, 8);
+    });
+  }
+
   previousPositions.leftKnee1 = position;
 }
 
 function rightKnee1(position) {
+  if (previousPositions.rightKnee1) {
+    [wrestler1.rightLeg, wrestler1.rightFoot].forEach(function(part) {
+      moveDelta(part, position, previousPositions.rightKnee1, 8);
+    });
+  }
 
   previousPositions.rightKnee1 = position;
 }
@@ -197,7 +237,7 @@ function rightElbow1(position) {
 
 function torso1(position) {
   if (previousPositions.torso1) {
-    moveDelta(wrestler1, position, previousPositions.torso1, 8);
+    moveDelta(wrestler1, position, previousPositions.torso1, 8, {x: true, y: false, z: true});
 
     positionDeltas.torso1 = delta(position, previousPositions.torso1);
   }
@@ -207,8 +247,9 @@ function torso1(position) {
 
 function rightHand2(position)  {
   if (previousPositions.rightHand2) {
-    moveDelta(wrestler2.rightHand, position, previousPositions.rightHand2, 10);
-    moveDelta(wrestler2.rightArm, position, previousPositions.rightHand2, 10);
+    [wrestler2.rightHand, wrestler2.rightArm].forEach(function(part) {
+      moveDelta(part, position, previousPositions.rightHand2, 10, {x: true, y: false, z: true});
+    });
   }
 
   previousPositions.rightHand2 = position;
@@ -222,8 +263,9 @@ function leftHand2(position) {
   }
 
   if (previousPositions.leftHand2) {
-    moveDelta(wrestler2.leftHand, position, previousPositions.leftHand2, 10);
-    moveDelta(wrestler2.leftArm, position, previousPositions.leftHand2, 10);
+    [wrestler2.leftHand, wrestler2.leftArm].forEach(function(part) {
+      moveDelta(part, position, previousPositions.leftHand2, 10);
+    });
   }
 
   previousPositions.leftHand2 = position;
@@ -259,10 +301,21 @@ function leftKnee2(position) {
     knee2DeltaAction(positionDeltas.knee2);
   }
 
+  if (previousPositions.leftKnee2) {
+    [wrestler2.leftLeg, wrestler2.leftFoot].forEach(function(part) {
+      moveDelta(part, position, previousPositions.leftKnee2, 8, {x: true, y: true, z: true});
+    });
+  }
+
   previousPositions.leftKnee2 = position;
 }
 
 function rightKnee2(position) {
+  if (previousPositions.rightKnee2) {
+    [wrestler2.rightLeg, wrestler2.rightFoot].forEach(function(part) {
+      moveDelta(part, position, previousPositions.rightKnee2, 8, {x: true, y: true, z: true});
+    });
+  }
 
   previousPositions.rightKnee2 = position;
 }
@@ -291,26 +344,86 @@ function torso2(position) {
   previousPositions.torso2 = position;
 }
 
-function hand1DeltaAction(posistionDelta) {
+function hand1DeltaAction(positionDelta) {
 
 }
 
-function hand2DeltaAction(posistionDelta) {
+function hand2DeltaAction(positionDelta) {
 
 }
 
-function knee1DeltaAction(posistionDelta) {
+function knee1DeltaAction(positionDelta) {
+  var mag = totalMagnitude(positionDelta);
 
+  if (mag < CLOSE_KNEE_MAG) {
+    wrestler1.rotate(0, 0.1, 0);
+  }
 }
 
-function knee2DeltaAction(posistionDelta) {
+function knee2DeltaAction(positionDelta) {
+  var mag = totalMagnitude(positionDelta);
 
+  if (mag < CLOSE_KNEE_MAG) {
+    wrestler2.rotate(0, -0.1, 0);
+  }
 }
 
-function elbow1DeltaAction(posistionDelta) {
+function elbow1DeltaAction(positionDelta) {
+  var mag = totalMagnitude(positionDelta);
 
+  if (mag > FAR_ELBOW_MAG && handsBetweenElbows(1)) {
+    if (previousPositions.rightHand1.y < previousPositions.rightElbow1.y - 10 &&
+        previousPositions.leftHand1.y > previousPositions.leftElbow1.y + 10) {
+      wrestler1.rotate(0.08, 0, 0);
+    }
+    else if (previousPositions.rightHand1.y > previousPositions.rightElbow1.y + 10 &&
+             previousPositions.leftHand1.y < previousPositions.leftElbow1.y - 10) {
+      wrestler1.rotate(-0.08, 0, 0);
+    }
+  }
+
+  previousPositionDeltas.elbow1 = positionDelta;
 }
 
-function elbow2DeltaAction(posistionDelta) {
+function elbow2DeltaAction(positionDelta) {
+  var mag = totalMagnitude(positionDelta);
 
+  if (mag > FAR_ELBOW_MAG && handsBetweenElbows(2)) {
+    if (previousPositions.rightHand1.y < previousPositions.rightElbow1.y - 10 &&
+        previousPositions.leftHand1.y > previousPositions.leftElbow1.y + 10) {
+      wrestler2.rotate(-0.08, 0, 0);
+    }
+    else if (previousPositions.rightHand1.y > previousPositions.rightElbow1.y + 10 &&
+             previousPositions.leftHand1.y < previousPositions.leftElbow1.y - 10) {
+      wrestler2.rotate(0.08, 0, 0);
+    }
+  }
+
+  previousPositionDeltas.elbow2 = positionDelta;
+}
+
+function handsBetweenElbows(playerNum) {
+  var leftHand, rightHand, leftElbow, rightElbow;
+
+  if (playerNum == 1) {
+    leftHand = previousPositions.leftHand1;
+    rightHand = previousPositions.rightHand1;
+    leftElbow = previousPositions.leftElbow1;
+    rightElbow = previousPositions.rightElbow1;
+  } else {
+    leftHand = previousPositions.leftHand2;
+    rightHand = previousPositions.rightHand2;
+    leftElbow = previousPositions.leftElbow2;
+    rightElbow = previousPositions.rightElbow2;
+  }
+
+  if (!leftHand || !rightHand || !leftElbow || !rightElbow) return false;
+
+  // left hand above and to right of left elbow
+  // right hand below and to the left of the right elbow
+
+  // left hand below and to the right of left elbow
+  // right hand above and to the left of right elbow
+
+  return (leftHand.x > leftElbow.x) && (rightHand.x < rightElbow.x);
 }

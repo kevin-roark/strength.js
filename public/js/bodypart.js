@@ -64,6 +64,11 @@ BodyPart.prototype.swell = function(s) {
 
 BodyPart.prototype.reset = function() {
   this.moveTo(this.initialPosition.x, this.initialPosition.y, this.initialPosition.z);
+
+  this.mesh.rotation.x = this.initialRotation.x;
+  this.mesh.rotation.y = this.initialRotation.y;
+  this.mesh.rotation.z = this.initialRotation.z;
+
   this.swell(1.0);
 }
 
@@ -88,6 +93,7 @@ BodyPart.prototype.addTo = function(scene) {
 
     self.initialPosition = {x: self.mesh.position.x, y: self.mesh.position.y, z: self.mesh.position.z};
     self.initialScale = {x: self.mesh.scale.x, y: self.mesh.scale.y, z: self.mesh.scale.z};
+    self.initialRotation = {x: self.mesh.rotation.x, y: self.mesh.rotation.y, z: self.mesh.rotation.z};
 
     self.initialMaterialColors = [];
     self.materials.forEach(function(mat) {
