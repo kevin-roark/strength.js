@@ -8,8 +8,6 @@ module.exports.begin = function(w1, w2) {
   wrestler2 = w2;
 
   socket.on('leftHand', function(data) {
-    console.log('LEFT HAND');
-
     if (data.wrestler == 1) {
       leftHand1(data.position);
     } else {
@@ -30,6 +28,22 @@ module.exports.begin = function(w1, w2) {
       head1(data.position);
     } else {
       head2(data.position);
+    }
+  });
+
+  socket.on('leftKnee', function(data) {
+    if (data.wrestler == 1) {
+      leftKnee1(data.position);
+    } else {
+      leftKnee2(data.position);
+    }
+  });
+
+  socket.on('rightKnee', function(data) {
+    if (data.wrestler == 1) {
+      rightKnee1(data.position);
+    } else {
+      rightKnee2(data.position);
     }
   });
 }
@@ -53,9 +67,6 @@ function rightHand1(position) {
 }
 
 function leftHand1(position) {
-  console.log('1st left hand position:');
-  console.log(position);
-
   if (previousPositions.leftHand1) {
     moveDelta(wrestler1, position, previousPositions.leftHand1);
   }
@@ -64,6 +75,14 @@ function leftHand1(position) {
 }
 
 function head1(position) {
+
+}
+
+function leftKnee1(position) {
+
+}
+
+function rightKnee1(position) {
 
 }
 
@@ -79,9 +98,6 @@ function rightHand2(position)  {
 }
 
 function leftHand2(position) {
-  console.log('2nd left hand position:');
-  console.log(position);
-
   if (previousPositions.leftHand2) {
     moveDelta(wrestler2, position, previousPositions.leftHand2);
   }
@@ -90,5 +106,13 @@ function leftHand2(position) {
 }
 
 function head2(position) {
+
+}
+
+function leftKnee2(position) {
+
+}
+
+function rightKnee2(position) {
 
 }

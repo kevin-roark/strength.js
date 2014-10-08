@@ -30,6 +30,10 @@ udpPort.on("bundle", function (oscBundle) {
        kinect.leftHand(packet.args);
      } else if (packet.address == '/head_pos_screen') {
        kinect.head(packet.args);
+     } else if (packet.address == '/leftknee_pos_screen') {
+       kinect.leftKnee(packet.args);
+     } else if (packet.address == '/rightknee_pos_screen') {
+       kinect.rightKnee(packet.args);
      }
    }
 });

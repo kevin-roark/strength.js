@@ -50,6 +50,16 @@ io.on('connection', function(socket) {
       module.exports.head(oscPacket.args, 2); // send head to browser
       sendPacketToMax(oscPacket);
     });
+
+    forwarderSocket.on('leftKnee', function(oscPacket) {
+      module.exports.leftKnee(oscPacket.args, 2);
+      sendPacketToMax(oscPacket);
+    });
+
+    forwarderSocket.on('rightKnee', function(oscPacket) {
+      module.exports.rightKnee(oscPacket.args, 2);
+      sendPacketToMax(oscPacket);
+    });
   } else {
     console.log('setting browser');
     browserSocket = socket;
@@ -67,6 +77,14 @@ module.exports.rightHand = function(argString, kinectNum) {
 module.exports.head = function(argString, kinectNum) {
   emit('head', argString, kinectNum);
 };
+
+module.exports.leftKnee = function(argString, kinectNum) {
+  emit('leftKnee', argString, kinectNum);
+}
+
+module.exports.rightKnee = function(argString, kinectNum) {
+  emit('rightKnee', argString, kinectNum);
+}
 
 function emit(name, argString, kinectNum) {
   if (!kinectNum) kinectNum = 1;

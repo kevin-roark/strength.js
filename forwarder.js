@@ -41,6 +41,10 @@ udpPort.on("bundle", function (oscBundle) {
        socket.emit('leftHand', packet);
      } else if (packet.address == '/head_pos_screen') {
        socket.emit('head', packet);
+     } else if (packet.address == '/leftknee_pos_screen') {
+       socket.emit('leftKnee', packet);
+     } else if (packet.address == '/rightknee_pos_screen') {
+       socket.emit('rightKnee', packet);
      }
    }
 });
