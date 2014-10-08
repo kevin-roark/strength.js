@@ -1,53 +1,94 @@
 var socket = io('http://localhost:8888');
 
 var previousPositions = {};
+var wrestler1, wrestler2;
 
-module.exports.begin = function(wrestler1, wrestler2) {
-  socket.on('leftHand-1', function(position) {
-    console.log('1st left hand position:');
-    console.log(position);
+module.exports.begin = function(w1, w2) {
+  wrestler1 = w1;
+  wrestler2 = w2;
 
-    if (previousPositions.leftHand1) {
-      var lastPos = previousPositions.leftHand1;
-      wrestler2.move(position.x - lastPos.x, 0, position.z - lastPos.z);
+  socket.on('leftHand', function(data) {
+    console.log('LEFT HAND');
+
+    if (data.wrestler == 1) {
+      leftHand1(data.position);
+    } else {
+      leftHand2(data.position);
     }
-
-    previousPositions.leftHand1 = position; 
   });
 
-  socket.on('rightHand-1', function(position) {
-    console.log('1st right hand position:');
-    console.log(position);
-
-    if (previousPositions.rightHand1) {
-      var lastPos = previousPositions.rightHand1;
-      wrestler2.move(position.x - lastPos.x, 0, position.z - lastPos.z);
+  socket.on('rightHand', function(data) {
+    if (data.wrestler == 1) {
+      rightHand1(data.position);
+    } else {
+      rightHand2(data.position);
     }
-
-    previousPositions.rightHand1 = position; 
   });
 
-  socket.on('leftHand-2', function(position) {
-    console.log('2nd left hand position:');
-    console.log(position);
-
-    if (previousPositions.leftHand2) {
-      var lastPos = previousPositions.leftHand2;
-      wrestler2.move(position.x - lastPos.x, 0, position.z - lastPos.z);
+  socket.on('head', function(data) {
+    if (data.wrestler == 1) {
+      head1(data.position);
+    } else {
+      head2(data.position);
     }
-
-    previousPositions.leftHand2 = position; 
   });
+}
 
-  socket.on('rightHand-2', function(position) {
-    console.log('2nd right hand position:');
-    console.log(position);
+function moveDelta(wrestler, position, lastPos) {
+  var deltaX = (position.x - lastPos.x) / 10;
+  var deltaZ = (position.z - lastPos.z) / 10;
 
-    if (previousPositions.rightHand2) {
-      var lastPos = previousPositions.rightHand2;
-      wrestler2.move(position.x - lastPos.x, 0, position.z - lastPos.z);
-    }
+  wrestler.move(deltaX, 0, deltaZ);
+}
 
-    previousPositions.rightHand2 = position; 
-  });
+function rightHand1(position) {
+  console.log('1st right hand position:');
+  console.log(position);
+
+  if (previousPositions.rightHand1) {
+    moveDelta(wrestler1, position, previousPositions.rightHand1);
+  }
+
+  previousPositions.rightHand1 = position;
+}
+
+function leftHand1(position) {
+  console.log('1st left hand position:');
+  console.log(position);
+
+  if (previousPositions.leftHand1) {
+    moveDelta(wrestler1, position, previousPositions.leftHand1);
+  }
+
+  previousPositions.leftHand1 = position;
+}
+
+function head1(position) {
+
+}
+
+function rightHand2(position)  {
+  console.log('2nd right hand position:');
+  console.log(position);
+
+  if (previousPositions.rightHand2) {
+    moveDelta(wrestler2, position, previousPositions.rightHand2);
+  }
+
+  previousPositions.rightHand2 = position;
+}
+
+function leftHand2(position) {
+  console.log('2nd left hand position:');
+  console.log(position);
+
+  if (previousPositions.leftHand2) {
+    moveDelta(wrestler2, position, previousPositions.leftHand2);
+  }
+
+  previousPositions.leftHand2 = position;
+}
+
+function head2(position) {
+
 }

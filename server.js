@@ -22,14 +22,17 @@ udpPort.on("bundle", function (oscBundle) {
    for (var i = 0; i < oscBundle.packets.length; i++) {
      var packet = oscBundle.packets[i];
 
+     console.log(packet.address);
+
      if (packet.address == '/righthand_pos_screen') {
        kinect.rightHand(packet.args);
      } else if (packet.address == '/lefthand_pos_screen') {
        kinect.leftHand(packet.args);
+     } else if (packet.address == '/head_pos_screen') {
+       kinect.head(packet.args);
      }
    }
 });
 
 // Open the socket.
 udpPort.open();
-

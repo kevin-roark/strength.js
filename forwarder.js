@@ -9,7 +9,6 @@ var osc = require('osc');
 var io = require('socket.io-client');
 var dgram = require('dgram');
 
-
 var udpPort = new osc.UDPPort({
     localAddress: HOST,
     localPort: PORT_FROM_KINECT
@@ -30,7 +29,7 @@ socket.on('connect', function() {
 udpPort.on("bundle", function (oscBundle) {
     if (!socketConnected) {
       console.log('not ready');
-      //return;
+      return;
     }
 
    for (var i = 0; i < oscBundle.packets.length; i++) {
@@ -40,10 +39,11 @@ udpPort.on("bundle", function (oscBundle) {
        socket.emit('rightHand', packet);
      } else if (packet.address == '/lefthand_pos_screen') {
        socket.emit('leftHand', packet);
+     } else if (packet.address == '/head_pos_screen') {
+       socket.emit('head', packet);
      }
    }
 });
 
 // Open the socket.
 udpPort.open();
-
