@@ -1,3 +1,11 @@
+
+// CONTROLS::::
+
+// move torso to move character
+// shake head to swell character (please make this turn him red)
+// left and right hands correspond to left and right arms for the character
+// delta between hands corresponds to degree of melt (closer together means more melt)
+
 var socket = io('http://localhost:8888');
 
 var previousPositions = {};
@@ -97,7 +105,7 @@ function moveDelta(wrestler, position, lastPos, divisor) {
 
 function scaleWrestler(wrestler, rapidHeadTicks) {
   var s = 1.0 + 20.0 * (rapidHeadTicks / MAX_HEAD_SWELL);
-  wrestler.scaleMultiply(s);
+  wrestler.swell(s);
 }
 
 function delta(current, previous) {
@@ -117,7 +125,7 @@ function leftHand1(position) {
   if (previousPositions.rightHand1) {
     var rh = previousPositions.rightHand1;
     positionDeltas.hand1 = {x: position.x - rh.x, y: position.y - rh.y, z: position.z - rh.z};
-    hand1DeltaAction();
+    hand1DeltaAction(positionDeltas.hand1);
   }
 
   previousPositions.leftHand1 = position;
@@ -149,8 +157,8 @@ function head1(position) {
 function leftKnee1(position) {
   if (previousPositions.rightKnee1) {
     var rh = previousPositions.rightKnee1;
-    positionDeltas.knee2 = {x: position.x - rh.x, y: position.y - rh.y, z: position.z - rh.z};
-    knee1DeltaAction();
+    positionDeltas.knee1 = {x: position.x - rh.x, y: position.y - rh.y, z: position.z - rh.z};
+    knee1DeltaAction(positionDeltas.knee1);
   }
 
   previousPositions.leftKnee1 = position;
@@ -164,8 +172,8 @@ function rightKnee1(position) {
 function leftElbow1(position) {
   if (previousPositions.rightElbow1) {
     var rh = previousPositions.rightElbow1;
-    positionDeltas.knee2 = {x: position.x - rh.x, y: position.y - rh.y, z: position.z - rh.z};
-    elbow1DeltaAction();
+    positionDeltas.elbow1 = {x: position.x - rh.x, y: position.y - rh.y, z: position.z - rh.z};
+    elbow1DeltaAction(positionDeltas.elbow1);
   }
 
   previousPositions.leftElbow1 = position;
@@ -194,7 +202,7 @@ function leftHand2(position) {
   if (previousPositions.rightHand2) {
     var rh = previousPositions.rightHand2;
     positionDeltas.hand2 = {x: position.x - rh.x, y: position.y - rh.y, z: position.z - rh.z};
-    hand2DeltaAction();
+    hand2DeltaAction(positionDeltas.hand2);
   }
 
   previousPositions.leftHand2 = position;
@@ -227,7 +235,7 @@ function leftKnee2(position) {
   if (previousPositions.rightKnee2) {
     var rh = previousPositions.rightKnee2;
     positionDeltas.knee2 = {x: position.x - rh.x, y: position.y - rh.y, z: position.z - rh.z};
-    knee2DeltaAction();
+    knee2DeltaAction(positionDeltas.knee2);
   }
 
   previousPositions.leftKnee2 = position;
@@ -241,8 +249,8 @@ function rightKnee2(position) {
 function leftElbow2(position) {
   if (previousPositions.rightElbow2) {
     var rh = previousPositions.rightElbow2;
-    positionDeltas.knee2 = {x: position.x - rh.x, y: position.y - rh.y, z: position.z - rh.z};
-    elbow2DeltaAction();
+    positionDeltas.elbow2 = {x: position.x - rh.x, y: position.y - rh.y, z: position.z - rh.z};
+    elbow2DeltaAction(positionDeltas.elbow2);
   }
 
   previousPositions.leftElbow2 = position;
@@ -262,26 +270,26 @@ function torso2(position) {
   previousPositions.torso2 = position;
 }
 
-function hand1DeltaAction() {
+function hand1DeltaAction(posistionDelta) {
 
 }
 
-function hand2DeltaAction() {
+function hand2DeltaAction(posistionDelta) {
 
 }
 
-function knee1DeltaAction() {
+function knee1DeltaAction(posistionDelta) {
 
 }
 
-function knee2DeltaAction() {
+function knee2DeltaAction(posistionDelta) {
 
 }
 
-function elbow1DeltaAction() {
+function elbow1DeltaAction(posistionDelta) {
 
 }
 
-function elbow2DeltaAction() {
+function elbow2DeltaAction(posistionDelta) {
 
 }

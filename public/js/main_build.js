@@ -143,16 +143,38 @@ BodyPart.prototype.scaleMultiply = function(s) {
   this.mesh.scale.set(this.initialScale.x * s, this.initialScale.y * s, this.initialScale.z * s);
 }
 
+BodyPart.prototype.swell = function(s) {
+  var self = this;
+
+  this.scaleMultiply(s);
+
+  this.materials.forEach(function(material, index) {
+    var initialColor = self.initialMaterialColors[index];
+
+    var red = initialColor.r;
+    if (s > 1.05) {
+      red = Math.max(Math.min(1.0, initialColor.r * s), initialColor.r);
+    }
+
+    var swellColor = {r: red, g: initialColor.g, b: initialColor.b};
+    material.color = swellColor;
+  });
+}
+
+BodyPart.prototype.reset = function() {
+  this.moveTo(this.initialPosition.x, this.initialPosition.y, this.initialPosition.z);
+  this.swell(1.0);
+}
+
 BodyPart.prototype.addTo = function(scene) {
   var self = this;
 
   self.modelName = self.specificModelName || kt.choice(self.modelChoices);
 
-  console.log('ADDING MODEL ' + self.modelName);
-
   modelNames.loadModel(self.modelName, function (geometry, materials) {
     self.gometry = geometry;
     self.materials = materials;
+
     console.log(materials);
 
     self.mesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
@@ -163,7 +185,15 @@ BodyPart.prototype.addTo = function(scene) {
 
     self.additionalInit();
 
+    self.initialPosition = {x: self.mesh.position.x, y: self.mesh.position.y, z: self.mesh.position.z};
     self.initialScale = {x: self.mesh.scale.x, y: self.mesh.scale.y, z: self.mesh.scale.z};
+
+    self.initialMaterialColors = [];
+    self.materials.forEach(function(mat) {
+      self.initialMaterialColors.push(mat.color);
+    });
+
+    console.log(self.initialMaterialColors);
 
     scene.add(self.mesh);
   });
@@ -310,6 +340,18 @@ Character.prototype.scaleBody = function(s) {
 Character.prototype.scaleMultiply = function(s) {
   this.bodyParts.forEach(function(part) {
     part.scaleMultiply(s);
+  });
+}
+
+Character.prototype.reset = function() {
+  this.bodyParts.forEach(function(part) {
+    part.reset();
+  });
+}
+
+Character.prototype.swell = function(s) {
+  this.bodyParts.forEach(function(part) {
+    part.swell(s);
   });
 }
 
@@ -475,6 +517,14 @@ Head.prototype.additionalInit = function() {
 };
 
 },{"./bodypart":3,"./lib/kutility":11,"./model_names":13}],9:[function(require,module,exports){
+
+// CONTROLS::::
+
+// move torso to move character
+// shake head to swell character (please make this turn him red)
+// left and right hands correspond to left and right arms for the character
+// delta between hands corresponds to degree of melt (closer together means more melt)
+
 var socket = io('http://localhost:8888');
 
 var previousPositions = {};
@@ -574,8 +624,7 @@ function moveDelta(wrestler, position, lastPos, divisor) {
 
 function scaleWrestler(wrestler, rapidHeadTicks) {
   var s = 1.0 + 20.0 * (rapidHeadTicks / MAX_HEAD_SWELL);
-
-  wrestler.scaleMultiply(s);
+  wrestler.swell(s);
 }
 
 function delta(current, previous) {
@@ -595,7 +644,7 @@ function leftHand1(position) {
   if (previousPositions.rightHand1) {
     var rh = previousPositions.rightHand1;
     positionDeltas.hand1 = {x: position.x - rh.x, y: position.y - rh.y, z: position.z - rh.z};
-    hand1DeltaAction();
+    hand1DeltaAction(positionDeltas.hand1);
   }
 
   previousPositions.leftHand1 = position;
@@ -627,8 +676,8 @@ function head1(position) {
 function leftKnee1(position) {
   if (previousPositions.rightKnee1) {
     var rh = previousPositions.rightKnee1;
-    positionDeltas.knee2 = {x: position.x - rh.x, y: position.y - rh.y, z: position.z - rh.z};
-    knee1DeltaAction();
+    positionDeltas.knee1 = {x: position.x - rh.x, y: position.y - rh.y, z: position.z - rh.z};
+    knee1DeltaAction(positionDeltas.knee1);
   }
 
   previousPositions.leftKnee1 = position;
@@ -642,8 +691,8 @@ function rightKnee1(position) {
 function leftElbow1(position) {
   if (previousPositions.rightElbow1) {
     var rh = previousPositions.rightElbow1;
-    positionDeltas.knee2 = {x: position.x - rh.x, y: position.y - rh.y, z: position.z - rh.z};
-    elbow1DeltaAction();
+    positionDeltas.elbow1 = {x: position.x - rh.x, y: position.y - rh.y, z: position.z - rh.z};
+    elbow1DeltaAction(positionDeltas.elbow1);
   }
 
   previousPositions.leftElbow1 = position;
@@ -658,7 +707,6 @@ function torso1(position) {
     moveDelta(wrestler1, position, previousPositions.torso1, 8);
 
     positionDeltas.torso1 = delta(position, previousPositions.torso1);
-    console.log(totalMagnitude(positionDeltas.torso1));
   }
 
   previousPositions.torso1 = position;
@@ -673,7 +721,7 @@ function leftHand2(position) {
   if (previousPositions.rightHand2) {
     var rh = previousPositions.rightHand2;
     positionDeltas.hand2 = {x: position.x - rh.x, y: position.y - rh.y, z: position.z - rh.z};
-    hand2DeltaAction();
+    hand2DeltaAction(positionDeltas.hand2);
   }
 
   previousPositions.leftHand2 = position;
@@ -706,7 +754,7 @@ function leftKnee2(position) {
   if (previousPositions.rightKnee2) {
     var rh = previousPositions.rightKnee2;
     positionDeltas.knee2 = {x: position.x - rh.x, y: position.y - rh.y, z: position.z - rh.z};
-    knee2DeltaAction();
+    knee2DeltaAction(positionDeltas.knee2);
   }
 
   previousPositions.leftKnee2 = position;
@@ -720,8 +768,8 @@ function rightKnee2(position) {
 function leftElbow2(position) {
   if (previousPositions.rightElbow2) {
     var rh = previousPositions.rightElbow2;
-    positionDeltas.knee2 = {x: position.x - rh.x, y: position.y - rh.y, z: position.z - rh.z};
-    elbow2DeltaAction();
+    positionDeltas.elbow2 = {x: position.x - rh.x, y: position.y - rh.y, z: position.z - rh.z};
+    elbow2DeltaAction(positionDeltas.elbow2);
   }
 
   previousPositions.leftElbow2 = position;
@@ -741,27 +789,27 @@ function torso2(position) {
   previousPositions.torso2 = position;
 }
 
-function hand1DeltaAction() {
+function hand1DeltaAction(posistionDelta) {
 
 }
 
-function hand2DeltaAction() {
+function hand2DeltaAction(posistionDelta) {
 
 }
 
-function knee1DeltaAction() {
+function knee1DeltaAction(posistionDelta) {
 
 }
 
-function knee2DeltaAction() {
+function knee2DeltaAction(posistionDelta) {
 
 }
 
-function elbow1DeltaAction() {
+function elbow1DeltaAction(posistionDelta) {
 
 }
 
-function elbow2DeltaAction() {
+function elbow2DeltaAction(posistionDelta) {
 
 }
 
@@ -1467,11 +1515,8 @@ $(function() {
   }
 
   function resetWrestlerPositions() {
-    dylanWrestler.moveTo(25, 5, -25);
-    kevinWrestler.moveTo(-25, 5, -25);
-
     wrestlers.forEach(function(wrestler) {
-      wrestler.scaleMultiply(1);
+      wrestler.reset();
     });
   }
 

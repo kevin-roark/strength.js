@@ -44,16 +44,38 @@ BodyPart.prototype.scaleMultiply = function(s) {
   this.mesh.scale.set(this.initialScale.x * s, this.initialScale.y * s, this.initialScale.z * s);
 }
 
+BodyPart.prototype.swell = function(s) {
+  var self = this;
+
+  this.scaleMultiply(s);
+
+  this.materials.forEach(function(material, index) {
+    var initialColor = self.initialMaterialColors[index];
+
+    var red = initialColor.r;
+    if (s > 1.05) {
+      red = Math.max(Math.min(1.0, initialColor.r * s), initialColor.r);
+    }
+
+    var swellColor = {r: red, g: initialColor.g, b: initialColor.b};
+    material.color = swellColor;
+  });
+}
+
+BodyPart.prototype.reset = function() {
+  this.moveTo(this.initialPosition.x, this.initialPosition.y, this.initialPosition.z);
+  this.swell(1.0);
+}
+
 BodyPart.prototype.addTo = function(scene) {
   var self = this;
 
   self.modelName = self.specificModelName || kt.choice(self.modelChoices);
 
-  console.log('ADDING MODEL ' + self.modelName);
-
   modelNames.loadModel(self.modelName, function (geometry, materials) {
     self.gometry = geometry;
     self.materials = materials;
+
     console.log(materials);
 
     self.mesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
@@ -64,7 +86,15 @@ BodyPart.prototype.addTo = function(scene) {
 
     self.additionalInit();
 
+    self.initialPosition = {x: self.mesh.position.x, y: self.mesh.position.y, z: self.mesh.position.z};
     self.initialScale = {x: self.mesh.scale.x, y: self.mesh.scale.y, z: self.mesh.scale.z};
+
+    self.initialMaterialColors = [];
+    self.materials.forEach(function(mat) {
+      self.initialMaterialColors.push(mat.color);
+    });
+
+    console.log(self.initialMaterialColors);
 
     scene.add(self.mesh);
   });

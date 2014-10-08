@@ -96,6 +96,18 @@ Character.prototype.scaleMultiply = function(s) {
   });
 }
 
+Character.prototype.reset = function() {
+  this.bodyParts.forEach(function(part) {
+    part.reset();
+  });
+}
+
+Character.prototype.swell = function(s) {
+  this.bodyParts.forEach(function(part) {
+    part.swell(s);
+  });
+}
+
 Character.prototype.render = function() {
   if (this.twitching) {
     var x = (Math.random() - 0.5) * 2;
