@@ -2,7 +2,7 @@
 var PORT_FROM_KINECT = 12345; // also 12347
 var HOST = '127.0.0.1';
 
-var DYLAN_HOST = '169.254.185.111';
+var DYLAN_HOST = '169.254.211.11';
 var DYLAN_PORT = '8888';
 
 var osc = require('osc');
@@ -45,6 +45,14 @@ udpPort.on("bundle", function (oscBundle) {
        socket.emit('leftKnee', packet);
      } else if (packet.address == '/rightknee_pos_screen') {
        socket.emit('rightKnee', packet);
+     } else if (packet.address == '/torso_pos_screen') {
+       socket.emit('torso', packet);
+     } else if (packet.address == '/leftelbow_pos_screen') {
+       socket.emit('leftElbow', packet);
+     } else if (packet.address == '/rightelbow_pos_screen') {
+       socket.emit('rightElbow', packet);
+     } else if (packet.address == '/closesthand_pos_screen') {
+       socket.emit('closestHand', packet);
      }
    }
 });

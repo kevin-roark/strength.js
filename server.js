@@ -22,8 +22,6 @@ udpPort.on("bundle", function (oscBundle) {
    for (var i = 0; i < oscBundle.packets.length; i++) {
      var packet = oscBundle.packets[i];
 
-     console.log(packet.address);
-
      if (packet.address == '/righthand_pos_screen') {
        kinect.rightHand(packet.args);
      } else if (packet.address == '/lefthand_pos_screen') {
@@ -34,6 +32,14 @@ udpPort.on("bundle", function (oscBundle) {
        kinect.leftKnee(packet.args);
      } else if (packet.address == '/rightknee_pos_screen') {
        kinect.rightKnee(packet.args);
+     } else if (packet.address == '/torso_pos_screen') {
+       kinect.torso(packet.args);
+     } else if (packet.address == '/leftelbow_pos_screen') {
+       kinect.leftElbow(packet.args);
+     } else if (packet.address == '/rightelbow_pos_screen') {
+       kinect.rightElbow(packet.args);
+     } else if (packet.address == '/closesthand_pos_screen') {
+       kinect.closestHand(packet.args);
      }
    }
 });
