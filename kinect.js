@@ -60,6 +60,26 @@ io.on('connection', function(socket) {
       module.exports.rightKnee(oscPacket.args, 2);
       sendPacketToMax(oscPacket);
     });
+
+    forwarderSocket.on('torso', function(oscPacket) {
+      module.exports.torso(oscPacket.args, 2);
+      sendPacketToMax(oscPacket);
+    });
+
+    forwarderSocket.on('leftElbow', function(oscPacket) {
+      module.exports.leftElbow(oscPacket.args, 2);
+      sendPacketToMax(oscPacket);
+    });
+
+    forwarderSocket.on('rightElbow', function(oscPacket) {
+      module.exports.rightElbow(oscPacket.args, 2);
+      sendPacketToMax(oscPacket);
+    });
+
+    forwarderSocket.on('closestHand', function(oscPacket) {
+      module.exports.closestHand(oscPacket.args, 2);
+      sendPacketToMax(oscPacket);
+    });
   } else {
     console.log('setting browser');
     browserSocket = socket;
@@ -84,6 +104,22 @@ module.exports.leftKnee = function(argString, kinectNum) {
 
 module.exports.rightKnee = function(argString, kinectNum) {
   emit('rightKnee', argString, kinectNum);
+}
+
+module.exports.leftElbow = function(argString, kinectNum) {
+  emit('leftElbow', argString, kinectNum);
+}
+
+module.exports.rightElbow = function(argString, kinectNum) {
+  emit('rightElbow', argString, kinectNum);
+}
+
+module.exports.torso = function(argString, kinectNum) {
+  emit('torso', argString, kinectNum);
+}
+
+module.exports.closestHand = function(argString, kinectNum) {
+  emit('closestHand', argString, kinectNum);
 }
 
 function emit(name, argString, kinectNum) {
