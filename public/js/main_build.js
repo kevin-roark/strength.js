@@ -464,6 +464,7 @@ Head.prototype.additionalInit = function() {
 var socket = io('http://localhost:8888');
 
 var previousPositions = {};
+var positionDeltas = {};
 var wrestler1, wrestler2;
 
 module.exports.begin = function(w1, w2) {
@@ -488,7 +489,7 @@ module.exports.begin = function(w1, w2) {
 
   socket.on('closestHand', function(data) {
     if (data.wrestler == 1) {
-      cloestHand1(data.position);
+      closestHand1(data.position);
     } else {
       closestHand2(data.position);
     }
@@ -551,10 +552,17 @@ function moveDelta(wrestler, position, lastPos, divisor) {
 }
 
 function rightHand1(position) {
+
   previousPositions.rightHand1 = position;
 }
 
 function leftHand1(position) {
+  if (previousPositions.rightHand1) {
+    var rh = previousPositions.rightHand1;
+    positionDeltas.hand1 = {x: position.x - rh.x, y: position.y - rh.y, z: position.z - rh.z};
+    hand1DeltaAction();
+  }
+
   previousPositions.leftHand1 = position;
 }
 
@@ -568,6 +576,11 @@ function head1(position) {
 }
 
 function leftKnee1(position) {
+  if (previousPositions.rightKnee1) {
+    var rh = previousPositions.rightKnee1;
+    positionDeltas.knee2 = {x: position.x - rh.x, y: position.y - rh.y, z: position.z - rh.z};
+    knee1DeltaAction();
+  }
 
   previousPositions.leftKnee1 = position;
 }
@@ -578,6 +591,12 @@ function rightKnee1(position) {
 }
 
 function leftElbow1(position) {
+  if (previousPositions.rightElbow1) {
+    var rh = previousPositions.rightElbow1;
+    positionDeltas.knee2 = {x: position.x - rh.x, y: position.y - rh.y, z: position.z - rh.z};
+    elbow1DeltaAction();
+  }
+
   previousPositions.leftElbow1 = position;
 }
 
@@ -599,6 +618,11 @@ function rightHand2(position)  {
 }
 
 function leftHand2(position) {
+  if (previousPositions.rightHand2) {
+    var rh = previousPositions.rightHand2;
+    positionDeltas.hand2 = {x: position.x - rh.x, y: position.y - rh.y, z: position.z - rh.z};
+    hand2DeltaAction();
+  }
 
   previousPositions.leftHand2 = position;
 }
@@ -613,6 +637,11 @@ function head2(position) {
 }
 
 function leftKnee2(position) {
+  if (previousPositions.rightKnee2) {
+    var rh = previousPositions.rightKnee2;
+    positionDeltas.knee2 = {x: position.x - rh.x, y: position.y - rh.y, z: position.z - rh.z};
+    knee2DeltaAction();
+  }
 
   previousPositions.leftKnee2 = position;
 }
@@ -623,6 +652,12 @@ function rightKnee2(position) {
 }
 
 function leftElbow2(position) {
+  if (previousPositions.rightElbow2) {
+    var rh = previousPositions.rightElbow2;
+    positionDeltas.knee2 = {x: position.x - rh.x, y: position.y - rh.y, z: position.z - rh.z};
+    elbow2DeltaAction();
+  }
+
   previousPositions.leftElbow2 = position;
 }
 
@@ -636,6 +671,30 @@ function torso2(position) {
   }
 
   previousPositions.torso2 = position;
+}
+
+function hand1DeltaAction() {
+
+}
+
+function hand2DeltaAction() {
+
+}
+
+function knee1DeltaAction() {
+
+}
+
+function knee2DeltaAction() {
+
+}
+
+function elbow1DeltaAction() {
+
+}
+
+function elbow2DeltaAction() {
+
 }
 
 },{}],10:[function(require,module,exports){
