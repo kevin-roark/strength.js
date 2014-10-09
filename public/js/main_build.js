@@ -75,7 +75,7 @@ function Body(startPos, scale) {
   this.scale = scale || 1;
   this.scale *= 0.5;
 
-  this.modelChoices = [modelNames.BABY_TORSO, modelNames.FOOTBALL_TORSO, modelNames.LOWPOLY_TORSO];
+  this.modelChoices = [modelNames.BABY_TORSO, /*modelNames.FOOTBALL_TORSO,*/ modelNames.LOWPOLY_TORSO];
 }
 
 Body.prototype.__proto__ = BodyPart.prototype;
@@ -92,7 +92,7 @@ Body.prototype.additionalInit = function() {
     self.scaleBody(self.scale);
     self.move(-2, -24, 0);
   } else if (self.modelName == modelNames.LOWPOLY_TORSO) {
-    self.move(0, -15, 0);
+    self.move(0, -15, -5);
   }
 };
 
@@ -496,7 +496,7 @@ function Head(startPos, scale) {
   this.scale = scale || 1;
   this.scale *= 0.3;
 
-  this.modelChoices = [modelNames.HEAD, modelNames.BABY_HEAD, modelNames.FOOTBALL_HEAD, modelNames.LOWPOLY_HEAD];
+  this.modelChoices = [modelNames.HEAD, modelNames.BABY_HEAD/*, modelNames.FOOTBALL_HEAD,modelNames.LOWPOLY_HEAD*/];
 }
 
 Head.prototype.__proto__ = BodyPart.prototype;
