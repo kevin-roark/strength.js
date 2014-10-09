@@ -29,6 +29,22 @@
 		"tags" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"bgmode" : 1,
+					"id" : "obj-17",
+					"maxclass" : "bpatcher",
+					"name" : "vz.playr.maxpat",
+					"numinlets" : 5,
+					"numoutlets" : 2,
+					"outlettype" : [ "jit_matrix", "" ],
+					"patching_rect" : [ 37.5, 554.0, 180.0, 208.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 1204.099854, 521.0, 180.0, 211.0 ],
+					"prototypename" : "pixl"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
 					"id" : "obj-25",
@@ -36,7 +52,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 75.0, 638.0, 60.0, 20.0 ],
+					"patching_rect" : [ 370.0, 538.0, 60.0, 20.0 ],
 					"text" : "loadbang"
 				}
 
@@ -55,7 +71,7 @@
 					"presentation" : 1,
 					"presentation_linecount" : 4,
 					"presentation_rect" : [ 238.0, 227.0, 172.0, 60.0 ],
-					"text" : "mix 1 is raw video\nmix 2 is nothing\nmix 3 is tiled and edited\nmix 4 is not tiled and scribbled"
+					"text" : "mix 1 is raw video\nmix 2 is scooby\nmix 3 is tiled and edited\nmix 4 is not tiled and scribbled"
 				}
 
 			}
@@ -65,15 +81,15 @@
 					"fontsize" : 12.0,
 					"frgb" : 0.0,
 					"id" : "obj-14",
-					"linecount" : 10,
+					"linecount" : 12,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 211.0, 259.0, 150.0, 141.0 ],
+					"patching_rect" : [ 211.0, 259.0, 150.0, 167.0 ],
 					"presentation" : 1,
-					"presentation_linecount" : 7,
-					"presentation_rect" : [ 45.5, 187.0, 199.0, 100.0 ],
-					"text" : "mix presets\n1 is pure mix 1\n2 is pure mix 4\n3 is mix 1 and mix 4 max add\n4 is mix 1 and mix 4 max substract\n5 is mix 3 and 4 max absdiff\n6 is pure mix 3"
+					"presentation_linecount" : 9,
+					"presentation_rect" : [ 35.5, 161.5, 199.0, 127.0 ],
+					"text" : "mix presets\n1 is pure mix 1\n2 is pure mix 4\n3 is mix 1 and mix 4 max add\n4 is mix 1 and mix 4 max substract\n5 is mix 3 and 4 max absdiff\n6 is pure mix 3\n7 mixes 1 and 2\n8 is all"
 				}
 
 			}
@@ -772,7 +788,7 @@
 					"patching_rect" : [ 1034.0, 34.0, 103.0, 74.0 ],
 					"presentation" : 1,
 					"presentation_linecount" : 5,
-					"presentation_rect" : [ 989.0, 642.0, 103.0, 74.0 ],
+					"presentation_rect" : [ 940.0, 634.0, 103.0, 74.0 ],
 					"text" : "1 - nothing\n2- 1 pixel\n3 - vertical\n4- horizontal\n5- middle both"
 				}
 
@@ -805,7 +821,7 @@
 					"outlettype" : [ "jit_matrix" ],
 					"patching_rect" : [ 5.5, 5.0, 280.0, 154.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 45.5, 30.0, 280.0, 154.0 ],
+					"presentation_rect" : [ 35.5, 4.0, 280.0, 154.0 ],
 					"prototypename" : "pixl",
 					"varname" : "vz.4mixr"
 				}
@@ -822,7 +838,7 @@
 					"outlettype" : [ "jit_matrix" ],
 					"patching_rect" : [ 1127.0, 191.0, 260.0, 154.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 739.0, 315.0, 260.0, 154.0 ],
+					"presentation_rect" : [ 677.799988, 315.0, 260.0, 154.0 ],
 					"prototypename" : "pixl",
 					"varname" : "vz.2toner"
 				}
@@ -839,7 +855,7 @@
 					"outlettype" : [ "jit_matrix" ],
 					"patching_rect" : [ 1143.0, 5.0, 250.0, 154.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 739.0, 554.0, 250.0, 154.0 ],
+					"presentation_rect" : [ 677.799988, 554.0, 250.0, 154.0 ],
 					"prototypename" : "pixl",
 					"varname" : "vz.pixl8r"
 				}
@@ -910,7 +926,7 @@
 					"outlettype" : [ "jit_matrix" ],
 					"patching_rect" : [ 997.0, 360.0, 390.0, 232.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 1009.0, 384.0, 390.0, 232.0 ],
+					"presentation_rect" : [ 958.0, 303.0, 390.0, 232.0 ],
 					"prototypename" : "pixl",
 					"varname" : "vz.scribblr"
 				}
@@ -1249,6 +1265,16 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-26", 1 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"midpoints" : [ 47.0, 762.0, 0.0, 762.0, 0.0, 0.0, 47.625, 0.0 ],
+					"source" : [ "obj-17", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-5", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
@@ -1298,7 +1324,7 @@
 					"destination" : [ "obj-57", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 84.5, 669.0, 345.0, 669.0, 345.0, 411.0, 414.0, 411.0, 414.0, 282.0, 436.5, 282.0 ],
+					"midpoints" : [ 379.5, 558.0, 357.0, 558.0, 357.0, 411.0, 414.0, 411.0, 414.0, 282.0, 436.5, 282.0 ],
 					"source" : [ "obj-25", 0 ]
 				}
 
@@ -1668,38 +1694,38 @@
 			}
  ],
 		"parameters" : 		{
-			"obj-26::obj-55" : [ "slider[5]", "slider[3]", 0 ],
-			"obj-35::obj-88" : [ "textbutton[2]", "textbutton[2]", 0 ],
-			"obj-35::obj-92" : [ "slider[8]", "slider[1]", 0 ],
-			"obj-35::obj-95" : [ "textbutton", "textbutton", 0 ],
-			"obj-35::obj-105" : [ "textbutton[1]", "textbutton[1]", 0 ],
-			"obj-41::obj-13" : [ "slider[15]", "slider[2]", 0 ],
-			"obj-7::obj-29" : [ "slider[1]", "slider[1]", 0 ],
-			"obj-48::obj-53" : [ "umenu[2]", "umenu", 0 ],
-			"obj-23::obj-38" : [ "umenu", "umenu", 0 ],
 			"obj-1::obj-51" : [ "slider[12]", "slider", 0 ],
-			"obj-1::obj-53" : [ "pictctrl", "pictctrl", 0 ],
-			"obj-7::obj-2" : [ "slider[2]", "slider", 0 ],
-			"obj-41::obj-38" : [ "slider[13]", "slider[1]", 0 ],
 			"obj-48::obj-13" : [ "slider[16]", "slider[1]", 0 ],
+			"obj-48::obj-37" : [ "slider[17]", "slider", 0 ],
+			"obj-35::obj-88" : [ "textbutton[2]", "textbutton[2]", 0 ],
+			"obj-1::obj-20" : [ "pictctrl[1]", "pictctrl[1]", 0 ],
 			"obj-26::obj-41" : [ "slider[6]", "slider[1]", 0 ],
-			"obj-1::obj-48" : [ "pictctrl[2]", "pictctrl[2]", 0 ],
+			"obj-7::obj-2" : [ "slider[2]", "slider", 0 ],
+			"obj-35::obj-106" : [ "slider[7]", "slider", 0 ],
+			"obj-41::obj-13" : [ "slider[15]", "slider[2]", 0 ],
+			"obj-26::obj-1" : [ "umenu[1]", "umenu", 0 ],
+			"obj-35::obj-95" : [ "textbutton", "textbutton", 0 ],
+			"obj-35::obj-92" : [ "slider[8]", "slider[1]", 0 ],
 			"obj-1::obj-55" : [ "slider[11]", "slider[2]", 0 ],
 			"obj-23::obj-30" : [ "slider", "slider", 0 ],
 			"obj-48::obj-88" : [ "textbutton[3]", "textbutton[2]", 0 ],
-			"obj-48::obj-12" : [ "slider[18]", "slider[2]", 0 ],
-			"obj-26::obj-77" : [ "slider[4]", "slider", 0 ],
+			"obj-33::obj-27" : [ "swatch[2]", "swatch[1]", 0 ],
+			"obj-26::obj-55" : [ "slider[5]", "slider[3]", 0 ],
+			"obj-1::obj-53" : [ "pictctrl", "pictctrl", 0 ],
+			"obj-23::obj-38" : [ "umenu", "umenu", 0 ],
 			"obj-35::obj-84" : [ "slider[9]", "slider[2]", 0 ],
 			"obj-23::obj-136" : [ "swatch[1]", "swatch", 0 ],
+			"obj-7::obj-29" : [ "slider[1]", "slider[1]", 0 ],
 			"obj-41::obj-39" : [ "slider[14]", "slider", 0 ],
-			"obj-1::obj-20" : [ "pictctrl[1]", "pictctrl[1]", 0 ],
-			"obj-26::obj-1" : [ "umenu[1]", "umenu", 0 ],
+			"obj-48::obj-12" : [ "slider[18]", "slider[2]", 0 ],
 			"obj-33::obj-28" : [ "swatch", "swatch", 0 ],
-			"obj-26::obj-66" : [ "slider[3]", "slider[2]", 0 ],
-			"obj-35::obj-106" : [ "slider[7]", "slider", 0 ],
 			"obj-1::obj-44" : [ "slider[10]", "slider[1]", 0 ],
-			"obj-48::obj-37" : [ "slider[17]", "slider", 0 ],
-			"obj-33::obj-27" : [ "swatch[2]", "swatch[1]", 0 ]
+			"obj-1::obj-48" : [ "pictctrl[2]", "pictctrl[2]", 0 ],
+			"obj-41::obj-38" : [ "slider[13]", "slider[1]", 0 ],
+			"obj-48::obj-53" : [ "umenu[2]", "umenu", 0 ],
+			"obj-26::obj-66" : [ "slider[3]", "slider[2]", 0 ],
+			"obj-26::obj-77" : [ "slider[4]", "slider", 0 ],
+			"obj-35::obj-105" : [ "textbutton[1]", "textbutton[1]", 0 ]
 		}
 ,
 		"dependency_cache" : [ 			{
@@ -1893,6 +1919,41 @@
 			}
 , 			{
 				"name" : "zamplr-presets.json",
+				"bootpath" : "/Applications/Max 6.1/packages/vizzie/patchers",
+				"patcherrelativepath" : "../../../../../../Applications/Max 6.1/packages/vizzie/patchers",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "vz.playr.maxpat",
+				"bootpath" : "/Applications/Max 6.1/packages/vizzie/patchers",
+				"patcherrelativepath" : "../../../../../../Applications/Max 6.1/packages/vizzie/patchers",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "pvr-sliderlink2.png",
+				"bootpath" : "/Applications/Max 6.1/packages/vizzie/patchers",
+				"patcherrelativepath" : "../../../../../../Applications/Max 6.1/packages/vizzie/patchers",
+				"type" : "PNG ",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "pvr-daisy-button.png",
+				"bootpath" : "/Applications/Max 6.1/packages/vizzie/patchers",
+				"patcherrelativepath" : "../../../../../../Applications/Max 6.1/packages/vizzie/patchers",
+				"type" : "PNG ",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "playr-transport.png",
+				"bootpath" : "/Applications/Max 6.1/packages/vizzie/patchers",
+				"patcherrelativepath" : "../../../../../../Applications/Max 6.1/packages/vizzie/patchers",
+				"type" : "PNG ",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "playr-handler.maxpat",
 				"bootpath" : "/Applications/Max 6.1/packages/vizzie/patchers",
 				"patcherrelativepath" : "../../../../../../Applications/Max 6.1/packages/vizzie/patchers",
 				"type" : "JSON",
