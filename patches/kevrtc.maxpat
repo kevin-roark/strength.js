@@ -8,7 +8,7 @@
 			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 28.0, 44.0, 1416.0, 806.0 ],
+		"rect" : [ 0.0, 44.0, 1356.0, 806.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -28,6 +28,170 @@
 		"digest" : "",
 		"tags" : "",
 		"boxes" : [ 			{
+				"box" : 				{
+					"id" : "obj-78",
+					"maxclass" : "toggle",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "int" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 1131.5, 11.0, 20.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 778.5, 84.0, 20.0, 20.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-71",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "bang" ],
+					"patching_rect" : [ 1131.5, 61.0, 65.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 778.5, 111.0, 65.0, 20.0 ],
+					"text" : "metro 100"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-57",
+					"maxclass" : "newobj",
+					"numinlets" : 3,
+					"numoutlets" : 1,
+					"outlettype" : [ "int" ],
+					"patching_rect" : [ 1131.5, 94.0, 81.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 778.5, 144.0, 81.0, 20.0 ],
+					"text" : "drunk 100 10"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-75",
+					"maxclass" : "flonum",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "float", "bang" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 1015.0, 249.090912, 50.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 924.636353, 267.090912, 50.0, 20.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bgcolor" : [ 0.603922, 0.341291, 0.42267, 1.0 ],
+					"floatoutput" : 1,
+					"id" : "obj-76",
+					"knobcolor" : [ 0.909854, 0.930665, 1.0, 1.0 ],
+					"maxclass" : "slider",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 1045.0, 103.090912, 20.0, 140.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 946.0, 121.090912, 20.0, 140.0 ],
+					"size" : 1.0
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-73",
+					"maxclass" : "flonum",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "float", "bang" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 975.0, 249.090912, 50.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 878.0, 267.090912, 50.0, 20.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bgcolor" : [ 0.0, 0.603922, 0.339703, 1.0 ],
+					"floatoutput" : 1,
+					"id" : "obj-74",
+					"knobcolor" : [ 0.909854, 0.930665, 1.0, 1.0 ],
+					"maxclass" : "slider",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 1005.0, 103.090912, 20.0, 140.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 908.0, 121.090912, 20.0, 140.0 ],
+					"size" : 1.0
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-72",
+					"maxclass" : "flonum",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "float", "bang" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 940.0, 249.090912, 50.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 843.0, 267.090912, 50.0, 20.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"frgb" : 0.0,
+					"id" : "obj-70",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 970.0, 76.090912, 150.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 832.0, 76.090912, 150.0, 20.0 ],
+					"text" : "freq, pressure, stiffness"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bgcolor" : [ 0.27164, 0.304704, 0.602582, 1.0 ],
+					"floatoutput" : 1,
+					"id" : "obj-31",
+					"knobcolor" : [ 0.909854, 0.930665, 1.0, 1.0 ],
+					"maxclass" : "slider",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 970.0, 103.090912, 20.0, 140.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 873.0, 121.090912, 20.0, 140.0 ],
+					"size" : 2000.0
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
@@ -145,7 +309,7 @@
 					"patching_rect" : [ 815.0, 1.0, 20.0, 140.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 650.0, 137.0, 20.0, 140.0 ],
-					"size" : 4.0
+					"size" : 7.0
 				}
 
 			}
@@ -179,7 +343,7 @@
 					"patching_rect" : [ 795.0, 1.0, 20.0, 140.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 630.0, 137.0, 20.0, 140.0 ],
-					"size" : 1.0
+					"size" : 4.0
 				}
 
 			}
@@ -541,7 +705,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 1045.0, 331.0, 20.0, 20.0 ]
+					"patching_rect" : [ 1045.0, 331.0, 20.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 1030.627686, 418.0, 20.0, 20.0 ]
 				}
 
 			}
@@ -670,7 +836,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 947.0, 273.090912, 156.0, 33.0 ],
+					"patching_rect" : [ 962.0, 273.090912, 156.0, 33.0 ],
 					"presentation" : 1,
 					"presentation_linecount" : 2,
 					"presentation_rect" : [ 839.0, 296.090912, 153.0, 33.0 ],
@@ -685,7 +851,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 830.0, 235.0, 20.0, 20.0 ]
+					"patching_rect" : [ 830.0, 235.0, 20.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 832.0, 418.0, 20.0, 20.0 ]
 				}
 
 			}
@@ -695,12 +863,12 @@
 					"fontsize" : 12.0,
 					"id" : "obj-29",
 					"maxclass" : "newobj",
-					"numinlets" : 4,
+					"numinlets" : 5,
 					"numoutlets" : 3,
 					"outlettype" : [ "signal", "signal", "" ],
-					"patching_rect" : [ 868.0, 273.090912, 70.0, 20.0 ],
-					"save" : [ "#N", "rtcmix~", 2, 2, ";", "#X", "restore", 0, 1089, 1089, "// this is the noise generator\r\n\r\n// CLAR(outsk, dur, noiseamp, length1 (samples), length2 (samples), outputamp, d2gain[, pan])\r\n// DECIMATE(outsk, insk, dur, PREAMP, POSTAMP, NBITS[, LOWPASSFREQ, inputchan, PAN])\r\n\r\nbus_config(\"MCLAR\", \"aux 0-1 out\")\r\nbus_config(\"DECIMATE\", \"aux 0-1 in\", \"out 0-1\")\r\n\r\nsrand()\r\n\r\n// generate clarinet sounds\r\nstart = 0\r\nhop = 0.33\r\nnoises = 1000\r\nfor (i = 0; i < noises; i = i + 1) {\r\n\tdur = irand(0.2, 4.0)\r\n\tfreq = irand(40, 7777)\r\n\tnoiseamp = irand(0.02, 0.92)\r\n\tmaxpressure = random()\r\n\tstiffness = random()\r\n\r\n\tamp = 7000\r\n\tpan = random()\r\n\r\n\tMCLAR(start, dur, amp, freq, noiseamp, maxpressure, stiffness, pan)\r\n\tstart = start + hop\r\n}\r\n\r\n// DECIMATE THE CLARINET\r\ndec_start = 0\r\nwhile (dec_start < start) {\r\n\tdec_hop = irand(hop / 2, 3)\r\n\r\n\tbits = 16\r\n\tcutoff = 7777\r\n\r\n\tif (random() < 0.25) {\r\n\t\tbits = trand(1, 4)\r\n    }\t\r\n\r\n\tif (random() < 0.5) {\r\n\t\tcutoff = irand(120, 6666)\r\n    }\r\n\r\n\tDECIMATE(dec_start, 0, dec_hop, 1.0, 1.0, bits, cutoff)\r\n\t\r\n\tdec_start += dec_hop\r\n}\r\n\r\n//bits = 16\r\n//DECIMATE(0, 0, start, 1.0, 1.0, bits)\r\n\r\nMAXBANG(start)", ";" ],
-					"text" : "rtcmix~ 2 2"
+					"patching_rect" : [ 868.0, 273.090912, 73.0, 20.0 ],
+					"save" : [ "#N", "rtcmix~", 2, 3, ";", "#X", "restore", 0, 1097, 1097, "\r\n// CLAR(outsk, dur, noiseamp, length1 (samples), length2 (samples), outputamp, d2gain[, pan])\r\n// DECIMATE(outsk, insk, dur, PREAMP, POSTAMP, NBITS[, LOWPASSFREQ, inputchan, PAN])\r\n\r\nbus_config(\"MCLAR\", \"aux 0-1 out\")\r\nbus_config(\"DECIMATE\", \"aux 0-1 in\", \"out 0-1\")\r\n\r\nsrand()\r\n\r\nfreqinlet = makeconnection(\"inlet\", 1, 160)\r\npressureinlet = makeconnection(\"inlet\", 2, 0.5)\r\nstiffnessinlet = makeconnection(\"inlet\", 3, 0.5)\r\n\r\n// generate clarinet sounds\r\nstart = 0\r\nhop = 0.33\r\nnoises = 1000\r\nfor (i = 0; i < noises; i = i + 1) {\r\n\tdur = irand(0.3, 4.0)\r\n\r\n\tnoiseamp = irand(0.32, 0.92)\r\n\r\n\tamp = 18000\r\n\tpan = random()\r\n\r\n\tMCLAR(start, dur, amp, freqinlet, noiseamp, pressureinlet, stiffnessinlet, pan)\r\n\tstart = start + hop\r\n}\r\n\r\n// DECIMATE THE CLARINET\r\ndec_start = 0\r\nwhile (dec_start < start) {\r\n\tdec_hop = irand(hop / 2, hop * 1.5)\r\n\r\n\tbits = 16\r\n\tcutoff = 6666\r\n\r\n\tif (random() < 0.64) {\r\n\t\tbits = trand(1, 4)\r\n    }\t\r\n\r\n\tif (random() < 0.5) {\r\n\t\tcutoff = irand(100, 1000)\r\n    }\r\n\r\n\tDECIMATE(dec_start, 0, dec_hop, 1.0, 1.0, bits, cutoff)\r\n\t\r\n\tdec_start += dec_hop\r\n}\r\n\r\nMAXBANG(start)", ";" ],
+					"text" : "rtcmix~ 2 3"
 				}
 
 			}
@@ -900,7 +1068,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 609.0, 155.0, 20.0, 20.0 ]
+					"patching_rect" : [ 609.0, 155.0, 20.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 614.5, 418.0, 20.0, 20.0 ]
 				}
 
 			}
@@ -1008,7 +1178,7 @@
 					"numoutlets" : 3,
 					"outlettype" : [ "signal", "signal", "" ],
 					"patching_rect" : [ 647.0, 193.090912, 113.5, 20.0 ],
-					"save" : [ "#N", "rtcmix~", 2, 6, ";", "#X", "restore", 0, 1121, 1121, "// GRANSYNTH(outsk, dur, AMP, WAVETABLE, GRAINENV, GRAINHOP, OUTTIMEJITTER, MINDUR, MAXDUR, MINAMP, MAXAMP, PITCH[, TRANSPTABLE, PITCHJITTER, seed, MINPAN, MAXPAN])\r\n\r\n// a little granular synthesis sounders\r\n\r\nsrand()\r\n\r\nfinal_length = 2000\r\n\r\nstart = 0\r\n\r\n//minhop = 0.001\r\n//maxhop = 0.12\r\n\r\ngrainhop = makeconnection(\"inlet\", 1, 0.05)\r\nhopjitter = makeconnection(\"inlet\", 2, 0.1)\r\n\r\n//mindur = 0.02\r\n//maxdur = 0.2\r\n\r\nmindur = makeconnection(\"inlet\", 3, 0.02)\r\nmaxdur = makeconnection(\"inlet\", 4, 0.2)\r\n\r\n//minpitch = 0.2\r\n//maxpitch = 3\r\n\r\npitch = makeconnection(\"inlet\", 5, 4)\r\npitchjitter = makeconnection(\"inlet\", 6, 4)\r\n\r\nminamp = 0.2\r\nmaxamp = 3\r\n\r\nwhile (start < final_length) {\r\n\r\ndur = irand(1.5, 6)\r\n\r\ntimehop = irand(0.6, 1.5)\n  \nwave = maketable(\"wave\", 2000, 1, .5, .3, .2, .1)\r\ngranenv = maketable(\"window\", 2000, \"hanning\")\r\ntranspcoll = maketable(\"literal\", \"nonorm\", 0, 0, .02, .03, .05, .07, .10, .12, .14, .15)\r\n\nGRANSYNTH(start, dur, 25000, wave, granenv, grainhop, hopjitter,\n      mindur, maxdur, minamp, maxamp, pitch, transpcoll, pitchjitter, irand(0, 100),\r\n \t  0, 1)\r\n\r\nstart += timehop\r\n\r\n}", ";" ],
+					"save" : [ "#N", "rtcmix~", 2, 6, ";", "#X", "restore", 0, 1015, 1015, "// GRANSYNTH(outsk, dur, AMP, WAVETABLE, GRAINENV, GRAINHOP, OUTTIMEJITTER, MINDUR, MAXDUR, MINAMP, MAXAMP, PITCH[, TRANSPTABLE, PITCHJITTER, seed, MINPAN, MAXPAN])\r\n\r\n// a little granular synthesis sounders\r\n\r\nsrand()\r\n\r\nfinal_length = 2000\r\n\r\nstart = 0\r\n\r\ngrainhop = makeconnection(\"inlet\", 1, 0.05)\r\nhopjitter = makeconnection(\"inlet\", 2, 0.1)\r\n\r\nmindur = makeconnection(\"inlet\", 3, 0.02)\r\nmaxdur = makeconnection(\"inlet\", 4, 0.2)\r\n\r\npitch = makeconnection(\"inlet\", 5, 4)\r\npitchjitter = makeconnection(\"inlet\", 6, 4)\r\n\r\nminamp = 0.2\r\nmaxamp = 4.5\r\n\r\nwhile (start < final_length) {\r\n\r\ndur = irand(1.3, 6)\r\n\r\ntimehop = irand(0.6, 2.0)\n  \nwave = maketable(\"wave\", 2000, 1, .5, .3, .2, .1)\r\ngranenv = maketable(\"window\", 2000, \"hanning\")\r\ntranspcoll = maketable(\"literal\", \"nonorm\", 0, 0, .02, .03, .05, .07, .10, .12, .14, .15)\r\n\nGRANSYNTH(start, dur, 25000, wave, granenv, grainhop, hopjitter,\n      mindur, maxdur, minamp, maxamp, pitch, transpcoll, pitchjitter, irand(0, 100),\r\n \t  0, 1)\r\n\r\nstart += timehop\r\n\r\n}", ";" ],
 					"text" : "rtcmix~ 2 6"
 				}
 
@@ -1020,7 +1190,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 210.190079, 142.752075, 20.0, 20.0 ]
+					"patching_rect" : [ 210.190079, 142.752075, 20.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 345.0, 424.316376, 20.0, 20.0 ]
 				}
 
 			}
@@ -1084,7 +1256,7 @@
 					"destination" : [ "obj-17", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 65.25, 477.0, 236.0, 477.0, 236.0, 225.0, 596.0, 225.0, 596.0, 150.0, 618.5, 150.0 ],
+					"midpoints" : [ 65.25, 477.0, 236.0, 477.0, 236.0, 225.0, 586.0, 225.0, 586.0, 150.0, 618.5, 150.0 ],
 					"source" : [ "obj-11", 0 ]
 				}
 
@@ -1366,6 +1538,15 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-72", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-31", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-14", 2 ],
 					"disabled" : 0,
 					"hidden" : 0,
@@ -1600,6 +1781,15 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-31", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-57", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-13", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
@@ -1730,6 +1920,69 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-7", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-57", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-71", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-29", 2 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-72", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-29", 3 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-73", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-73", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-74", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-29", 4 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-75", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-75", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-76", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-71", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-78", 0 ]
 				}
 
 			}
