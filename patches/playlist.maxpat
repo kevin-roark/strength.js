@@ -28,6 +28,17 @@
 		"tags" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-17",
+					"maxclass" : "button",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "bang" ],
+					"patching_rect" : [ 131.5, 653.0, 20.0, 20.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
 					"frgb" : [ 0.242839, 0.710227, 0.777962, 1.0 ],
@@ -510,13 +521,13 @@
 					"presentation_rect" : [ 266.5, 308.0, 48.0, 136.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
+							"parameter_longname" : "live.gain~[3]",
 							"parameter_unitstyle" : 4,
 							"parameter_mmax" : 6.0,
 							"parameter_mmin" : -70.0,
 							"parameter_initial" : [ 0.0 ],
 							"parameter_type" : 0,
-							"parameter_shortname" : "live.gain~[3]",
-							"parameter_longname" : "live.gain~[3]"
+							"parameter_shortname" : "live.gain~[3]"
 						}
 
 					}
@@ -538,13 +549,13 @@
 					"presentation_rect" : [ 266.5, 93.0, 48.0, 136.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
+							"parameter_longname" : "live.gain~[2]",
 							"parameter_unitstyle" : 4,
 							"parameter_mmax" : 6.0,
 							"parameter_mmin" : -70.0,
 							"parameter_initial" : [ 0.0 ],
 							"parameter_type" : 0,
-							"parameter_shortname" : "live.gain~[1]",
-							"parameter_longname" : "live.gain~[2]"
+							"parameter_shortname" : "live.gain~[1]"
 						}
 
 					}
@@ -566,13 +577,13 @@
 					"presentation_rect" : [ 155.5, 93.0, 48.0, 136.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
+							"parameter_longname" : "live.gain~[1]",
 							"parameter_unitstyle" : 4,
 							"parameter_mmax" : 6.0,
 							"parameter_mmin" : -70.0,
 							"parameter_initial" : [ 0.0 ],
 							"parameter_type" : 0,
-							"parameter_shortname" : "live.gain~[1]",
-							"parameter_longname" : "live.gain~[1]"
+							"parameter_shortname" : "live.gain~[1]"
 						}
 
 					}
@@ -594,13 +605,13 @@
 					"presentation_rect" : [ 44.5, 93.0, 48.0, 136.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
+							"parameter_longname" : "live.gain~",
 							"parameter_unitstyle" : 4,
 							"parameter_mmax" : 6.0,
 							"parameter_mmin" : -70.0,
 							"parameter_initial" : [ 0.0 ],
 							"parameter_type" : 0,
-							"parameter_shortname" : "live.gain~",
-							"parameter_longname" : "live.gain~"
+							"parameter_shortname" : "live.gain~"
 						}
 
 					}
@@ -930,8 +941,8 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 26.0, 631.0, 280.0, 18.0 ],
-					"text" : "readfolder ~/Documents/Projects/strength.js/media"
+					"patching_rect" : [ 26.0, 631.0, 65.0, 18.0 ],
+					"text" : "readfolder"
 				}
 
 			}
@@ -1249,11 +1260,30 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-17", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-3", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-29", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
 					"midpoints" : [ 35.5, 675.0, 35.5, 675.0 ],
 					"source" : [ "obj-3", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-4", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"midpoints" : [ 119.5, 693.0, 12.0, 693.0, 12.0, 582.0, 37.0, 582.0 ],
+					"source" : [ "obj-3", 1 ]
 				}
 
 			}
@@ -1694,10 +1724,10 @@
 			}
  ],
 		"parameters" : 		{
-			"obj-52" : [ "live.gain~", "live.gain~", 0 ],
 			"obj-53" : [ "live.gain~[1]", "live.gain~[1]", 0 ],
+			"obj-55" : [ "live.gain~[3]", "live.gain~[3]", 0 ],
 			"obj-54" : [ "live.gain~[2]", "live.gain~[1]", 0 ],
-			"obj-55" : [ "live.gain~[3]", "live.gain~[3]", 0 ]
+			"obj-52" : [ "live.gain~", "live.gain~", 0 ]
 		}
 ,
 		"dependency_cache" : [  ]
