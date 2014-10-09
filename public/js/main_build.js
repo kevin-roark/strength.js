@@ -1994,7 +1994,7 @@ $(function() {
   var rendermode = 'webgl';
   try {
     renderer = new THREE.WebGLRenderer();
-    renderer.setClearColor(0x222222, 1);
+    renderer.setClearColor(0x111111, 1);
   } catch(e) {
     $('.error').show();
   }
@@ -2593,10 +2593,10 @@ function Skybox() {
   this.geometry = new THREE.BoxGeometry(size, size, size, sections, sections, sections);
 
   this.material = new THREE.MeshBasicMaterial({
-    color: 0xababab,
+    color: 0x777777,
     wireframe: true,
     wireframeLinewidth: 0.2,
-    opacity: 0.2,
+    opacity: 0.15,
     transparent: true
   });
 
