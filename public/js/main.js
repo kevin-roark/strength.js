@@ -20,7 +20,7 @@ $(function() {
   var rendermode = 'webgl';
   try {
     renderer = new THREE.WebGLRenderer();
-    renderer.setClearColor(0x222222, 1);
+    renderer.setClearColor(0x111111, 1);
   } catch(e) {
     $('.error').show();
   }
