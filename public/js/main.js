@@ -3,12 +3,16 @@ $(function() {
   var kt = require('./lib/kutility');
   var Camera = require('./camera');
   var Character = require('./character');
+  var Skybox = require('./skybox');
+  var io = require('./io');
+
   var Shower = require('./shower');
   var Locker = require('./locker');
   var Phone = require('./phone');
   var Computer = require('./computer');
-  var Skybox = require('./skybox');
-  var io = require('./io');
+  var BoxingRing = require('./boxing_ring');
+  var FitnessTower = require('./fitness_tower');
+  var Weights = require('./weights');
 
   var scene = new THREE.Scene();
 
@@ -56,6 +60,10 @@ $(function() {
   var dylanWrestler;
   var wrestlers = [];
 
+  var boxingRing;
+  var fitnessTowers = [];
+  var weights = [];
+
   var slideOb = {left: true, moveCount: 0};
   var cameraOb = {};
 
@@ -74,6 +82,43 @@ $(function() {
 
     for (var i = 0; i < wrestlers.length; i++) {
       wrestlers[i].addTo(scene);
+    }
+
+    boxingRing = new BoxingRing({x: 0, y: -70, z: -140}, 18);
+    boxingRing.addTo(scene, function() {
+      boxingRing.mesh.scale.x *= 1.5;
+    });
+
+    for (var i = 0; i < 2; i++) {
+      var pos;
+      if (i == 0) {
+        pos = {x: -50, y: 20, z: 0};
+      } else if (i == 1) {
+        pos = {x: 50, y: 20, z: 0};
+      }
+
+      var tower = new FitnessTower(pos, 10);
+      tower.addTo(scene);
+      fitnessTowers.push(tower);
+    }
+
+    for (var i = 0; i < 3; i++) {
+      var pos;
+      if (i == 0) {
+        pos = {x: 0, y: 68, z: -100};
+      } else if (i == 1) {
+        pos = {x: -130, y: -66, z: -150};
+      } else if (i == 2) {
+        pos = {x: 130, y: -66, z: -150};
+      }
+
+      var weight = new Weights(pos, 10);
+      weight.addTo(scene, function(w) {
+        if (w.mesh.position.y < 0) {
+          w.rotate(0, Math.PI / 2, 0);
+        }
+      });
+      weights.push(weight);
     }
 
     camera.cam.position.set(0, 6, 110);
@@ -128,6 +173,10 @@ $(function() {
     if (active.camera) {
       changeCamera();
     }
+
+    fitnessTowers.forEach(function(tower) {
+      tower.render();
+    });
 
     computers.forEach(function(computer) {
       computer.render();

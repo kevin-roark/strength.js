@@ -85,6 +85,8 @@ module.exports.SHOWER = pre('shower.js');
 
 module.exports.LOCKER = pre('locker.js');
 
+module.exports.WEIGHTS = pre('weights.js');
+
 /* FUNCTIONS */
 
 module.exports.loadModel = function(modelName, callback) {

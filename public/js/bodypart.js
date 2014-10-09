@@ -107,7 +107,7 @@ BodyPart.prototype.meltValue = function() {
   return (Math.random() - 0.5) * this.meltIntensity;
 }
 
-BodyPart.prototype.addTo = function(scene) {
+BodyPart.prototype.addTo = function(scene, callback) {
   var self = this;
 
   self.modelName = self.specificModelName || kt.choice(self.modelChoices);
@@ -145,6 +145,10 @@ BodyPart.prototype.addTo = function(scene) {
     self.meltIntensity = 0.1;
 
     scene.add(self.mesh);
+
+    if (callback) {
+      callback(self);
+    }
   });
 }
 
@@ -168,6 +172,8 @@ BodyPart.prototype.render = function() {
       this.resetMeltParameters();
     }
   }
+
+  this.additionalRender();
 }
 
 BodyPart.prototype.fallToFloor = function() {
@@ -185,3 +191,4 @@ BodyPart.prototype.fallToFloor = function() {
 }
 
 BodyPart.prototype.additionalInit = function() {};
+BodyPart.prototype.additionalRender = function() {};

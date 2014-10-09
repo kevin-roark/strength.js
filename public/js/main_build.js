@@ -56,7 +56,7 @@ Arm.prototype.additionalInit = function() {
   }
 };
 
-},{"./bodypart":3,"./lib/kutility":12,"./model_names":15}],2:[function(require,module,exports){
+},{"./bodypart":3,"./lib/kutility":14,"./model_names":17}],2:[function(require,module,exports){
 
 var kt = require('./lib/kutility');
 
@@ -96,7 +96,7 @@ Body.prototype.additionalInit = function() {
   }
 };
 
-},{"./bodypart":3,"./lib/kutility":12,"./model_names":15}],3:[function(require,module,exports){
+},{"./bodypart":3,"./lib/kutility":14,"./model_names":17}],3:[function(require,module,exports){
 var kt = require('./lib/kutility');
 
 var modelNames = require('./model_names');
@@ -206,7 +206,7 @@ BodyPart.prototype.meltValue = function() {
   return (Math.random() - 0.5) * this.meltIntensity;
 }
 
-BodyPart.prototype.addTo = function(scene) {
+BodyPart.prototype.addTo = function(scene, callback) {
   var self = this;
 
   self.modelName = self.specificModelName || kt.choice(self.modelChoices);
@@ -244,6 +244,10 @@ BodyPart.prototype.addTo = function(scene) {
     self.meltIntensity = 0.1;
 
     scene.add(self.mesh);
+
+    if (callback) {
+      callback(self);
+    }
   });
 }
 
@@ -267,6 +271,8 @@ BodyPart.prototype.render = function() {
       this.resetMeltParameters();
     }
   }
+
+  this.additionalRender();
 }
 
 BodyPart.prototype.fallToFloor = function() {
@@ -284,8 +290,36 @@ BodyPart.prototype.fallToFloor = function() {
 }
 
 BodyPart.prototype.additionalInit = function() {};
+BodyPart.prototype.additionalRender = function() {};
 
-},{"./lib/kutility":12,"./model_names":15}],4:[function(require,module,exports){
+},{"./lib/kutility":14,"./model_names":17}],4:[function(require,module,exports){
+
+var kt = require('./lib/kutility');
+
+var modelNames = require('./model_names');
+
+var BodyPart = require('./bodypart');
+
+module.exports = BoxingRing;
+
+function BoxingRing(startPos, scale) {
+  if (!startPos) startPos = {x: 0, y: 0, z: 0};
+  this.startX = startPos.x;
+  this.startY = startPos.y;
+  this.startZ = startPos.z;
+
+  this.scale = scale || 1;
+
+  this.specificModelName = modelNames.BOXING_RING;
+}
+
+BoxingRing.prototype.__proto__ = BodyPart.prototype;
+
+BoxingRing.prototype.additionalInit = function() {
+
+};
+
+},{"./bodypart":3,"./lib/kutility":14,"./model_names":17}],5:[function(require,module,exports){
 
 var element = document.body;
 
@@ -324,7 +358,7 @@ Camera.prototype.render = function() {
 	// doesn't actually need to do anything yet
 }
 
-},{"./lib/kutility":12}],5:[function(require,module,exports){
+},{"./lib/kutility":14}],6:[function(require,module,exports){
 
 var kt = require('./lib/kutility');
 
@@ -511,7 +545,7 @@ function posNegRandom() {
   return (Math.random() - 0.5) * 2;
 }
 
-},{"./arm":1,"./body":2,"./foot":7,"./hand":8,"./head":9,"./leg":11,"./lib/kutility":12,"./model_names":15}],6:[function(require,module,exports){
+},{"./arm":1,"./body":2,"./foot":9,"./hand":10,"./head":11,"./leg":13,"./lib/kutility":14,"./model_names":17}],7:[function(require,module,exports){
 
 var kt = require('./lib/kutility');
 
@@ -538,7 +572,44 @@ Computer.prototype.additionalInit = function() {
 
 };
 
-},{"./bodypart":3,"./lib/kutility":12,"./model_names":15}],7:[function(require,module,exports){
+},{"./bodypart":3,"./lib/kutility":14,"./model_names":17}],8:[function(require,module,exports){
+
+var kt = require('./lib/kutility');
+
+var modelNames = require('./model_names');
+
+var BodyPart = require('./bodypart');
+
+module.exports = FitnessTower;
+
+function FitnessTower(startPos, scale) {
+  if (!startPos) startPos = {x: 0, y: 0, z: 0};
+  this.startX = startPos.x;
+  this.startY = startPos.y;
+  this.startZ = startPos.z;
+
+  this.scale = scale || 1;
+
+  this.specificModelName = modelNames.FITNESS_TOWER;
+}
+
+FitnessTower.prototype.__proto__ = BodyPart.prototype;
+
+FitnessTower.prototype.additionalInit = function() {
+
+};
+
+FitnessTower.prototype.additionalRender = function() {
+  this.move(posNegRandom(0.04), posNegRandom(0.04), posNegRandom(0.04));
+};
+
+function posNegRandom(max) {
+  if (!max) max = 1;
+
+  return (Math.random() - 0.5) * 2 * max;
+}
+
+},{"./bodypart":3,"./lib/kutility":14,"./model_names":17}],9:[function(require,module,exports){
 
 var kt = require('./lib/kutility');
 
@@ -585,7 +656,7 @@ Foot.prototype.additionalInit = function() {
   }
 };
 
-},{"./bodypart":3,"./lib/kutility":12,"./model_names":15}],8:[function(require,module,exports){
+},{"./bodypart":3,"./lib/kutility":14,"./model_names":17}],10:[function(require,module,exports){
 
 var kt = require('./lib/kutility');
 
@@ -636,7 +707,7 @@ Hand.prototype.additionalInit = function() {
   }
 };
 
-},{"./bodypart":3,"./lib/kutility":12,"./model_names":15}],9:[function(require,module,exports){
+},{"./bodypart":3,"./lib/kutility":14,"./model_names":17}],11:[function(require,module,exports){
 
 var kt = require('./lib/kutility');
 
@@ -682,7 +753,7 @@ Head.prototype.additionalInit = function() {
   }
 };
 
-},{"./bodypart":3,"./lib/kutility":12,"./model_names":15}],10:[function(require,module,exports){
+},{"./bodypart":3,"./lib/kutility":14,"./model_names":17}],12:[function(require,module,exports){
 
 // CONTROLS::::
 
@@ -1165,7 +1236,7 @@ function handsBetweenElbows(playerNum) {
   return (leftHand.x > leftElbow.x) && (rightHand.x < rightElbow.x);
 }
 
-},{}],11:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 
 var kt = require('./lib/kutility');
 
@@ -1201,7 +1272,7 @@ Leg.prototype.additionalInit = function() {
   }
 };
 
-},{"./bodypart":3,"./lib/kutility":12,"./model_names":15}],12:[function(require,module,exports){
+},{"./bodypart":3,"./lib/kutility":14,"./model_names":17}],14:[function(require,module,exports){
 /* export something */
 module.exports = new Kutility;
 
@@ -1766,7 +1837,7 @@ Kutility.prototype.blur = function(el, x) {
   this.setFilter(el, cf + f);
 }
 
-},{}],13:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 
 var kt = require('./lib/kutility');
 
@@ -1793,18 +1864,22 @@ Locker.prototype.additionalInit = function() {
 
 };
 
-},{"./bodypart":3,"./lib/kutility":12,"./model_names":15}],14:[function(require,module,exports){
+},{"./bodypart":3,"./lib/kutility":14,"./model_names":17}],16:[function(require,module,exports){
 $(function() {
 
   var kt = require('./lib/kutility');
   var Camera = require('./camera');
   var Character = require('./character');
+  var Skybox = require('./skybox');
+  var io = require('./io');
+
   var Shower = require('./shower');
   var Locker = require('./locker');
   var Phone = require('./phone');
   var Computer = require('./computer');
-  var Skybox = require('./skybox');
-  var io = require('./io');
+  var BoxingRing = require('./boxing_ring');
+  var FitnessTower = require('./fitness_tower');
+  var Weights = require('./weights');
 
   var scene = new THREE.Scene();
 
@@ -1852,6 +1927,10 @@ $(function() {
   var dylanWrestler;
   var wrestlers = [];
 
+  var boxingRing;
+  var fitnessTowers = [];
+  var weights = [];
+
   var slideOb = {left: true, moveCount: 0};
   var cameraOb = {};
 
@@ -1870,6 +1949,43 @@ $(function() {
 
     for (var i = 0; i < wrestlers.length; i++) {
       wrestlers[i].addTo(scene);
+    }
+
+    boxingRing = new BoxingRing({x: 0, y: -70, z: -140}, 18);
+    boxingRing.addTo(scene, function() {
+      boxingRing.mesh.scale.x *= 1.5;
+    });
+
+    for (var i = 0; i < 2; i++) {
+      var pos;
+      if (i == 0) {
+        pos = {x: -50, y: 20, z: 0};
+      } else if (i == 1) {
+        pos = {x: 50, y: 20, z: 0};
+      }
+
+      var tower = new FitnessTower(pos, 10);
+      tower.addTo(scene);
+      fitnessTowers.push(tower);
+    }
+
+    for (var i = 0; i < 3; i++) {
+      var pos;
+      if (i == 0) {
+        pos = {x: 0, y: 68, z: -100};
+      } else if (i == 1) {
+        pos = {x: -130, y: -66, z: -150};
+      } else if (i == 2) {
+        pos = {x: 130, y: -66, z: -150};
+      }
+
+      var weight = new Weights(pos, 10);
+      weight.addTo(scene, function(w) {
+        if (w.mesh.position.y < 0) {
+          w.rotate(0, Math.PI / 2, 0);
+        }
+      });
+      weights.push(weight);
     }
 
     camera.cam.position.set(0, 6, 110);
@@ -1924,6 +2040,10 @@ $(function() {
     if (active.camera) {
       changeCamera();
     }
+
+    fitnessTowers.forEach(function(tower) {
+      tower.render();
+    });
 
     computers.forEach(function(computer) {
       computer.render();
@@ -2189,7 +2309,7 @@ $(function() {
 
 });
 
-},{"./camera":4,"./character":5,"./computer":6,"./io":10,"./lib/kutility":12,"./locker":13,"./phone":16,"./shower":17,"./skybox":18}],15:[function(require,module,exports){
+},{"./boxing_ring":4,"./camera":5,"./character":6,"./computer":7,"./fitness_tower":8,"./io":12,"./lib/kutility":14,"./locker":15,"./phone":18,"./shower":19,"./skybox":20,"./weights":21}],17:[function(require,module,exports){
 
 var prefix = '/js/models/';
 
@@ -2277,6 +2397,8 @@ module.exports.SHOWER = pre('shower.js');
 
 module.exports.LOCKER = pre('locker.js');
 
+module.exports.WEIGHTS = pre('weights.js');
+
 /* FUNCTIONS */
 
 module.exports.loadModel = function(modelName, callback) {
@@ -2287,7 +2409,7 @@ module.exports.loadModel = function(modelName, callback) {
   });
 }
 
-},{}],16:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 
 var kt = require('./lib/kutility');
 
@@ -2314,7 +2436,7 @@ Phone.prototype.additionalInit = function() {
 
 };
 
-},{"./bodypart":3,"./lib/kutility":12,"./model_names":15}],17:[function(require,module,exports){
+},{"./bodypart":3,"./lib/kutility":14,"./model_names":17}],19:[function(require,module,exports){
 
 var kt = require('./lib/kutility');
 
@@ -2341,7 +2463,7 @@ Shower.prototype.additionalInit = function() {
   this.rotate(0, Math.PI, 0);
 };
 
-},{"./bodypart":3,"./lib/kutility":12,"./model_names":15}],18:[function(require,module,exports){
+},{"./bodypart":3,"./lib/kutility":14,"./model_names":17}],20:[function(require,module,exports){
 
 
 module.exports = Skybox;
@@ -2366,4 +2488,27 @@ Skybox.prototype.addTo = function(scene) {
   scene.add(this.mesh);
 }
 
-},{}]},{},[14])
+},{}],21:[function(require,module,exports){
+
+var kt = require('./lib/kutility');
+
+var modelNames = require('./model_names');
+
+var BodyPart = require('./bodypart');
+
+module.exports = Weights;
+
+function Weights(startPos, scale) {
+  if (!startPos) startPos = {x: 0, y: 0, z: 0};
+  this.startX = startPos.x;
+  this.startY = startPos.y;
+  this.startZ = startPos.z;
+
+  this.scale = scale || 1;
+
+  this.specificModelName = modelNames.WEIGHTS;
+}
+
+Weights.prototype.__proto__ = BodyPart.prototype;
+
+},{"./bodypart":3,"./lib/kutility":14,"./model_names":17}]},{},[16])
