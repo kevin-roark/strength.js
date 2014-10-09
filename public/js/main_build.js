@@ -56,7 +56,7 @@ Arm.prototype.additionalInit = function() {
   }
 };
 
-},{"./bodypart":3,"./lib/kutility":11,"./model_names":14}],2:[function(require,module,exports){
+},{"./bodypart":3,"./lib/kutility":12,"./model_names":15}],2:[function(require,module,exports){
 
 var kt = require('./lib/kutility');
 
@@ -96,7 +96,7 @@ Body.prototype.additionalInit = function() {
   }
 };
 
-},{"./bodypart":3,"./lib/kutility":11,"./model_names":14}],3:[function(require,module,exports){
+},{"./bodypart":3,"./lib/kutility":12,"./model_names":15}],3:[function(require,module,exports){
 var kt = require('./lib/kutility');
 
 var modelNames = require('./model_names');
@@ -215,8 +215,6 @@ BodyPart.prototype.addTo = function(scene) {
     self.geometry = geometry;
     self.materials = materials;
 
-    console.log(materials);
-
     self.mesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
 
     self.scaleBody(self.scale);
@@ -233,8 +231,6 @@ BodyPart.prototype.addTo = function(scene) {
     self.materials.forEach(function(mat) {
       self.initialMaterialColors.push(mat.color);
     });
-
-    console.log(self.initialMaterialColors);
 
     self.verts = geometry.vertices;
 
@@ -273,9 +269,23 @@ BodyPart.prototype.render = function() {
   }
 }
 
+BodyPart.prototype.fallToFloor = function() {
+  var self = this;
+
+  var fallInterval = setInterval(function() {
+    var dy = Math.random() * -0.5;
+
+    self.move(0, dy, 0);
+
+    if (self.mesh && self.mesh.position.y < 1.5) {
+      clearInterval(fallInterval);
+    }
+  }, 24);
+}
+
 BodyPart.prototype.additionalInit = function() {};
 
-},{"./lib/kutility":11,"./model_names":14}],4:[function(require,module,exports){
+},{"./lib/kutility":12,"./model_names":15}],4:[function(require,module,exports){
 
 var element = document.body;
 
@@ -314,7 +324,7 @@ Camera.prototype.render = function() {
 	// doesn't actually need to do anything yet
 }
 
-},{"./lib/kutility":11}],5:[function(require,module,exports){
+},{"./lib/kutility":12}],5:[function(require,module,exports){
 
 var kt = require('./lib/kutility');
 
@@ -501,7 +511,34 @@ function posNegRandom() {
   return (Math.random() - 0.5) * 2;
 }
 
-},{"./arm":1,"./body":2,"./foot":6,"./hand":7,"./head":8,"./leg":10,"./lib/kutility":11,"./model_names":14}],6:[function(require,module,exports){
+},{"./arm":1,"./body":2,"./foot":7,"./hand":8,"./head":9,"./leg":11,"./lib/kutility":12,"./model_names":15}],6:[function(require,module,exports){
+
+var kt = require('./lib/kutility');
+
+var modelNames = require('./model_names');
+
+var BodyPart = require('./bodypart');
+
+module.exports = Computer;
+
+function Computer(startPos, scale) {
+  if (!startPos) startPos = {x: 0, y: 0, z: 0};
+  this.startX = startPos.x;
+  this.startY = startPos.y;
+  this.startZ = startPos.z;
+
+  this.scale = scale || 1;
+
+  this.specificModelName = modelNames.LAPTOP;
+}
+
+Computer.prototype.__proto__ = BodyPart.prototype;
+
+Computer.prototype.additionalInit = function() {
+
+};
+
+},{"./bodypart":3,"./lib/kutility":12,"./model_names":15}],7:[function(require,module,exports){
 
 var kt = require('./lib/kutility');
 
@@ -548,7 +585,7 @@ Foot.prototype.additionalInit = function() {
   }
 };
 
-},{"./bodypart":3,"./lib/kutility":11,"./model_names":14}],7:[function(require,module,exports){
+},{"./bodypart":3,"./lib/kutility":12,"./model_names":15}],8:[function(require,module,exports){
 
 var kt = require('./lib/kutility');
 
@@ -599,7 +636,7 @@ Hand.prototype.additionalInit = function() {
   }
 };
 
-},{"./bodypart":3,"./lib/kutility":11,"./model_names":14}],8:[function(require,module,exports){
+},{"./bodypart":3,"./lib/kutility":12,"./model_names":15}],9:[function(require,module,exports){
 
 var kt = require('./lib/kutility');
 
@@ -645,7 +682,7 @@ Head.prototype.additionalInit = function() {
   }
 };
 
-},{"./bodypart":3,"./lib/kutility":11,"./model_names":14}],9:[function(require,module,exports){
+},{"./bodypart":3,"./lib/kutility":12,"./model_names":15}],10:[function(require,module,exports){
 
 // CONTROLS::::
 
@@ -1128,7 +1165,7 @@ function handsBetweenElbows(playerNum) {
   return (leftHand.x > leftElbow.x) && (rightHand.x < rightElbow.x);
 }
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 
 var kt = require('./lib/kutility');
 
@@ -1164,7 +1201,7 @@ Leg.prototype.additionalInit = function() {
   }
 };
 
-},{"./bodypart":3,"./lib/kutility":11,"./model_names":14}],11:[function(require,module,exports){
+},{"./bodypart":3,"./lib/kutility":12,"./model_names":15}],12:[function(require,module,exports){
 /* export something */
 module.exports = new Kutility;
 
@@ -1729,7 +1766,7 @@ Kutility.prototype.blur = function(el, x) {
   this.setFilter(el, cf + f);
 }
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 
 var kt = require('./lib/kutility');
 
@@ -1756,7 +1793,7 @@ Locker.prototype.additionalInit = function() {
 
 };
 
-},{"./bodypart":3,"./lib/kutility":11,"./model_names":14}],13:[function(require,module,exports){
+},{"./bodypart":3,"./lib/kutility":12,"./model_names":15}],14:[function(require,module,exports){
 $(function() {
 
   var kt = require('./lib/kutility');
@@ -1764,6 +1801,8 @@ $(function() {
   var Character = require('./character');
   var Shower = require('./shower');
   var Locker = require('./locker');
+  var Phone = require('./phone');
+  var Computer = require('./computer');
   var Skybox = require('./skybox');
   var io = require('./io');
 
@@ -1819,6 +1858,8 @@ $(function() {
   var shower;
   var lockers = [];
   var computers = [];
+
+  var particleEngine;
 
   start();
 
@@ -1882,6 +1923,14 @@ $(function() {
 
     if (active.camera) {
       changeCamera();
+    }
+
+    computers.forEach(function(computer) {
+      computer.render();
+    });
+
+    if (particleEngine) {
+      particleEngine.update(0.01 * 0.5);
     }
 
     camera.render();
@@ -1991,7 +2040,7 @@ $(function() {
     kevinWrestler.discombobulate(function() {
       var backCameraAwayInterval = setInterval(function() {
         camera.cam.position.z += 0.85;
-        if (camera.cam.position.z > 566) {
+        if (camera.cam.position.z > 555) {
           clearInterval(backCameraAwayInterval);
           fadeToWhite();
         }
@@ -1999,7 +2048,7 @@ $(function() {
     });
 
     function fadeToWhite() {
-      $('.overlay').fadeIn(1000, function() {
+      $('.overlay').fadeIn(9000, function() {
           changeToShowerMode();
       });
     }
@@ -2025,13 +2074,122 @@ $(function() {
         lockers.push(locker);
       }
 
-      $('.overlay').fadeOut(1000);
+      $('.overlay').fadeOut(5000, function() {
+        startAddingComputers();
+      });
     }
+
+    function startAddingComputers() {
+      addComputer();
+
+      function addComputer() {
+        var skyPos = {x: (Math.random() - 0.5) * 10, y: kt.randInt(12, 8), z: Math.random() * -10 - 2};
+        var scale = 1;
+        var computer;
+
+        if (Math.random() < 0.99999) {
+          scale = Math.random() * 0.3 + 0.05;
+          computer = new Phone(skyPos, scale);
+        } else {
+          scale = 0.2;
+          computer = new Computer(skyPos, scale);
+        }
+
+        computer.addTo(scene);
+        computer.fallToFloor();
+        computers.push(computer);
+
+        if (computers.length < 44) {
+          setTimeout(addComputer, 1000);
+        } else {
+          growComputersForever();
+        }
+      }
+    }
+
+    function growComputersForever() {
+      computers.forEach(function(computer) {
+        computer.melting = true;
+      });
+
+      var scale = 1.05;
+      scaleComputers();
+      function scaleComputers() {
+        scale *= 1.03;
+        computers.forEach(function(computer) {
+          computer.scaleMultiply(scale);
+          computer.move(0.03 * scale, 0.025 * scale, 0);
+        });
+
+        camera.cam.position.z = Math.min(60, camera.cam.position.z + 0.05);
+
+        if (scale < 666) {
+          setTimeout(scaleComputers, 30);
+        } else {
+          enterEndgameState();
+        }
+      }
+    }
+
+    function enterEndgameState() {
+      setTimeout(function() {
+        fadeToRed();
+      }, 10000);
+
+      function fadeToRed() {
+        $('.overlay').css('background-color', 'rgb(160, 10, 10)');
+        $('.overlay').fadeIn(5000, function() {
+          makeItRain();
+        });
+      }
+
+      function makeItRain() {
+        clearScene();
+        renderer.setClearColor(0x000000, 1);
+        camera.cam.position.set(0, 0, 0);
+
+        var particleSettings = {
+          positionStyle    : Type.CUBE,
+          positionBase     : new THREE.Vector3( 0, 50, 0 ),
+          positionSpread   : new THREE.Vector3( 200, 200, 200 ),
+
+          velocityStyle    : Type.CUBE,
+          velocityBase     : new THREE.Vector3( 0, -400, 0),
+          velocitySpread   : new THREE.Vector3( 50, 50, 50 ),
+          accelerationBase : new THREE.Vector3( 0, -5, 0 ),
+
+          particleTexture : THREE.ImageUtils.loadTexture( 'images/raindrop2flip.png' ),
+
+          sizeBase    : 4.0,
+          sizeSpread  : 2.0,
+          colorBase   : new THREE.Vector3(0.66, 1.0, 0.7), // H,S,L
+          colorSpread : new THREE.Vector3(0.00, 0.0, 0.2),
+          opacityBase : 0.6,
+
+          particlesPerSecond : 3600,
+          particleDeathAge   : 1.0,
+          emitterDeathAge    : 60
+        };
+
+        particleEngine = new ParticleEngine();
+        particleEngine.setValues(particleSettings);
+        particleEngine.initialize(scene);
+
+        var phone = new Phone({x: 0, y: 5, z: -64}, 3);
+        phone.addTo(scene);
+        setInterval(function() {
+          phone.rotate(0, 0.02, 0);
+        }, 20);
+
+        $('.overlay').fadeOut(5000);
+      }
+    }
+
   }
 
 });
 
-},{"./camera":4,"./character":5,"./io":9,"./lib/kutility":11,"./locker":12,"./shower":15,"./skybox":16}],14:[function(require,module,exports){
+},{"./camera":4,"./character":5,"./computer":6,"./io":10,"./lib/kutility":12,"./locker":13,"./phone":16,"./shower":17,"./skybox":18}],15:[function(require,module,exports){
 
 var prefix = '/js/models/';
 
@@ -2110,6 +2268,8 @@ module.exports.BOXING_RING = pre('boxing_ring.js');
 module.exports.FITNESS_TOWER = pre('fitness_tower.js');
 
 module.exports.IPHONE = pre('iPhone.js');
+module.exports.PHONE = pre('phone.js');
+module.exports.OFFICE_PHONE = pre('office_phone.js');
 
 module.exports.LAPTOP = pre('laptop.js');
 
@@ -2127,7 +2287,34 @@ module.exports.loadModel = function(modelName, callback) {
   });
 }
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
+
+var kt = require('./lib/kutility');
+
+var modelNames = require('./model_names');
+
+var BodyPart = require('./bodypart');
+
+module.exports = Phone;
+
+function Phone(startPos, scale) {
+  if (!startPos) startPos = {x: 0, y: 0, z: 0};
+  this.startX = startPos.x;
+  this.startY = startPos.y;
+  this.startZ = startPos.z;
+
+  this.scale = scale || 1;
+
+  this.modelChoices = [modelNames.IPHONE/*, modelNames.PHONE, modelNames.OFFICE_PHONE*/];
+}
+
+Phone.prototype.__proto__ = BodyPart.prototype;
+
+Phone.prototype.additionalInit = function() {
+
+};
+
+},{"./bodypart":3,"./lib/kutility":12,"./model_names":15}],17:[function(require,module,exports){
 
 var kt = require('./lib/kutility');
 
@@ -2154,7 +2341,7 @@ Shower.prototype.additionalInit = function() {
   this.rotate(0, Math.PI, 0);
 };
 
-},{"./bodypart":3,"./lib/kutility":11,"./model_names":14}],16:[function(require,module,exports){
+},{"./bodypart":3,"./lib/kutility":12,"./model_names":15}],18:[function(require,module,exports){
 
 
 module.exports = Skybox;
@@ -2179,4 +2366,4 @@ Skybox.prototype.addTo = function(scene) {
   scene.add(this.mesh);
 }
 
-},{}]},{},[13])
+},{}]},{},[14])

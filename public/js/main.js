@@ -5,6 +5,8 @@ $(function() {
   var Character = require('./character');
   var Shower = require('./shower');
   var Locker = require('./locker');
+  var Phone = require('./phone');
+  var Computer = require('./computer');
   var Skybox = require('./skybox');
   var io = require('./io');
 
@@ -60,6 +62,8 @@ $(function() {
   var shower;
   var lockers = [];
   var computers = [];
+
+  var particleEngine;
 
   start();
 
@@ -123,6 +127,14 @@ $(function() {
 
     if (active.camera) {
       changeCamera();
+    }
+
+    computers.forEach(function(computer) {
+      computer.render();
+    });
+
+    if (particleEngine) {
+      particleEngine.update(0.01 * 0.5);
     }
 
     camera.render();
@@ -232,7 +244,7 @@ $(function() {
     kevinWrestler.discombobulate(function() {
       var backCameraAwayInterval = setInterval(function() {
         camera.cam.position.z += 0.85;
-        if (camera.cam.position.z > 566) {
+        if (camera.cam.position.z > 555) {
           clearInterval(backCameraAwayInterval);
           fadeToWhite();
         }
@@ -240,7 +252,7 @@ $(function() {
     });
 
     function fadeToWhite() {
-      $('.overlay').fadeIn(1000, function() {
+      $('.overlay').fadeIn(9000, function() {
           changeToShowerMode();
       });
     }
@@ -266,8 +278,117 @@ $(function() {
         lockers.push(locker);
       }
 
-      $('.overlay').fadeOut(1000);
+      $('.overlay').fadeOut(5000, function() {
+        startAddingComputers();
+      });
     }
+
+    function startAddingComputers() {
+      addComputer();
+
+      function addComputer() {
+        var skyPos = {x: (Math.random() - 0.5) * 10, y: kt.randInt(12, 8), z: Math.random() * -10 - 2};
+        var scale = 1;
+        var computer;
+
+        if (Math.random() < 0.99999) {
+          scale = Math.random() * 0.3 + 0.05;
+          computer = new Phone(skyPos, scale);
+        } else {
+          scale = 0.2;
+          computer = new Computer(skyPos, scale);
+        }
+
+        computer.addTo(scene);
+        computer.fallToFloor();
+        computers.push(computer);
+
+        if (computers.length < 44) {
+          setTimeout(addComputer, 1000);
+        } else {
+          growComputersForever();
+        }
+      }
+    }
+
+    function growComputersForever() {
+      computers.forEach(function(computer) {
+        computer.melting = true;
+      });
+
+      var scale = 1.05;
+      scaleComputers();
+      function scaleComputers() {
+        scale *= 1.03;
+        computers.forEach(function(computer) {
+          computer.scaleMultiply(scale);
+          computer.move(0.03 * scale, 0.025 * scale, 0);
+        });
+
+        camera.cam.position.z = Math.min(60, camera.cam.position.z + 0.05);
+
+        if (scale < 666) {
+          setTimeout(scaleComputers, 30);
+        } else {
+          enterEndgameState();
+        }
+      }
+    }
+
+    function enterEndgameState() {
+      setTimeout(function() {
+        fadeToRed();
+      }, 10000);
+
+      function fadeToRed() {
+        $('.overlay').css('background-color', 'rgb(160, 10, 10)');
+        $('.overlay').fadeIn(5000, function() {
+          makeItRain();
+        });
+      }
+
+      function makeItRain() {
+        clearScene();
+        renderer.setClearColor(0x000000, 1);
+        camera.cam.position.set(0, 0, 0);
+
+        var particleSettings = {
+          positionStyle    : Type.CUBE,
+          positionBase     : new THREE.Vector3( 0, 50, 0 ),
+          positionSpread   : new THREE.Vector3( 200, 200, 200 ),
+
+          velocityStyle    : Type.CUBE,
+          velocityBase     : new THREE.Vector3( 0, -400, 0),
+          velocitySpread   : new THREE.Vector3( 50, 50, 50 ),
+          accelerationBase : new THREE.Vector3( 0, -5, 0 ),
+
+          particleTexture : THREE.ImageUtils.loadTexture( 'images/raindrop2flip.png' ),
+
+          sizeBase    : 4.0,
+          sizeSpread  : 2.0,
+          colorBase   : new THREE.Vector3(0.66, 1.0, 0.7), // H,S,L
+          colorSpread : new THREE.Vector3(0.00, 0.0, 0.2),
+          opacityBase : 0.6,
+
+          particlesPerSecond : 3600,
+          particleDeathAge   : 1.0,
+          emitterDeathAge    : 60
+        };
+
+        particleEngine = new ParticleEngine();
+        particleEngine.setValues(particleSettings);
+        particleEngine.initialize(scene);
+
+        var phone = new Phone({x: 0, y: 5, z: -64}, 3);
+        phone.addTo(scene);
+        setInterval(function() {
+          phone.rotate(0, 0.02, 0);
+        }, 20);
+
+        $('.overlay').fadeOut(5000);
+      }
+    }
+
   }
 
 });

@@ -76,6 +76,8 @@ module.exports.BOXING_RING = pre('boxing_ring.js');
 module.exports.FITNESS_TOWER = pre('fitness_tower.js');
 
 module.exports.IPHONE = pre('iPhone.js');
+module.exports.PHONE = pre('phone.js');
+module.exports.OFFICE_PHONE = pre('office_phone.js');
 
 module.exports.LAPTOP = pre('laptop.js');
 

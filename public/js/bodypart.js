@@ -116,8 +116,6 @@ BodyPart.prototype.addTo = function(scene) {
     self.geometry = geometry;
     self.materials = materials;
 
-    console.log(materials);
-
     self.mesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
 
     self.scaleBody(self.scale);
@@ -134,8 +132,6 @@ BodyPart.prototype.addTo = function(scene) {
     self.materials.forEach(function(mat) {
       self.initialMaterialColors.push(mat.color);
     });
-
-    console.log(self.initialMaterialColors);
 
     self.verts = geometry.vertices;
 
@@ -172,6 +168,20 @@ BodyPart.prototype.render = function() {
       this.resetMeltParameters();
     }
   }
+}
+
+BodyPart.prototype.fallToFloor = function() {
+  var self = this;
+
+  var fallInterval = setInterval(function() {
+    var dy = Math.random() * -0.5;
+
+    self.move(0, dy, 0);
+
+    if (self.mesh && self.mesh.position.y < 1.5) {
+      clearInterval(fallInterval);
+    }
+  }, 24);
 }
 
 BodyPart.prototype.additionalInit = function() {};
