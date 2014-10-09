@@ -81,5 +81,6 @@ function sendAddressSignalMapToMax(player, address) {
 }
 
 function sendPacketToMax(address, args) {
+  console.log('maxer sending ' + address);
   maxClient.send(address, args);
 }
