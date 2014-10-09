@@ -8,7 +8,7 @@
 			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 0.0, 44.0, 1039.0, 806.0 ],
+		"rect" : [ 0.0, 44.0, 1373.0, 806.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -28,6 +28,458 @@
 		"digest" : "",
 		"tags" : "",
 		"boxes" : [ 			{
+				"box" : 				{
+					"bgcolor" : [ 1.0, 0.899338, 0.796465, 1.0 ],
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-111",
+					"maxclass" : "number",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "int", "bang" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 405.127716, 725.0, 50.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 364.0, 734.0, 50.0, 20.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bgcolor" : [ 1.0, 0.899338, 0.796465, 1.0 ],
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-110",
+					"maxclass" : "number",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "int", "bang" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 381.0, 637.0, 50.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 353.255402, 646.0, 50.0, 20.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-106",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "float" ],
+					"patching_rect" : [ 281.0, 766.0, 49.0, 20.0 ],
+					"text" : "* 0.001"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bgcolor" : [ 1.0, 0.738573, 0.143265, 1.0 ],
+					"id" : "obj-107",
+					"maxclass" : "toggle",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "int" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 488.372284, 766.0, 20.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 459.0, 754.0, 20.0, 20.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bgcolor" : [ 1.0, 0.91923, 0.813881, 1.0 ],
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-108",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "bang" ],
+					"patching_rect" : [ 419.872284, 766.0, 65.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 394.0, 754.0, 65.0, 20.0 ],
+					"text" : "metro 100"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bgcolor" : [ 1.0, 0.91923, 0.813881, 1.0 ],
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-109",
+					"maxclass" : "newobj",
+					"numinlets" : 3,
+					"numoutlets" : 1,
+					"outlettype" : [ "int" ],
+					"patching_rect" : [ 331.0, 766.0, 87.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 307.0, 754.0, 87.0, 20.0 ],
+					"text" : "drunk 1000 10"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bgcolor" : [ 0.363809, 1.0, 0.983189, 1.0 ],
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-105",
+					"maxclass" : "number",
+					"minimum" : 40,
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "int", "bang" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 350.0, 710.0, 50.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 258.0, 705.0, 50.0, 20.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bgcolor" : [ 0.560621, 1.0, 0.932986, 1.0 ],
+					"id" : "obj-102",
+					"maxclass" : "toggle",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "int" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 295.5, 704.0, 20.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 394.0, 705.0, 20.0, 20.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bgcolor" : [ 0.560621, 1.0, 0.932986, 1.0 ],
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-103",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "bang" ],
+					"patching_rect" : [ 295.5, 739.0, 65.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 318.0, 705.0, 65.0, 20.0 ],
+					"text" : "metro 600"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-101",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "float" ],
+					"patching_rect" : [ 281.0, 672.0, 49.0, 20.0 ],
+					"text" : "* 0.001"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bgcolor" : [ 1.0, 0.738573, 0.143265, 1.0 ],
+					"id" : "obj-98",
+					"maxclass" : "toggle",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "int" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 488.372284, 672.0, 20.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 459.0, 672.0, 20.0, 20.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bgcolor" : [ 1.0, 0.91923, 0.813881, 1.0 ],
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-99",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "bang" ],
+					"patching_rect" : [ 419.872284, 672.0, 65.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 394.0, 672.0, 65.0, 20.0 ],
+					"text" : "metro 100"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bgcolor" : [ 1.0, 0.91923, 0.813881, 1.0 ],
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-100",
+					"maxclass" : "newobj",
+					"numinlets" : 3,
+					"numoutlets" : 1,
+					"outlettype" : [ "int" ],
+					"patching_rect" : [ 331.0, 672.0, 87.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 307.0, 672.0, 87.0, 20.0 ],
+					"text" : "drunk 1000 20"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-96",
+					"maxclass" : "flonum",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "float", "bang" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 195.190079, 754.0, 50.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 195.190079, 754.0, 50.0, 20.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bgcolor" : [ 0.483812, 0.912661, 0.464888, 1.0 ],
+					"floatoutput" : 1,
+					"id" : "obj-97",
+					"maxclass" : "slider",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 24.127716, 754.0, 159.744553, 19.038324 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 19.563866, 754.0, 159.744553, 19.038324 ],
+					"size" : 1.0
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-94",
+					"maxclass" : "flonum",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "float", "bang" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 195.190079, 725.0, 50.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 195.190079, 725.0, 50.0, 20.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bgcolor" : [ 0.483812, 0.912661, 0.464888, 1.0 ],
+					"floatoutput" : 1,
+					"id" : "obj-95",
+					"maxclass" : "slider",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 24.127716, 725.0, 159.744553, 19.038324 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 19.563866, 725.0, 159.744553, 19.038324 ],
+					"size" : 1.0
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-92",
+					"maxclass" : "flonum",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "float", "bang" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 195.190079, 697.96167, 50.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 195.190079, 697.96167, 50.0, 20.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bgcolor" : [ 0.483812, 0.912661, 0.464888, 1.0 ],
+					"floatoutput" : 1,
+					"id" : "obj-93",
+					"maxclass" : "slider",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 24.127716, 697.96167, 159.744553, 19.038324 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 19.563866, 697.96167, 159.744553, 19.038324 ],
+					"size" : 1.0
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-91",
+					"maxclass" : "flonum",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "float", "bang" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 195.190079, 672.0, 50.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 195.190079, 672.0, 50.0, 20.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"frgb" : 0.0,
+					"id" : "obj-89",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 10.0, 646.0, 238.872284, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 10.0, 646.0, 238.872284, 20.0 ],
+					"text" : "energy / decay / object num / resonance"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bgcolor" : [ 0.483812, 0.912661, 0.464888, 1.0 ],
+					"floatoutput" : 1,
+					"id" : "obj-77",
+					"maxclass" : "slider",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 24.127716, 672.0, 159.744553, 19.038324 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 19.563866, 672.0, 159.744553, 19.038324 ],
+					"size" : 1.0
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bgcolor" : [ 0.812452, 1.0, 0.32818, 1.0 ],
+					"id" : "obj-86",
+					"maxclass" : "slider",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 372.127716, 312.090912, 20.0, 140.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 222.308411, 492.0, 20.0, 140.0 ],
+					"size" : 160.0
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bgcolor" : [ 0.633189, 0.189589, 0.666667, 1.0 ],
+					"id" : "obj-87",
+					"interp" : 93.0,
+					"maxclass" : "gain~",
+					"numinlets" : 2,
+					"numoutlets" : 2,
+					"outlettype" : [ "signal", "int" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 459.5, 328.0, 22.0, 140.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 188.808411, 492.0, 22.0, 140.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bgcolor" : [ 0.666667, 0.431575, 0.389397, 1.0 ],
+					"id" : "obj-88",
+					"maxclass" : "gain~",
+					"numinlets" : 2,
+					"numoutlets" : 2,
+					"outlettype" : [ "signal", "int" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 428.0, 328.0, 22.0, 140.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 157.308411, 492.0, 22.0, 140.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"frgb" : 0.0,
+					"id" : "obj-83",
+					"linecount" : 2,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 405.127716, 255.5, 150.0, 33.0 ],
+					"presentation" : 1,
+					"presentation_linecount" : 3,
+					"presentation_rect" : [ 140.5, 432.5, 121.0, 47.0 ],
+					"text" : "shakers - bang with 5 / beat with 6 / drunk with 78"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fgcolor" : [ 0.0, 0.670148, 1.0, 1.0 ],
+					"id" : "obj-84",
+					"maxclass" : "button",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "bang" ],
+					"patching_rect" : [ 344.25, 255.5, 20.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 191.0, 399.0, 20.0, 20.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-85",
+					"maxclass" : "newobj",
+					"numinlets" : 8,
+					"numoutlets" : 3,
+					"outlettype" : [ "signal", "signal", "" ],
+					"patching_rect" : [ 394.0, 286.090912, 113.5, 20.0 ],
+					"save" : [ "#N", "rtcmix~", 2, 6, ";", "#X", "restore", 0, 393, 393, "\r\nsrand()\r\n\r\nstart = 0\r\ndur = irand(0.15, 0.75)\r\namp = 24000\r\ninstrument = pickrand(0, 3, 4, 6, 7, 9, 11, 12, 22)\r\npan = random()\r\n\r\nenergy = makeconnection(\"inlet\", 1, 0.9)\r\ndecay = makeconnection(\"inlet\", 2, 0.8)\r\nobjectNumber = makeconnection(\"inlet\", 3, 0.5)\r\nresonance = makeconnection(\"inlet\", 4, 0.7)\r\n\r\nMSHAKERS(start, dur, amp, energy, decay, objectNumber, resonance, instrument, pan)", ";" ],
+					"text" : "rtcmix~ 2 6"
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
@@ -72,7 +524,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 331.0, 61.0, 150.0, 20.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 264.0, 61.0, 150.0, 20.0 ],
+					"presentation_rect" : [ 428.999939, 452.0, 150.0, 20.0 ],
 					"text" : "volume, lowpass"
 				}
 
@@ -509,7 +961,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 489.744568, 249.090912, 20.0, 140.0 ],
+					"patching_rect" : [ 603.0, 259.090912, 20.0, 140.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 715.5, 339.0, 20.0, 140.0 ],
 					"size" : 160.0
@@ -771,7 +1223,7 @@
 					"numoutlets" : 3,
 					"outlettype" : [ "signal", "signal", "" ],
 					"patching_rect" : [ 1083.0, 369.090912, 73.0, 20.0 ],
-					"save" : [ "#N", "rtcmix~", 2, 3, ";", "#X", "restore", 0, 970, 970, "// brass band boogie\r\n// MBRASS(outsk, dur, AMP, FREQ, SLIDELEN, LIPFILT, maxpressure[, PAN, BREATHENV])\r\n// GVERB(outsk, insk, dur, AMP, ROOMSIZE, RVBTIME, DAMPING, BANDWIDTH, DRYLEVEL, EARLYREFLECT, RVBTAIL, RINGDOWN[, INCHAN])\r\n\r\nbus_config(\"MBRASS\", \"aux 0-1 out\")\r\nbus_config(\"GVERB\", \"aux 0-1 in\", \"out 0-1\")\r\n\r\nsrand()\r\n\r\n// set up the pitch knob\r\npitchinlet = makeconnection(\"inlet\", 1, 120)\r\nslideinlet = makeconnection(\"inlet\", 2, 50) // 10 -> 270\r\nlipinlet = makeconnection(\"inlet\", 3, 340) // should go 140 -> 940\r\n\r\n// generate a bunch of pockets of brass\r\nstart = 0\r\nhop = 0.35\r\nnoises = 2500\r\nfor (i = 0; i < noises; i = i + 1) {\r\n\tamp = irand(1500, 16000)\r\n\tpan = random()\r\n\tdur = irand(0.2, 2.0)\r\n\tpressure = irand(0.05, 0.65)\r\n\tpan = random()\r\n\r\n\tMBRASS(start, dur, amp, pitchinlet, slideinlet, lipinlet, pressure, pan)\r\n\tstart = start + hop\r\n}\r\n\r\n// gverb everything\r\nGVERB(0, 0, start, 1.0, 250, 12.0, 0.5, 0.5, -10, -1, -1.0, 0, 0)\r\n\r\nMAXBANG(start)", ";" ],
+					"save" : [ "#N", "rtcmix~", 2, 3, ";", "#X", "restore", 0, 970, 970, "// brass band boogie\r\n// MBRASS(outsk, dur, AMP, FREQ, SLIDELEN, LIPFILT, maxpressure[, PAN, BREATHENV])\r\n// GVERB(outsk, insk, dur, AMP, ROOMSIZE, RVBTIME, DAMPING, BANDWIDTH, DRYLEVEL, EARLYREFLECT, RVBTAIL, RINGDOWN[, INCHAN])\r\n\r\nbus_config(\"MBRASS\", \"aux 0-1 out\")\r\nbus_config(\"GVERB\", \"aux 0-1 in\", \"out 0-1\")\r\n\r\nsrand()\r\n\r\n// set up the pitch knob\r\npitchinlet = makeconnection(\"inlet\", 1, 120)\r\nslideinlet = makeconnection(\"inlet\", 2, 50) // 10 -> 270\r\nlipinlet = makeconnection(\"inlet\", 3, 340) // should go 140 -> 940\r\n\r\n// generate a bunch of pockets of brass\r\nstart = 0\r\nhop = 0.35\r\nnoises = 2500\r\nfor (i = 0; i < noises; i = i + 1) {\r\n\tamp = irand(2400, 19000)\r\n\tpan = random()\r\n\tdur = irand(0.2, 2.0)\r\n\tpressure = irand(0.05, 0.65)\r\n\tpan = random()\r\n\r\n\tMBRASS(start, dur, amp, pitchinlet, slideinlet, lipinlet, pressure, pan)\r\n\tstart = start + hop\r\n}\r\n\r\n// gverb everything\r\nGVERB(0, 0, start, 1.0, 250, 12.0, 0.5, 0.5, -10, -1, -1.0, 0, 0)\r\n\r\nMAXBANG(start)", ";" ],
 					"text" : "rtcmix~ 2 3"
 				}
 
@@ -917,7 +1369,7 @@
 					"numoutlets" : 3,
 					"outlettype" : [ "signal", "signal", "" ],
 					"patching_rect" : [ 868.0, 273.090912, 73.0, 20.0 ],
-					"save" : [ "#N", "rtcmix~", 2, 3, ";", "#X", "restore", 0, 1097, 1097, "\r\n// CLAR(outsk, dur, noiseamp, length1 (samples), length2 (samples), outputamp, d2gain[, pan])\r\n// DECIMATE(outsk, insk, dur, PREAMP, POSTAMP, NBITS[, LOWPASSFREQ, inputchan, PAN])\r\n\r\nbus_config(\"MCLAR\", \"aux 0-1 out\")\r\nbus_config(\"DECIMATE\", \"aux 0-1 in\", \"out 0-1\")\r\n\r\nsrand()\r\n\r\nfreqinlet = makeconnection(\"inlet\", 1, 160)\r\npressureinlet = makeconnection(\"inlet\", 2, 0.5)\r\nstiffnessinlet = makeconnection(\"inlet\", 3, 0.5)\r\n\r\n// generate clarinet sounds\r\nstart = 0\r\nhop = 0.33\r\nnoises = 1000\r\nfor (i = 0; i < noises; i = i + 1) {\r\n\tdur = irand(0.3, 4.0)\r\n\r\n\tnoiseamp = irand(0.32, 0.92)\r\n\r\n\tamp = 18000\r\n\tpan = random()\r\n\r\n\tMCLAR(start, dur, amp, freqinlet, noiseamp, pressureinlet, stiffnessinlet, pan)\r\n\tstart = start + hop\r\n}\r\n\r\n// DECIMATE THE CLARINET\r\ndec_start = 0\r\nwhile (dec_start < start) {\r\n\tdec_hop = irand(hop / 2, hop * 1.5)\r\n\r\n\tbits = 16\r\n\tcutoff = 6666\r\n\r\n\tif (random() < 0.64) {\r\n\t\tbits = trand(1, 4)\r\n    }\t\r\n\r\n\tif (random() < 0.5) {\r\n\t\tcutoff = irand(100, 1000)\r\n    }\r\n\r\n\tDECIMATE(dec_start, 0, dec_hop, 1.0, 1.0, bits, cutoff)\r\n\t\r\n\tdec_start += dec_hop\r\n}\r\n\r\nMAXBANG(start)", ";" ],
+					"save" : [ "#N", "rtcmix~", 2, 3, ";", "#X", "restore", 0, 1097, 1097, "\r\n// CLAR(outsk, dur, noiseamp, length1 (samples), length2 (samples), outputamp, d2gain[, pan])\r\n// DECIMATE(outsk, insk, dur, PREAMP, POSTAMP, NBITS[, LOWPASSFREQ, inputchan, PAN])\r\n\r\nbus_config(\"MCLAR\", \"aux 0-1 out\")\r\nbus_config(\"DECIMATE\", \"aux 0-1 in\", \"out 0-1\")\r\n\r\nsrand()\r\n\r\nfreqinlet = makeconnection(\"inlet\", 1, 160)\r\npressureinlet = makeconnection(\"inlet\", 2, 0.5)\r\nstiffnessinlet = makeconnection(\"inlet\", 3, 0.5)\r\n\r\n// generate clarinet sounds\r\nstart = 0\r\nhop = 0.33\r\nnoises = 1000\r\nfor (i = 0; i < noises; i = i + 1) {\r\n\tdur = irand(0.3, 4.0)\r\n\r\n\tnoiseamp = irand(0.32, 0.92)\r\n\r\n\tamp = 24000\r\n\tpan = random()\r\n\r\n\tMCLAR(start, dur, amp, freqinlet, noiseamp, pressureinlet, stiffnessinlet, pan)\r\n\tstart = start + hop\r\n}\r\n\r\n// DECIMATE THE CLARINET\r\ndec_start = 0\r\nwhile (dec_start < start) {\r\n\tdec_hop = irand(hop / 2, hop * 1.5)\r\n\r\n\tbits = 16\r\n\tcutoff = 6666\r\n\r\n\tif (random() < 0.64) {\r\n\t\tbits = trand(1, 4)\r\n    }\t\r\n\r\n\tif (random() < 0.5) {\r\n\t\tcutoff = irand(100, 1000)\r\n    }\r\n\r\n\tDECIMATE(dec_start, 0, dec_hop, 1.0, 1.0, bits, cutoff)\r\n\t\r\n\tdec_start += dec_hop\r\n}\r\n\r\nMAXBANG(start)", ";" ],
 					"text" : "rtcmix~ 2 3"
 				}
 
@@ -1032,7 +1484,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 300.0, 717.0, 150.0, 20.0 ],
+					"patching_rect" : [ 588.0, 749.0, 150.0, 20.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 289.0, 612.0, 150.0, 20.0 ],
 					"text" : "start musics with s"
@@ -1048,7 +1500,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 300.0, 678.0, 34.0, 18.0 ],
+					"patching_rect" : [ 588.0, 710.0, 34.0, 18.0 ],
 					"text" : "start"
 				}
 
@@ -1164,11 +1616,11 @@
 					"fontsize" : 12.0,
 					"id" : "obj-11",
 					"maxclass" : "newobj",
-					"numinlets" : 6,
-					"numoutlets" : 6,
-					"outlettype" : [ "bang", "bang", "bang", "bang", "bang", "" ],
-					"patching_rect" : [ 55.75, 424.0, 131.0, 20.0 ],
-					"text" : "select 115 49 50 51 52"
+					"numinlets" : 10,
+					"numoutlets" : 10,
+					"outlettype" : [ "bang", "bang", "bang", "bang", "bang", "bang", "bang", "bang", "bang", "" ],
+					"patching_rect" : [ 55.75, 424.0, 198.0, 20.0 ],
+					"text" : "select 115 49 50 51 52 53 54 55 56"
 				}
 
 			}
@@ -1252,7 +1704,7 @@
 					"maxclass" : "ezdac~",
 					"numinlets" : 2,
 					"numoutlets" : 0,
-					"patching_rect" : [ 462.5, 672.0, 45.0, 45.0 ],
+					"patching_rect" : [ 750.5, 704.0, 45.0, 45.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 289.0, 560.0, 45.0, 45.0 ]
 				}
@@ -1268,7 +1720,7 @@
 					"numoutlets" : 3,
 					"outlettype" : [ "signal", "signal", "" ],
 					"patching_rect" : [ 273.0, 180.090912, 70.0, 20.0 ],
-					"save" : [ "#N", "rtcmix~", 2, 2, ";", "#X", "restore", 0, 1157, 1157, "// this is the noise generator\r\n\r\n// the noise function prototype: NOISE(time, dur, amp, pan)\r\n// distortion function prototype: DISTORTION(outsk, insk, dur, amp, type, preamp, lowpass)\r\n\r\nbus_config(\"NOISE\", \"aux 0-1 out\")\r\nbus_config(\"DISTORT\", \"aux 0-1 in\", \"aux 2-3 out\")\r\nbus_config(\"TRANS\", \"aux 2-3 in\", \"out 0-1\")\r\n\r\nsrand()\r\n\r\nampinlet = makeconnection(\"inlet\", 1, 2.0)\r\nlowpassinlet = makeconnection(\"inlet\", 2, 1800)\r\n\r\n// generate a bunch of pockets of random noise and spit them into a bus\r\nstart = 0\r\nhop = 0.19\r\nnoises = 10000\r\nfor (i = 0; i < noises; i = i + 1) {\r\n\tamp = irand(2000, 24000)\r\n\tpan = random()\r\n\tduration = irand(0.19, 0.27)\r\n\r\n\tNOISE(start, duration, amp, pan)\r\n\tstart = start + hop\r\n}\r\n\r\n// distort the noise packets and send 'em through a low pass filter\r\nDISTORT(0, 0, start, 1.0, 2, 2.0, lowpassinlet)\r\n\r\n// pitch shift the distorted noise at intervals faster than the noise was generated\r\ntrans_start = 0\r\nwhile (trans_start < start) {\r\n\ttrans_hop = irand(hop / 4, hop / 1.7)\r\n\r\n\ttrans = irand(-0.3, 0.2)\r\n\r\n\tTRANS(trans_start, 0, trans_hop, ampinlet, trans)\r\n\r\n\ttrans_start = trans_start + trans_hop\r\n}\r\n\r\nMAXBANG(start)", ";" ],
+					"save" : [ "#N", "rtcmix~", 2, 2, ";", "#X", "restore", 0, 1157, 1157, "// this is the noise generator\r\n\r\n// the noise function prototype: NOISE(time, dur, amp, pan)\r\n// distortion function prototype: DISTORTION(outsk, insk, dur, amp, type, preamp, lowpass)\r\n\r\nbus_config(\"NOISE\", \"aux 0-1 out\")\r\nbus_config(\"DISTORT\", \"aux 0-1 in\", \"aux 2-3 out\")\r\nbus_config(\"TRANS\", \"aux 2-3 in\", \"out 0-1\")\r\n\r\nsrand()\r\n\r\nampinlet = makeconnection(\"inlet\", 1, 2.0)\r\nlowpassinlet = makeconnection(\"inlet\", 2, 1800)\r\n\r\n// generate a bunch of pockets of random noise and spit them into a bus\r\nstart = 0\r\nhop = 0.19\r\nnoises = 10000\r\nfor (i = 0; i < noises; i = i + 1) {\r\n\tamp = irand(4000, 30000)\r\n\tpan = random()\r\n\tduration = irand(0.19, 0.27)\r\n\r\n\tNOISE(start, duration, amp, pan)\r\n\tstart = start + hop\r\n}\r\n\r\n// distort the noise packets and send 'em through a low pass filter\r\nDISTORT(0, 0, start, 1.0, 2, 2.0, lowpassinlet)\r\n\r\n// pitch shift the distorted noise at intervals faster than the noise was generated\r\ntrans_start = 0\r\nwhile (trans_start < start) {\r\n\ttrans_hop = irand(hop / 4, hop / 1.7)\r\n\r\n\ttrans = irand(-0.3, 0.2)\r\n\r\n\tTRANS(trans_start, 0, trans_hop, ampinlet, trans)\r\n\r\n\ttrans_start = trans_start + trans_hop\r\n}\r\n\r\nMAXBANG(start)", ";" ],
 					"text" : "rtcmix~ 2 2"
 				}
 
@@ -1294,10 +1746,113 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-101", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-100", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-77", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"midpoints" : [ 290.5, 693.0, 258.0, 693.0, 258.0, 633.0, 6.0, 633.0, 6.0, 669.0, 33.627716, 669.0 ],
+					"source" : [ "obj-101", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-103", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-102", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-84", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"midpoints" : [ 305.0, 759.0, 267.0, 759.0, 267.0, 513.0, 330.0, 513.0, 330.0, 252.0, 353.75, 252.0 ],
+					"source" : [ "obj-103", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-103", 1 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-105", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-97", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-106", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-108", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-107", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-109", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-108", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-106", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-109", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-10", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-11", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-102", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"midpoints" : [ 184.583328, 633.0, 267.0, 633.0, 267.0, 696.0, 305.0, 696.0 ],
+					"source" : [ "obj-11", 6 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-107", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"midpoints" : [ 224.361115, 624.0, 519.0, 624.0, 519.0, 753.0, 497.872284, 753.0 ],
+					"source" : [ "obj-11", 8 ]
 				}
 
 			}
@@ -1316,7 +1871,7 @@
 					"destination" : [ "obj-23", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 132.449997, 519.0, 833.5, 519.0 ],
+					"midpoints" : [ 124.916664, 519.0, 833.5, 519.0 ],
 					"source" : [ "obj-11", 3 ]
 				}
 
@@ -1364,6 +1919,7 @@
 					"destination" : [ "obj-52", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
+					"midpoints" : [ 105.027779, 462.5, 612.5, 462.5 ],
 					"source" : [ "obj-11", 2 ]
 				}
 
@@ -1373,7 +1929,7 @@
 					"destination" : [ "obj-62", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 154.850006, 645.0, 1048.5, 645.0 ],
+					"midpoints" : [ 144.805557, 645.0, 1048.5, 645.0 ],
 					"source" : [ "obj-11", 4 ]
 				}
 
@@ -1383,8 +1939,44 @@
 					"destination" : [ "obj-66", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 65.25, 456.0, 848.0, 456.0, 848.0, 327.0, 1054.5, 327.0 ],
+					"midpoints" : [ 65.25, 459.0, 414.0, 459.0, 414.0, 480.0, 588.0, 480.0, 588.0, 456.0, 849.0, 456.0, 849.0, 327.0, 1054.5, 327.0 ],
 					"source" : [ "obj-11", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-84", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-11", 5 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-98", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-11", 7 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-100", 2 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-110", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-109", 2 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-111", 0 ]
 				}
 
 			}
@@ -2029,6 +2621,15 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-91", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-77", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-71", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
@@ -2074,6 +2675,69 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-85", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-84", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-87", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-85", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-88", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-85", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-87", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-86", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-88", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-86", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-3", 1 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-87", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-3", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-88", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-15", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
@@ -2087,6 +2751,91 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-9", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-85", 2 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"midpoints" : [ 204.690079, 693.0, 273.0, 693.0, 273.0, 513.0, 357.0, 513.0, 357.0, 285.0, 390.0, 285.0, 390.0, 282.0, 430.5, 282.0 ],
+					"source" : [ "obj-91", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-85", 3 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"midpoints" : [ 204.690079, 717.0, 273.0, 717.0, 273.0, 513.0, 357.0, 513.0, 357.0, 285.0, 390.0, 285.0, 390.0, 282.0, 444.0, 282.0 ],
+					"source" : [ "obj-92", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-92", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-93", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-85", 4 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"midpoints" : [ 204.690079, 747.0, 273.0, 747.0, 273.0, 513.0, 357.0, 513.0, 357.0, 285.0, 390.0, 285.0, 390.0, 282.0, 457.5, 282.0 ],
+					"source" : [ "obj-94", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-94", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-95", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-85", 5 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"midpoints" : [ 204.690079, 786.0, 273.0, 786.0, 273.0, 513.0, 357.0, 513.0, 357.0, 285.0, 390.0, 285.0, 390.0, 282.0, 471.0, 282.0 ],
+					"source" : [ "obj-96", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-96", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-97", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-99", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-98", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-100", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-99", 0 ]
 				}
 
 			}
