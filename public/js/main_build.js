@@ -949,8 +949,16 @@ function head1(position) {
       var mag = totalMagnitude(positionChange);
 
       if (mag > BIG_HEAD_MAG) {
+        if (eventsWithRapidHeadVelocity.one == 0) {
+          socket.emit('startSwell', 1);
+        }
+
         eventsWithRapidHeadVelocity.one = Math.min(eventsWithRapidHeadVelocity.one + 1, MAX_HEAD_SWELL);
       } else {
+        if (eventsWithRapidHeadVelocity.one == 1) {
+          socket.emit('endSwell', 1);
+        }
+
         eventsWithRapidHeadVelocity.one = Math.max(eventsWithRapidHeadVelocity.one - 1, 0);
       }
 
@@ -1051,8 +1059,16 @@ function head2(position) {
       var mag = totalMagnitude(positionChange);
 
       if (mag > BIG_HEAD_MAG) {
+        if (eventsWithRapidHeadVelocity.two == 0) {
+          socket.emit('startSwell', 2);
+        }
+
         eventsWithRapidHeadVelocity.two = Math.min(eventsWithRapidHeadVelocity.two + 1, MAX_HEAD_SWELL);
       } else {
+        if (eventsWithRapidHeadVelocity.two == 1) {
+          socket.emit('endSwell', 2);
+        }
+
         eventsWithRapidHeadVelocity.two = Math.max(eventsWithRapidHeadVelocity.two - 1, 0);
       }
 
