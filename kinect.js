@@ -40,12 +40,40 @@ io.on('connection', function(socket) {
     maxer.endSwell(player);
   });
 
+  socket.on('startKnees', function(player) {
+    maxer.startKnees(player);
+  });
+
+  socket.on('endKnees', function(player) {
+    maxer.endKnees(player);
+  });
+
+  socket.on('startElbowRotUp', function(player) {
+    maxer.startElbowRotUp(player);
+  });
+
+  socket.on('startElbowRotDown', function(player) {
+    maxer.startElbowRotDown(player);
+  });
+
+  socket.on('endElbowRotUp', function(player) {
+    maxer.endElbowRotUp(player);
+  });
+
+  socket.on('endElbowRotDown', function(player) {
+    maxer.endElbowRotDown(player);
+  });
+
+  socket.on('handDelta', function(player, mag) {
+    maxer.handDelta(player, mag);
+  });
+
    /**
     * STUFF FOR SENDING TO BROWSER
     */
 
 
-  
+
 
   if (!forwarderSocket) {
     console.log('setting forwarder');

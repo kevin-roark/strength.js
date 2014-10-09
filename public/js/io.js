@@ -26,6 +26,10 @@ var eventsWithRapidHeadVelocity = {one: 0, two: 0};
 var startDate = new Date();
 var meltingHistory = {one: {meltEndTime: startDate, meltStartTime: startDate}, two: {meltEndTime: startDate, meltStartTime: startDate}};
 
+var kneeHistory = {one: {rotating: false}, two: {rotating: false}};
+
+var elbowHistory = {one: {rotUp: false, rotDown: false}, two: {rotUp: false, rotDown: false}};
+
 var BIG_HEAD_MAG = 15;
 var MAX_HEAD_SWELL = 500;
 var TORSO_CLOSE_MAG = 11;
@@ -396,6 +400,8 @@ function hand1DeltaAction(positionDelta) {
       wrestler1.cancelMelt(true);
     }
   }
+
+  socket.emit('handDelta', 1, mag);
 }
 
 function hand2DeltaAction(positionDelta) {
@@ -418,13 +424,25 @@ function hand2DeltaAction(positionDelta) {
       wrestler2.cancelMelt(true);
     }
   }
+
+  socket.emit('handDelta', 2, mag);
 }
 
 function knee1DeltaAction(positionDelta) {
   var mag = totalMagnitude(positionDelta);
 
   if (mag < CLOSE_KNEE_MAG) {
+    if (!kneeHistory.one.rotating) {
+      socket.emit('startKnees', 1);
+      kneeHistory.one.rotating = true;
+    }
+
     wrestler1.rotate(0, 0.1, 0);
+  } else {
+    if (kneeHistory.one.rotating) {
+      socket.emit('endKnees', 1);
+      kneeHistory.one.rotating = false;
+    }
   }
 }
 
@@ -432,7 +450,17 @@ function knee2DeltaAction(positionDelta) {
   var mag = totalMagnitude(positionDelta);
 
   if (mag < CLOSE_KNEE_MAG) {
+    if (!kneeHistory.two.rotating) {
+      socket.emit('startKnees', 2);
+      kneeHistory.two.rotating = true;
+    }
+
     wrestler2.rotate(0, -0.1, 0);
+  } else {
+    if (kneeHistory.two.rotating) {
+      socket.emit('endKnees', 2);
+      kneeHistory.two.rotating = false;
+    }
   }
 }
 
@@ -442,12 +470,30 @@ function elbow1DeltaAction(positionDelta) {
   if (mag > FAR_ELBOW_MAG && handsBetweenElbows(1)) {
     if (previousPositions.rightHand1.y < previousPositions.rightElbow1.y - 10 &&
         previousPositions.leftHand1.y > previousPositions.leftElbow1.y + 10) {
-      wrestler1.rotate(0.08, 0, 0);
+          if (!elbowHistory.one.rotUp) {
+            elbowHistory.one.rotUp = true;
+            socket.emit('startElbowRotUp', 1);
+          }
+
+          wrestler1.rotate(0.08, 0, 0);
+    } else {
+      checkPlayer1ElbowNonRot(true, false);
     }
-    else if (previousPositions.rightHand1.y > previousPositions.rightElbow1.y + 10 &&
+
+    if (previousPositions.rightHand1.y > previousPositions.rightElbow1.y + 10 &&
              previousPositions.leftHand1.y < previousPositions.leftElbow1.y - 10) {
-      wrestler1.rotate(-0.08, 0, 0);
+
+          if (!elbowHistory.one.rotDown) {
+            elbowHistory.one.rotDown = true;
+            socket.emit('startElbowRotDown', 1);
+          }
+
+          wrestler1.rotate(-0.08, 0, 0);
+    } else {
+      checkPlayer1ElbowNonRot(false, true);
     }
+  } else {
+    checkPlayer1ElbowNonRot(true, true);
   }
 
   previousPositionDeltas.elbow1 = positionDelta;
@@ -457,17 +503,59 @@ function elbow2DeltaAction(positionDelta) {
   var mag = totalMagnitude(positionDelta);
 
   if (mag > FAR_ELBOW_MAG && handsBetweenElbows(2)) {
-    if (previousPositions.rightHand1.y < previousPositions.rightElbow1.y - 10 &&
-        previousPositions.leftHand1.y > previousPositions.leftElbow1.y + 10) {
-      wrestler2.rotate(-0.08, 0, 0);
+    if (previousPositions.rightHand2.y < previousPositions.rightElbow2.y - 10 &&
+        previousPositions.leftHand2.y > previousPositions.leftElbow2.y + 10) {
+          if (!elbowHistory.two.rotUp) {
+            elbowHistory.two.rotUp = true;
+            socket.emit('startElbowRotUp', 2);
+          }
+
+          wrestler2.rotate(-0.08, 0, 0);
+    } else {
+      checkPlayer2ElbowNonRot(true, false);
     }
-    else if (previousPositions.rightHand1.y > previousPositions.rightElbow1.y + 10 &&
-             previousPositions.leftHand1.y < previousPositions.leftElbow1.y - 10) {
-      wrestler2.rotate(0.08, 0, 0);
+
+    if (previousPositions.rightHand2.y > previousPositions.rightElbow2.y + 10 &&
+             previousPositions.leftHand2.y < previousPositions.leftElbow2.y - 10) {
+
+          if (!elbowHistory.two.rotDown) {
+            elbowHistory.two.rotDown = true;
+            socket.emit('startElbowRotDown', 2);
+          }
+
+          wrestler2.rotate(0.08, 0, 0);
+    } else {
+      checkPlayer2ElbowNonRot(false, true);
     }
+  } else {
+    checkPlayer2ElbowNonRot(true, true);
   }
 
   previousPositionDeltas.elbow2 = positionDelta;
+}
+
+function checkPlayer1ElbowNonRot(rotUp, rotDown) {
+  if (rotUp && elbowHistory.one.rotUp) {
+    elbowHistory.one.rotUp = false;
+    socket.emit('endElbowRotUp', 1);
+  }
+
+  if (rotDown && elbowHistory.one.rotDown) {
+    elbowHistory.one.rotDown = false;
+    socket.emit('endElbowRotDown', 1);
+  }
+}
+
+function checkPlayer2ElbowNonRot(rotUp, rotDown) {
+  if (rotUp && elbowHistory.two.rotUp) {
+    elbowHistory.two.rotUp = false;
+    socket.emit('endElbowRotUp', 2);
+  }
+
+  if (rotDown && elbowHistory.two.rotDown) {
+    elbowHistory.two.rotDown = false;
+    socket.emit('endElbowRotDown', 2);
+  }
 }
 
 function handsBetweenElbows(playerNum) {
