@@ -30,13 +30,26 @@
 				"box" : 				{
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
+					"id" : "obj-7",
+					"linecount" : 4,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 56.0, 279.0, 172.0, 62.0 ],
+					"text" : "1 - BLANK --> is that you? (5)\n2 - emergency facebooks\n3 - breathing\n4 - DMTF"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
 					"id" : "obj-2",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "bang", "" ],
 					"patching_rect" : [ 456.5, 132.0, 32.5, 20.0 ],
-					"presentation_rect" : [ 456.5, 131.0, 0.0, 0.0 ],
 					"text" : "t b l"
 				}
 
@@ -54,7 +67,6 @@
 					"outlettype" : [ "int", "bang" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 456.5, 100.0, 50.0, 21.0 ],
-					"presentation_rect" : [ 456.5, 99.0, 0.0, 0.0 ],
 					"varname" : "number[1]"
 				}
 
@@ -69,7 +81,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 408.0, 172.0, 112.5, 21.0 ],
-					"presentation_rect" : [ 408.0, 171.0, 0.0, 0.0 ],
 					"text" : "pack open 0"
 				}
 
@@ -142,7 +153,7 @@
 					"numoutlets" : 2,
 					"outlettype" : [ "signal", "signal" ],
 					"patching_rect" : [ 165.0, 214.0, 113.0, 20.0 ],
-					"text" : "poly~ multi_fucks 3"
+					"text" : "poly~ multi_fucks 4"
 				}
 
 			}
@@ -221,33 +232,38 @@
 			}
  ],
 		"parameters" : 		{
+			"obj-1.4::obj-43" : [ "live.gain~[27]", "live.gain~", 0 ],
 			"obj-5.1::obj-55" : [ "live.gain~[17]", "live.gain~[3]", 0 ],
-			"obj-1.2::obj-33" : [ "live.gain~[9]", "live.gain~", 0 ],
 			"obj-5.3::obj-55" : [ "live.gain~[23]", "live.gain~[3]", 0 ],
+			"obj-1.2::obj-33" : [ "live.gain~[9]", "live.gain~", 0 ],
 			"obj-1.3::obj-242" : [ "live.gain~[12]", "live.gain~", 0 ],
-			"obj-1.1::obj-242" : [ "live.gain~[5]", "live.gain~", 0 ],
 			"obj-5.3::obj-53" : [ "live.gain~[25]", "live.gain~[1]", 0 ],
+			"obj-1.1::obj-242" : [ "live.gain~[5]", "live.gain~", 0 ],
 			"obj-1.1::obj-30" : [ "live.gain~", "live.gain~", 0 ],
+			"obj-1.4::obj-33" : [ "live.gain~[29]", "live.gain~", 0 ],
 			"obj-5.1::obj-54" : [ "live.gain~[16]", "live.gain~[1]", 0 ],
 			"obj-1.2::obj-43" : [ "live.gain~[10]", "live.gain~", 0 ],
 			"obj-1.1::obj-38" : [ "live.gain~[2]", "live.gain~[2]", 0 ],
 			"obj-1.3::obj-33" : [ "live.gain~[15]", "live.gain~", 0 ],
 			"obj-1.1::obj-43" : [ "live.gain~[3]", "live.gain~", 0 ],
+			"obj-1.4::obj-242" : [ "live.gain~[31]", "live.gain~", 0 ],
 			"obj-5.2::obj-52" : [ "live.gain~[22]", "live.gain~", 0 ],
 			"obj-1.2::obj-30" : [ "live.gain~[7]", "live.gain~", 0 ],
 			"obj-1.3::obj-43" : [ "live.gain~[11]", "live.gain~", 0 ],
-			"obj-1.1::obj-33" : [ "live.gain~[4]", "live.gain~", 0 ],
 			"obj-5.3::obj-54" : [ "live.gain~[24]", "live.gain~[1]", 0 ],
+			"obj-1.1::obj-33" : [ "live.gain~[4]", "live.gain~", 0 ],
 			"obj-5.3::obj-52" : [ "live.gain~[26]", "live.gain~", 0 ],
+			"obj-1.4::obj-30" : [ "live.gain~[30]", "live.gain~", 0 ],
 			"obj-5.2::obj-53" : [ "live.gain~[21]", "live.gain~[1]", 0 ],
 			"obj-5.2::obj-55" : [ "live.gain~[19]", "live.gain~[3]", 0 ],
 			"obj-1.2::obj-38" : [ "live.gain~[6]", "live.gain~[2]", 0 ],
 			"obj-1.3::obj-30" : [ "live.gain~[13]", "live.gain~", 0 ],
+			"obj-1.4::obj-38" : [ "live.gain~[28]", "live.gain~[2]", 0 ],
 			"obj-5.2::obj-54" : [ "live.gain~[20]", "live.gain~[1]", 0 ],
 			"obj-5.1::obj-52" : [ "live.gain~[18]", "live.gain~", 0 ],
 			"obj-1.2::obj-242" : [ "live.gain~[8]", "live.gain~", 0 ],
-			"obj-1.3::obj-38" : [ "live.gain~[14]", "live.gain~[2]", 0 ],
-			"obj-5.1::obj-53" : [ "live.gain~[1]", "live.gain~[1]", 0 ]
+			"obj-5.1::obj-53" : [ "live.gain~[1]", "live.gain~[1]", 0 ],
+			"obj-1.3::obj-38" : [ "live.gain~[14]", "live.gain~[2]", 0 ]
 		}
 ,
 		"dependency_cache" : [ 			{
