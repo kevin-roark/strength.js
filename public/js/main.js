@@ -83,6 +83,10 @@ $(function() {
       else if (ev.which == 122) { // z
         active.camera = !active.camera;
       }
+      else if (ev.which == 120) { // x
+        kevinWrestler.melting = !kevinWrestler.melting;
+        dylanWrestler.melting = !dylanWrestler.melting;
+      }
     });
   }
 
@@ -91,7 +95,9 @@ $(function() {
 
     if (active.wrestlers) {
       // render the wrestlers
-      for (var i = 0; i < wrestlers.count; i++) wrestlers[i].render();
+      wrestlers.forEach(function(wrestler) {
+        wrestler.render();
+      });
     }
 
     if (active.character) {

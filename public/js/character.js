@@ -97,6 +97,8 @@ Character.prototype.scaleMultiply = function(s) {
 }
 
 Character.prototype.reset = function() {
+  this.melting = false;
+
   this.bodyParts.forEach(function(part) {
     part.reset();
   });
@@ -105,6 +107,14 @@ Character.prototype.reset = function() {
 Character.prototype.swell = function(s) {
   this.bodyParts.forEach(function(part) {
     part.swell(s);
+  });
+}
+
+Character.prototype.cancelMelt = function(pleaseWait) {
+  this.melting = false;
+
+  this.bodyParts.forEach(function(part) {
+    part.cancelMelt(pleaseWait);
   });
 }
 
@@ -143,13 +153,15 @@ Character.prototype.discombobulate = function(callback1) {
         part.move(delta.x, delta.y, delta.z);
       }
 
-      if (++spreadCount < 250) setTimeout(spreadThem, kt.randInt(15, 30));
+      if (++spreadCount < 250) setTimeout(spreadThem, kt.randInt(30, 15));
     }
 
   }
 }
 
 Character.prototype.render = function() {
+  var self = this;
+
   if (this.twitching) {
     var x = (Math.random() - 0.5) * 2;
     var y = 0;
@@ -162,9 +174,10 @@ Character.prototype.render = function() {
     this.rotate(rx, ry, rz);
   }
 
-  if (this.melting) {
-    // perform some bone shaking
-  }
+  this.bodyParts.forEach(function(part) {
+    part.melting = self.melting;
+    part.render();
+  });
 }
 
 function posNegRandom() {

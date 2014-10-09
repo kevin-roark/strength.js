@@ -37,7 +37,6 @@ Character.prototype.addTo = function(scene) {
     self.bodyMesh.scale.set(self.scale, self.scale, self.scale);
 
     self.verts = geometry.vertices;
-
     self.vertexStack = {};
     self.lastVertexModified = -1;
     self.maxMelt = 50;
@@ -100,7 +99,7 @@ Character.prototype.render = function() {
     var v = this.verts;
 
     // LOL U SHOULD MAKE ANOTEHR ARRAY OF VERTICES FROM 0-1000* THING THEN POP ENTRIES OF THAT!!
-    
+
 
     if (this.meltUp) {
       for (var i = this.startI; i < v.length; i += this.step) {

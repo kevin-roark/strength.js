@@ -23,6 +23,9 @@ var previousPositionDeltas = {};
 
 var eventsWithRapidHeadVelocity = {one: 0, two: 0};
 
+var startDate = new Date();
+var meltingHistory = {one: {meltEndTime: startDate, meltStartTime: startDate}, two: {meltEndTime: startDate, meltStartTime: startDate}};
+
 var BIG_HEAD_MAG = 15;
 var MAX_HEAD_SWELL = 500;
 var TORSO_CLOSE_MAG = 11;
@@ -31,6 +34,8 @@ var CLOSE_KNEE_MAG = 60;
 var CLOSE_ELBOW_MAG = 60;
 var FAR_ELBOW_MAG = 300;
 var RIDICULOUS_ELBOW_MAG = 600;
+
+var CLOSE_HANDS_MAG = 100;
 
 var wrestler1, wrestler2, camera, light;
 
@@ -356,11 +361,47 @@ function torso2(position) {
 }
 
 function hand1DeltaAction(positionDelta) {
+  var mag = totalMagnitude(positionDelta);
+  var date = new Date();
 
+  if (mag < CLOSE_HANDS_MAG) {
+    if (!meltingHistory.one.melting && date - meltingHistory.one.meltEndTime > 1500) {
+      meltingHistory.one.melting = true;
+      meltingHistory.one.meltStartTime = new Date();
+      wrestler1.melting = true;
+    }
+
+    var intensity = (CLOSE_HANDS_MAG - mag) * 0.01 + 0.03;
+    wrestler1.meltIntensity = intensity;
+  } else {
+    if (meltingHistory.one.melting && date - meltingHistory.one.meltStartTime > 1500) {
+      meltingHistory.one.melting = false;
+      meltingHistory.one.meltEndTime = date;
+      wrestler1.cancelMelt(true);
+    }
+  }
 }
 
 function hand2DeltaAction(positionDelta) {
+  var mag = totalMagnitude(positionDelta);
+  var date = new Date();
 
+  if (mag < CLOSE_HANDS_MAG) {
+    if (!meltingHistory.two.melting && date - meltingHistory.two.meltEndTime > 1500) {
+      meltingHistory.two.melting = true;
+      meltingHistory.two.meltStartTime = new Date();
+      wrestler2.melting = true;
+    }
+
+    var intensity = (CLOSE_HANDS_MAG - mag) * 0.01 + 0.03;
+    wrestler2.meltIntensity = intensity;
+  } else {
+    if (meltingHistory.two.melting && date - meltingHistory.two.meltStartTime > 1500) {
+      meltingHistory.two.melting = false;
+      meltingHistory.two.meltEndTime = date;
+      wrestler2.cancelMelt(true);
+    }
+  }
 }
 
 function knee1DeltaAction(positionDelta) {

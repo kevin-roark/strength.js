@@ -105,6 +105,8 @@ module.exports = BodyPart;
 
 function BodyPart(startPos, scale) {
   this.modelChoices = [];
+
+  this.melting = false;
 }
 
 BodyPart.prototype.move = function(x, y, z) {
@@ -168,7 +170,40 @@ BodyPart.prototype.reset = function() {
   this.mesh.rotation.y = this.initialRotation.y;
   this.mesh.rotation.z = this.initialRotation.z;
 
+  this.cancelMelt();
+
   this.swell(1.0);
+}
+
+BodyPart.prototype.cancelMelt = function(pleaseWait) {
+  var self = this;
+
+  this.melting = false;
+  this.resetMeltParameters();
+
+  var timeout = 0;
+  if (pleaseWait) timeout = 1500;
+
+  setTimeout(function() {
+    for (var i = 0; i < self.originalVertices.length; i++) {
+      var vert = self.originalVertices[i];
+      self.geometry.vertices[i] = {x: vert.x, y: vert.y, z: vert.z};
+    }
+
+    self.geometry.verticesNeedUpdate = true;
+  }, timeout);
+}
+
+BodyPart.prototype.resetMeltParameters = function() {
+  this.lastVertexModified = -1;
+  this.maxMelt = kt.randInt(150, 20);
+  this.meltCount = 0;
+  this.step = kt.randInt(1000, 100);
+  this.startI = kt.randInt(this.step - 1, 0);
+}
+
+BodyPart.prototype.meltValue = function() {
+  return (Math.random() - 0.5) * this.meltIntensity;
 }
 
 BodyPart.prototype.addTo = function(scene) {
@@ -177,7 +212,7 @@ BodyPart.prototype.addTo = function(scene) {
   self.modelName = self.specificModelName || kt.choice(self.modelChoices);
 
   modelNames.loadModel(self.modelName, function (geometry, materials) {
-    self.gometry = geometry;
+    self.geometry = geometry;
     self.materials = materials;
 
     console.log(materials);
@@ -201,12 +236,41 @@ BodyPart.prototype.addTo = function(scene) {
 
     console.log(self.initialMaterialColors);
 
+    self.verts = geometry.vertices;
+
+    self.originalVertices = [];
+    for (var i = 0; i < self.verts.length; i++) {
+      var vert = self.verts[i];
+      self.originalVertices.push({x: vert.x, y: vert.y, z: vert.z});
+    }
+
+    self.resetMeltParameters();
+    self.meltIntensity = 0.1;
+
     scene.add(self.mesh);
   });
 }
 
 BodyPart.prototype.render = function() {
+  if (this.melting && this.geometry) {
+    for (var i = this.startI; i < this.verts.length; i += this.step) {
+      var vert = this.verts[i];
 
+      vert.x += this.meltValue();
+      vert.y += this.meltValue();
+      vert.z += this.meltValue();
+
+      if (i + this.step >= this.verts.length) {
+        this.lastVertexModified = i;
+      }
+    }
+
+    this.geometry.verticesNeedUpdate = true;
+
+    if (++this.meltCount >= this.maxMelt) {
+      this.resetMeltParameters();
+    }
+  }
 }
 
 BodyPart.prototype.additionalInit = function() {};
@@ -350,6 +414,8 @@ Character.prototype.scaleMultiply = function(s) {
 }
 
 Character.prototype.reset = function() {
+  this.melting = false;
+
   this.bodyParts.forEach(function(part) {
     part.reset();
   });
@@ -358,6 +424,14 @@ Character.prototype.reset = function() {
 Character.prototype.swell = function(s) {
   this.bodyParts.forEach(function(part) {
     part.swell(s);
+  });
+}
+
+Character.prototype.cancelMelt = function(pleaseWait) {
+  this.melting = false;
+
+  this.bodyParts.forEach(function(part) {
+    part.cancelMelt(pleaseWait);
   });
 }
 
@@ -396,13 +470,15 @@ Character.prototype.discombobulate = function(callback1) {
         part.move(delta.x, delta.y, delta.z);
       }
 
-      if (++spreadCount < 250) setTimeout(spreadThem, kt.randInt(15, 30));
+      if (++spreadCount < 250) setTimeout(spreadThem, kt.randInt(30, 15));
     }
 
   }
 }
 
 Character.prototype.render = function() {
+  var self = this;
+
   if (this.twitching) {
     var x = (Math.random() - 0.5) * 2;
     var y = 0;
@@ -415,9 +491,10 @@ Character.prototype.render = function() {
     this.rotate(rx, ry, rz);
   }
 
-  if (this.melting) {
-    // perform some bone shaking
-  }
+  this.bodyParts.forEach(function(part) {
+    part.melting = self.melting;
+    part.render();
+  });
 }
 
 function posNegRandom() {
@@ -594,6 +671,9 @@ var previousPositionDeltas = {};
 
 var eventsWithRapidHeadVelocity = {one: 0, two: 0};
 
+var startDate = new Date();
+var meltingHistory = {one: {meltEndTime: startDate, meltStartTime: startDate}, two: {meltEndTime: startDate, meltStartTime: startDate}};
+
 var BIG_HEAD_MAG = 15;
 var MAX_HEAD_SWELL = 500;
 var TORSO_CLOSE_MAG = 11;
@@ -602,6 +682,8 @@ var CLOSE_KNEE_MAG = 60;
 var CLOSE_ELBOW_MAG = 60;
 var FAR_ELBOW_MAG = 300;
 var RIDICULOUS_ELBOW_MAG = 600;
+
+var CLOSE_HANDS_MAG = 100;
 
 var wrestler1, wrestler2, camera, light;
 
@@ -927,11 +1009,47 @@ function torso2(position) {
 }
 
 function hand1DeltaAction(positionDelta) {
+  var mag = totalMagnitude(positionDelta);
+  var date = new Date();
 
+  if (mag < CLOSE_HANDS_MAG) {
+    if (!meltingHistory.one.melting && date - meltingHistory.one.meltEndTime > 1500) {
+      meltingHistory.one.melting = true;
+      meltingHistory.one.meltStartTime = new Date();
+      wrestler1.melting = true;
+    }
+
+    var intensity = (CLOSE_HANDS_MAG - mag) * 0.01 + 0.03;
+    wrestler1.meltIntensity = intensity;
+  } else {
+    if (meltingHistory.one.melting && date - meltingHistory.one.meltStartTime > 1500) {
+      meltingHistory.one.melting = false;
+      meltingHistory.one.meltEndTime = date;
+      wrestler1.cancelMelt(true);
+    }
+  }
 }
 
 function hand2DeltaAction(positionDelta) {
+  var mag = totalMagnitude(positionDelta);
+  var date = new Date();
 
+  if (mag < CLOSE_HANDS_MAG) {
+    if (!meltingHistory.two.melting && date - meltingHistory.two.meltEndTime > 1500) {
+      meltingHistory.two.melting = true;
+      meltingHistory.two.meltStartTime = new Date();
+      wrestler2.melting = true;
+    }
+
+    var intensity = (CLOSE_HANDS_MAG - mag) * 0.01 + 0.03;
+    wrestler2.meltIntensity = intensity;
+  } else {
+    if (meltingHistory.two.melting && date - meltingHistory.two.meltStartTime > 1500) {
+      meltingHistory.two.melting = false;
+      meltingHistory.two.meltEndTime = date;
+      wrestler2.cancelMelt(true);
+    }
+  }
 }
 
 function knee1DeltaAction(positionDelta) {
@@ -1697,6 +1815,10 @@ $(function() {
       else if (ev.which == 122) { // z
         active.camera = !active.camera;
       }
+      else if (ev.which == 120) { // x
+        kevinWrestler.melting = !kevinWrestler.melting;
+        dylanWrestler.melting = !dylanWrestler.melting;
+      }
     });
   }
 
@@ -1705,7 +1827,9 @@ $(function() {
 
     if (active.wrestlers) {
       // render the wrestlers
-      for (var i = 0; i < wrestlers.count; i++) wrestlers[i].render();
+      wrestlers.forEach(function(wrestler) {
+        wrestler.render();
+      });
     }
 
     if (active.character) {
