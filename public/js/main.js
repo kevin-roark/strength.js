@@ -46,6 +46,7 @@ $(function() {
   //scene.add(ambientLight);
 
   var active = {wrestlers: true, lighting: true, sliding: false, camera: false};
+  var history = {};
 
   var kevinWrestler;
   var dylanWrestler;
@@ -72,8 +73,15 @@ $(function() {
     render();
 
     $('body').keypress(function(ev) {
+      console.log(ev.which);
       if (ev.which == 32) { // spacebar
         resetWrestlerPositions();
+      }
+      else if (ev.which == 113) { // q
+        initiateShower();
+      }
+      else if (ev.which == 122) { // z
+        active.camera = !active.camera;
       }
     });
   }
@@ -181,6 +189,30 @@ $(function() {
         kt.hutate($canvas, 0);
         setTimeout(warp, kt.randInt(1200, 600));
       }, kt.randInt(350, 100));
+    }
+  }
+
+  function initiateShower() {
+    if (history.startedShower) return;
+
+    history.startedShower = true;
+
+    dylanWrestler.discombobulate(function() {
+
+    });
+
+    kevinWrestler.discombobulate(function() {
+      var backCameraAwayInterval = setInterval(function() {
+        camera.cam.position.z += 0.85;
+        if (camera.cam.position.z > 566) {
+          clearInterval(backCameraAwayInterval);
+          fadeToWhite();
+        }
+      }, 20);
+    });
+
+    function fadeToWhite() {
+      $('.overlay').fadeIn(9000);
     }
   }
 

@@ -31,6 +31,7 @@ Head.prototype.additionalInit = function() {
   } else if (self.modelName == modelNames.BABY_HEAD) {
     self.scale *= 1.2;
     self.scaleBody(self.scale);
+    self.move(0, 0, 1.4);
   } else if (self.modelName == modelNames.FOOTBALL_HEAD) {
     self.scale *= 25;
     self.scaleBody(self.scale);

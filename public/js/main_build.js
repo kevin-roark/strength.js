@@ -92,7 +92,7 @@ Body.prototype.additionalInit = function() {
     self.scaleBody(self.scale);
     self.move(-2, -24, 0);
   } else if (self.modelName == modelNames.LOWPOLY_TORSO) {
-    self.move(0, -15, -5);
+    self.move(0, -15, -4);
   }
 };
 
@@ -361,6 +361,47 @@ Character.prototype.swell = function(s) {
   });
 }
 
+Character.prototype.discombobulate = function(callback1) {
+  var self = this;
+
+  var downInterval = setInterval(function() {
+    var allDown = true;
+    self.bodyParts.forEach(function(part) {
+      if (part.mesh.position.y > -33) {
+        part.move(0, -0.6, 0);
+        allDown = false;
+      }
+    });
+
+    if (allDown) {
+      clearInterval(downInterval);
+      callback1();
+      spreadWide();
+    }
+  }, 20);
+
+  function spreadWide() {
+    var spreadDeltas = [];
+    for (var i = 0; i < self.bodyParts.length; i++) {
+      var delta = {x: posNegRandom() * 1.25, y: posNegRandom() * 1.25, z: Math.random() * -1.25};
+      spreadDeltas.push(delta);
+    }
+
+    var spreadCount = 0;
+    spreadThem();
+    function spreadThem() {
+      for (var i = 0; i < self.bodyParts.length; i++) {
+        var part = self.bodyParts[i];
+        var delta = spreadDeltas[i];
+        part.move(delta.x, delta.y, delta.z);
+      }
+
+      if (++spreadCount < 250) setTimeout(spreadThem, kt.randInt(15, 30));
+    }
+
+  }
+}
+
 Character.prototype.render = function() {
   if (this.twitching) {
     var x = (Math.random() - 0.5) * 2;
@@ -377,6 +418,10 @@ Character.prototype.render = function() {
   if (this.melting) {
     // perform some bone shaking
   }
+}
+
+function posNegRandom() {
+  return (Math.random() - 0.5) * 2;
 }
 
 },{"./arm":1,"./body":2,"./foot":6,"./hand":7,"./head":8,"./leg":10,"./lib/kutility":11,"./model_names":13}],6:[function(require,module,exports){
@@ -511,6 +556,7 @@ Head.prototype.additionalInit = function() {
   } else if (self.modelName == modelNames.BABY_HEAD) {
     self.scale *= 1.2;
     self.scaleBody(self.scale);
+    self.move(0, 0, 1.4);
   } else if (self.modelName == modelNames.FOOTBALL_HEAD) {
     self.scale *= 25;
     self.scaleBody(self.scale);
@@ -1614,6 +1660,7 @@ $(function() {
   //scene.add(ambientLight);
 
   var active = {wrestlers: true, lighting: true, sliding: false, camera: false};
+  var history = {};
 
   var kevinWrestler;
   var dylanWrestler;
@@ -1640,8 +1687,15 @@ $(function() {
     render();
 
     $('body').keypress(function(ev) {
+      console.log(ev.which);
       if (ev.which == 32) { // spacebar
         resetWrestlerPositions();
+      }
+      else if (ev.which == 113) { // q
+        initiateShower();
+      }
+      else if (ev.which == 122) { // z
+        active.camera = !active.camera;
       }
     });
   }
@@ -1749,6 +1803,30 @@ $(function() {
         kt.hutate($canvas, 0);
         setTimeout(warp, kt.randInt(1200, 600));
       }, kt.randInt(350, 100));
+    }
+  }
+
+  function initiateShower() {
+    if (history.startedShower) return;
+
+    history.startedShower = true;
+
+    dylanWrestler.discombobulate(function() {
+
+    });
+
+    kevinWrestler.discombobulate(function() {
+      var backCameraAwayInterval = setInterval(function() {
+        camera.cam.position.z += 0.85;
+        if (camera.cam.position.z > 566) {
+          clearInterval(backCameraAwayInterval);
+          fadeToWhite();
+        }
+      }, 20);
+    });
+
+    function fadeToWhite() {
+      $('.overlay').fadeIn(9000);
     }
   }
 
