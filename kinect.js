@@ -72,8 +72,7 @@ io.on('connection', function(socket) {
     * STUFF FOR SENDING TO BROWSER
     */
 
-
-
+  //browserSocket = socket; return;
 
   if (!forwarderSocket) {
     console.log('setting forwarder');
