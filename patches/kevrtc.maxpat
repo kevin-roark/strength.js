@@ -8,7 +8,7 @@
 			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 0.0, 44.0, 1356.0, 806.0 ],
+		"rect" : [ 0.0, 44.0, 1039.0, 806.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -28,6 +28,56 @@
 		"digest" : "",
 		"tags" : "",
 		"boxes" : [ 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-81",
+					"maxclass" : "flonum",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "float", "bang" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 342.127716, 125.435699, 50.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 364.0, 424.316376, 50.0, 20.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bgcolor" : [ 1.0, 0.221317, 0.624216, 1.0 ],
+					"floatoutput" : 1,
+					"id" : "obj-82",
+					"maxclass" : "slider",
+					"min" : 10.0,
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 405.127716, 88.0, 159.744553, 19.038324 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 419.255402, 424.316376, 159.744553, 19.038324 ],
+					"size" : 5000.0
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"frgb" : 0.0,
+					"id" : "obj-80",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 331.0, 61.0, 150.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 264.0, 61.0, 150.0, 20.0 ],
+					"text" : "volume, lowpass"
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"id" : "obj-78",
 					"maxclass" : "toggle",
@@ -1013,7 +1063,7 @@
 					"parameter_enable" : 0,
 					"patching_rect" : [ 249.0, 482.0, 20.0, 20.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 345.0, 460.752075, 20.0, 20.0 ]
+					"presentation_rect" : [ 329.0, 460.752075, 20.0, 20.0 ]
 				}
 
 			}
@@ -1084,9 +1134,9 @@
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 358.0, 142.752075, 50.0, 20.0 ],
+					"patching_rect" : [ 281.0, 125.435699, 50.0, 20.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 384.127716, 460.752075, 50.0, 20.0 ]
+					"presentation_rect" : [ 364.0, 399.0, 50.0, 20.0 ]
 				}
 
 			}
@@ -1101,9 +1151,9 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 350.0, 111.316376, 159.744553, 19.038324 ],
+					"patching_rect" : [ 237.127716, 88.0, 159.744553, 19.038324 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 384.127716, 424.316376, 159.744553, 19.038324 ],
+					"presentation_rect" : [ 419.255402, 399.0, 159.744553, 19.038324 ],
 					"size" : 15.0
 				}
 
@@ -1192,7 +1242,7 @@
 					"outlettype" : [ "bang" ],
 					"patching_rect" : [ 210.190079, 142.752075, 20.0, 20.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 345.0, 424.316376, 20.0, 20.0 ]
+					"presentation_rect" : [ 329.0, 418.0, 20.0, 20.0 ]
 				}
 
 			}
@@ -1218,7 +1268,7 @@
 					"numoutlets" : 3,
 					"outlettype" : [ "signal", "signal", "" ],
 					"patching_rect" : [ 273.0, 180.090912, 70.0, 20.0 ],
-					"save" : [ "#N", "rtcmix~", 2, 2, ";", "#X", "restore", 0, 1203, 1203, "// this is the noise generator\r\n\r\n// the noise function prototype: NOISE(time, dur, amp, pan)\r\n// distortion function prototype: DISTORTION(outsk, insk, dur, amp, type, preamp, lowpass)\r\n\r\nbus_config(\"NOISE\", \"aux 0-1 out\")\r\nbus_config(\"DISTORT\", \"aux 0-1 in\", \"aux 2-3 out\")\r\nbus_config(\"TRANS\", \"aux 2-3 in\", \"out 0-1\")\r\n\r\nsrand()\r\n\r\n// generate a bunch of pockets of random noise and spit them into a bus\r\nstart = 0\r\nhop = 0.19\r\nnoises = 10000\r\nfor (i = 0; i < noises; i = i + 1) {\r\n\tamp = irand(2000, 24000)\r\n\tpan = random()\r\n\tduration = irand(0.19, 0.27)\r\n\r\n\tNOISE(start, duration, amp, pan)\r\n\tstart = start + hop\r\n}\r\n\r\n// distort the noise packets and send 'em through a low pass filter\r\nDISTORT(0, 0, start, 1.0, 1, 2.0, 1800)\r\n\r\n// set up volume slider\r\nampinlet = makeconnection(\"inlet\", 1, 2.0)\r\n\r\n// pitch shift the distorted noise at intervals faster than the noise was generated\r\ntrans_start = 0\r\nwhile (trans_start < start) {\r\n\ttrans_hop = irand(hop / 4, hop / 1.7)\r\n\r\n\ttrans = irand(-0.17, 0.17) // even distribution\r\n\tamp = irand(1.5, 3.0) // sometimes ya wanna blast it\r\n\r\n\tTRANS(trans_start, 0, trans_hop, ampinlet, trans)\r\n\r\n\ttrans_start = trans_start + trans_hop\r\n}\r\n\r\nMAXBANG(start)", ";" ],
+					"save" : [ "#N", "rtcmix~", 2, 2, ";", "#X", "restore", 0, 1157, 1157, "// this is the noise generator\r\n\r\n// the noise function prototype: NOISE(time, dur, amp, pan)\r\n// distortion function prototype: DISTORTION(outsk, insk, dur, amp, type, preamp, lowpass)\r\n\r\nbus_config(\"NOISE\", \"aux 0-1 out\")\r\nbus_config(\"DISTORT\", \"aux 0-1 in\", \"aux 2-3 out\")\r\nbus_config(\"TRANS\", \"aux 2-3 in\", \"out 0-1\")\r\n\r\nsrand()\r\n\r\nampinlet = makeconnection(\"inlet\", 1, 2.0)\r\nlowpassinlet = makeconnection(\"inlet\", 2, 1800)\r\n\r\n// generate a bunch of pockets of random noise and spit them into a bus\r\nstart = 0\r\nhop = 0.19\r\nnoises = 10000\r\nfor (i = 0; i < noises; i = i + 1) {\r\n\tamp = irand(2000, 24000)\r\n\tpan = random()\r\n\tduration = irand(0.19, 0.27)\r\n\r\n\tNOISE(start, duration, amp, pan)\r\n\tstart = start + hop\r\n}\r\n\r\n// distort the noise packets and send 'em through a low pass filter\r\nDISTORT(0, 0, start, 1.0, 2, 2.0, lowpassinlet)\r\n\r\n// pitch shift the distorted noise at intervals faster than the noise was generated\r\ntrans_start = 0\r\nwhile (trans_start < start) {\r\n\ttrans_hop = irand(hop / 4, hop / 1.7)\r\n\r\n\ttrans = irand(-0.3, 0.2)\r\n\r\n\tTRANS(trans_start, 0, trans_hop, ampinlet, trans)\r\n\r\n\ttrans_start = trans_start + trans_hop\r\n}\r\n\r\nMAXBANG(start)", ";" ],
 					"text" : "rtcmix~ 2 2"
 				}
 
@@ -2001,6 +2051,24 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-8", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-1", 3 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-81", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-81", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-82", 0 ]
 				}
 
 			}
