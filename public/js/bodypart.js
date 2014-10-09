@@ -176,15 +176,18 @@ BodyPart.prototype.render = function() {
   this.additionalRender();
 }
 
-BodyPart.prototype.fallToFloor = function() {
+BodyPart.prototype.fallToFloor = function(threshold, speed) {
+  if (!threshold) threshold = 1.5;
+  if (!speed) speed = 0.5;
+
   var self = this;
 
   var fallInterval = setInterval(function() {
-    var dy = Math.random() * -0.5;
+    var dy = Math.random() * -speed;
 
     self.move(0, dy, 0);
 
-    if (self.mesh && self.mesh.position.y < 1.5) {
+    if (self.mesh && self.mesh.position.y < threshold) {
       clearInterval(fallInterval);
     }
   }, 24);

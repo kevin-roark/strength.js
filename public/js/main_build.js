@@ -275,15 +275,18 @@ BodyPart.prototype.render = function() {
   this.additionalRender();
 }
 
-BodyPart.prototype.fallToFloor = function() {
+BodyPart.prototype.fallToFloor = function(threshold, speed) {
+  if (!threshold) threshold = 1.5;
+  if (!speed) speed = 0.5;
+
   var self = this;
 
   var fallInterval = setInterval(function() {
-    var dy = Math.random() * -0.5;
+    var dy = Math.random() * -speed;
 
     self.move(0, dy, 0);
 
-    if (self.mesh && self.mesh.position.y < 1.5) {
+    if (self.mesh && self.mesh.position.y < threshold) {
       clearInterval(fallInterval);
     }
   }, 24);
@@ -2167,6 +2170,13 @@ $(function() {
       }, 20);
     });
 
+    var otherObjects = [boxingRing];
+    fitnessTowers.forEach(function(tower) { otherObjects.push(tower); });
+    weights.forEach(function(weight) { otherObjects.push(weight); });
+    otherObjects.forEach(function(otherObject) {
+      otherObject.fallToFloor(-200, 5);
+    });
+
     function fadeToWhite() {
       $('.overlay').fadeIn(9000, function() {
           changeToShowerMode();
@@ -2300,6 +2310,11 @@ $(function() {
         setInterval(function() {
           phone.rotate(0, 0.02, 0);
         }, 20);
+
+        var weight = new Weights({x: 0, y: 0, z: -50}, 4);
+        weight.addTo(scene);
+
+        active.lighting = false;
 
         $('.overlay').fadeOut(5000);
       }
