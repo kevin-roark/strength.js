@@ -8,7 +8,7 @@
 			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 0.0, 44.0, 1054.0, 806.0 ],
+		"rect" : [ 28.0, 44.0, 1416.0, 806.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -1008,7 +1008,7 @@
 					"numoutlets" : 3,
 					"outlettype" : [ "signal", "signal", "" ],
 					"patching_rect" : [ 647.0, 193.090912, 113.5, 20.0 ],
-					"save" : [ "#N", "rtcmix~", 2, 6, ";", "#X", "restore", 0, 1026, 1026, "// GRANSYNTH(outsk, dur, AMP, WAVETABLE, GRAINENV, GRAINHOP, OUTTIMEJITTER, MINDUR, MAXDUR, MINAMP, MAXAMP, PITCH[, TRANSPTABLE, PITCHJITTER, seed, MINPAN, MAXPAN])\r\n\r\n// a little granular synthesis sounders\r\n\r\nsrand()\r\n\r\nfinal_length = 2000\r\n\r\nstart = 0\r\n\r\n//minhop = 0.001\r\n//maxhop = 0.12\r\n\r\ngrainhop = makeconnection(\"inlet\", 1, 0.05)\r\nhopjitter = makeconnection(\"inlet\", 2, 0.1)\r\n\r\n//mindur = 0.02\r\n//maxdur = 0.2\r\n\r\nmindur = makeconnection(\"inlet\", 3, 0.02)\r\nmaxdur = makeconnection(\"inlet\", 4, 0.2)\r\n\r\n//minpitch = 0.2\r\n//maxpitch = 3\r\n\r\npitch = makeconnection(\"inlet\", 5, 4)\r\npitchjitter = makeconnection(\"inlet\", 6, 4)\r\n\r\nminamp = 0.2\r\nmaxamp = 3\r\n\r\nwhile (start < final_length) {\r\n\r\ndur = irand(1, 6)\r\n\r\ntimehop = irand(0.4, 3)\n  \nwave = maketable(\"wave\", 2000, 1, .5, .3, .2, .1)\r\ngranenv = maketable(\"window\", 2000, \"hanning\")\r\n\nGRANSYNTH(start, dur, 25000, wave, granenv, grainhop, hopjitter,\n      mindur, maxdur, minamp, maxamp, pitch, transpcoll, pitchjitter, irand(0, 100),\r\n \t  0, 1)\r\n\r\nstart += timehop\r\n\r\n}", ";" ],
+					"save" : [ "#N", "rtcmix~", 2, 6, ";", "#X", "restore", 0, 1121, 1121, "// GRANSYNTH(outsk, dur, AMP, WAVETABLE, GRAINENV, GRAINHOP, OUTTIMEJITTER, MINDUR, MAXDUR, MINAMP, MAXAMP, PITCH[, TRANSPTABLE, PITCHJITTER, seed, MINPAN, MAXPAN])\r\n\r\n// a little granular synthesis sounders\r\n\r\nsrand()\r\n\r\nfinal_length = 2000\r\n\r\nstart = 0\r\n\r\n//minhop = 0.001\r\n//maxhop = 0.12\r\n\r\ngrainhop = makeconnection(\"inlet\", 1, 0.05)\r\nhopjitter = makeconnection(\"inlet\", 2, 0.1)\r\n\r\n//mindur = 0.02\r\n//maxdur = 0.2\r\n\r\nmindur = makeconnection(\"inlet\", 3, 0.02)\r\nmaxdur = makeconnection(\"inlet\", 4, 0.2)\r\n\r\n//minpitch = 0.2\r\n//maxpitch = 3\r\n\r\npitch = makeconnection(\"inlet\", 5, 4)\r\npitchjitter = makeconnection(\"inlet\", 6, 4)\r\n\r\nminamp = 0.2\r\nmaxamp = 3\r\n\r\nwhile (start < final_length) {\r\n\r\ndur = irand(1.5, 6)\r\n\r\ntimehop = irand(0.6, 1.5)\n  \nwave = maketable(\"wave\", 2000, 1, .5, .3, .2, .1)\r\ngranenv = maketable(\"window\", 2000, \"hanning\")\r\ntranspcoll = maketable(\"literal\", \"nonorm\", 0, 0, .02, .03, .05, .07, .10, .12, .14, .15)\r\n\nGRANSYNTH(start, dur, 25000, wave, granenv, grainhop, hopjitter,\n      mindur, maxdur, minamp, maxamp, pitch, transpcoll, pitchjitter, irand(0, 100),\r\n \t  0, 1)\r\n\r\nstart += timehop\r\n\r\n}", ";" ],
 					"text" : "rtcmix~ 2 6"
 				}
 
