@@ -79,6 +79,10 @@ module.exports.IPHONE = pre('iPhone.js');
 
 module.exports.LAPTOP = pre('laptop.js');
 
+module.exports.SHOWER = pre('shower.js');
+
+module.exports.LOCKER = pre('locker.js');
+
 /* FUNCTIONS */
 
 module.exports.loadModel = function(modelName, callback) {

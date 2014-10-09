@@ -3,6 +3,8 @@ $(function() {
   var kt = require('./lib/kutility');
   var Camera = require('./camera');
   var Character = require('./character');
+  var Shower = require('./shower');
+  var Locker = require('./locker');
   var Skybox = require('./skybox');
   var io = require('./io');
 
@@ -55,6 +57,10 @@ $(function() {
   var slideOb = {left: true, moveCount: 0};
   var cameraOb = {};
 
+  var shower;
+  var lockers = [];
+  var computers = [];
+
   start();
 
   function start() {
@@ -86,6 +92,9 @@ $(function() {
       else if (ev.which == 120) { // x
         kevinWrestler.melting = !kevinWrestler.melting;
         dylanWrestler.melting = !dylanWrestler.melting;
+      }
+      else if (ev.which == 99) { // c
+        active.lighting = !active.lighting;
       }
     });
   }
@@ -121,12 +130,25 @@ $(function() {
     renderer.render(scene, camera.cam);
   }
 
+  function clearScene() {
+    for (i = scene.children.length - 1; i >= 0; i--) {
+      var obj = scene.children[ i ];
+      if (obj !== camera.cam && obj !== spotlight && obj !== hueLight) {
+        scene.remove(obj);
+      }
+    }
+  }
+
   function resetWrestlerPositions() {
     wrestlers.forEach(function(wrestler) {
       wrestler.reset();
     });
 
-    camera.cam.position.set(0, 6, 110);
+    if (history.startedShower) {
+      camera.cam.position.set(0, 1, 0);
+    } else {
+      camera.cam.position.set(0, 6, 110);
+    }
   }
 
   var lightOb = {};
@@ -218,7 +240,33 @@ $(function() {
     });
 
     function fadeToWhite() {
-      $('.overlay').fadeIn(9000);
+      $('.overlay').fadeIn(1000, function() {
+          changeToShowerMode();
+      });
+    }
+
+    function changeToShowerMode() {
+      clearScene();
+      renderer.setClearColor(0xffff99, 1);
+      camera.cam.position.set(0, 1, 0);
+
+      shower = new Shower({x: 0, y: 0, z: -10}, 1.15);
+      shower.addTo(scene);
+
+      for (var i = 0; i < 4; i++) {
+        var x = 0;
+        if (i < 2) {
+          x = (i - 2) * 4;
+        } else {
+          x = (i - 1) * 4;
+        }
+
+        var locker = new Locker({x: x, y: 2, z: -25}, 0.35);
+        locker.addTo(scene);
+        lockers.push(locker);
+      }
+
+      $('.overlay').fadeOut(1000);
     }
   }
 

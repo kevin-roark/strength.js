@@ -56,7 +56,7 @@ Arm.prototype.additionalInit = function() {
   }
 };
 
-},{"./bodypart":3,"./lib/kutility":11,"./model_names":13}],2:[function(require,module,exports){
+},{"./bodypart":3,"./lib/kutility":11,"./model_names":14}],2:[function(require,module,exports){
 
 var kt = require('./lib/kutility');
 
@@ -96,7 +96,7 @@ Body.prototype.additionalInit = function() {
   }
 };
 
-},{"./bodypart":3,"./lib/kutility":11,"./model_names":13}],3:[function(require,module,exports){
+},{"./bodypart":3,"./lib/kutility":11,"./model_names":14}],3:[function(require,module,exports){
 var kt = require('./lib/kutility');
 
 var modelNames = require('./model_names');
@@ -275,7 +275,7 @@ BodyPart.prototype.render = function() {
 
 BodyPart.prototype.additionalInit = function() {};
 
-},{"./lib/kutility":11,"./model_names":13}],4:[function(require,module,exports){
+},{"./lib/kutility":11,"./model_names":14}],4:[function(require,module,exports){
 
 var element = document.body;
 
@@ -501,7 +501,7 @@ function posNegRandom() {
   return (Math.random() - 0.5) * 2;
 }
 
-},{"./arm":1,"./body":2,"./foot":6,"./hand":7,"./head":8,"./leg":10,"./lib/kutility":11,"./model_names":13}],6:[function(require,module,exports){
+},{"./arm":1,"./body":2,"./foot":6,"./hand":7,"./head":8,"./leg":10,"./lib/kutility":11,"./model_names":14}],6:[function(require,module,exports){
 
 var kt = require('./lib/kutility');
 
@@ -548,7 +548,7 @@ Foot.prototype.additionalInit = function() {
   }
 };
 
-},{"./bodypart":3,"./lib/kutility":11,"./model_names":13}],7:[function(require,module,exports){
+},{"./bodypart":3,"./lib/kutility":11,"./model_names":14}],7:[function(require,module,exports){
 
 var kt = require('./lib/kutility');
 
@@ -599,7 +599,7 @@ Hand.prototype.additionalInit = function() {
   }
 };
 
-},{"./bodypart":3,"./lib/kutility":11,"./model_names":13}],8:[function(require,module,exports){
+},{"./bodypart":3,"./lib/kutility":11,"./model_names":14}],8:[function(require,module,exports){
 
 var kt = require('./lib/kutility');
 
@@ -645,7 +645,7 @@ Head.prototype.additionalInit = function() {
   }
 };
 
-},{"./bodypart":3,"./lib/kutility":11,"./model_names":13}],9:[function(require,module,exports){
+},{"./bodypart":3,"./lib/kutility":11,"./model_names":14}],9:[function(require,module,exports){
 
 // CONTROLS::::
 
@@ -1164,7 +1164,7 @@ Leg.prototype.additionalInit = function() {
   }
 };
 
-},{"./bodypart":3,"./lib/kutility":11,"./model_names":13}],11:[function(require,module,exports){
+},{"./bodypart":3,"./lib/kutility":11,"./model_names":14}],11:[function(require,module,exports){
 /* export something */
 module.exports = new Kutility;
 
@@ -1730,11 +1730,40 @@ Kutility.prototype.blur = function(el, x) {
 }
 
 },{}],12:[function(require,module,exports){
+
+var kt = require('./lib/kutility');
+
+var modelNames = require('./model_names');
+
+var BodyPart = require('./bodypart');
+
+module.exports = Locker;
+
+function Locker(startPos, scale) {
+  if (!startPos) startPos = {x: 0, y: 0, z: 0};
+  this.startX = startPos.x;
+  this.startY = startPos.y;
+  this.startZ = startPos.z;
+
+  this.scale = scale || 1;
+
+  this.specificModelName = modelNames.LOCKER;
+}
+
+Locker.prototype.__proto__ = BodyPart.prototype;
+
+Locker.prototype.additionalInit = function() {
+
+};
+
+},{"./bodypart":3,"./lib/kutility":11,"./model_names":14}],13:[function(require,module,exports){
 $(function() {
 
   var kt = require('./lib/kutility');
   var Camera = require('./camera');
   var Character = require('./character');
+  var Shower = require('./shower');
+  var Locker = require('./locker');
   var Skybox = require('./skybox');
   var io = require('./io');
 
@@ -1787,6 +1816,10 @@ $(function() {
   var slideOb = {left: true, moveCount: 0};
   var cameraOb = {};
 
+  var shower;
+  var lockers = [];
+  var computers = [];
+
   start();
 
   function start() {
@@ -1818,6 +1851,9 @@ $(function() {
       else if (ev.which == 120) { // x
         kevinWrestler.melting = !kevinWrestler.melting;
         dylanWrestler.melting = !dylanWrestler.melting;
+      }
+      else if (ev.which == 99) { // c
+        active.lighting = !active.lighting;
       }
     });
   }
@@ -1853,12 +1889,25 @@ $(function() {
     renderer.render(scene, camera.cam);
   }
 
+  function clearScene() {
+    for (i = scene.children.length - 1; i >= 0; i--) {
+      var obj = scene.children[ i ];
+      if (obj !== camera.cam && obj !== spotlight && obj !== hueLight) {
+        scene.remove(obj);
+      }
+    }
+  }
+
   function resetWrestlerPositions() {
     wrestlers.forEach(function(wrestler) {
       wrestler.reset();
     });
 
-    camera.cam.position.set(0, 6, 110);
+    if (history.startedShower) {
+      camera.cam.position.set(0, 1, 0);
+    } else {
+      camera.cam.position.set(0, 6, 110);
+    }
   }
 
   var lightOb = {};
@@ -1950,13 +1999,39 @@ $(function() {
     });
 
     function fadeToWhite() {
-      $('.overlay').fadeIn(9000);
+      $('.overlay').fadeIn(1000, function() {
+          changeToShowerMode();
+      });
+    }
+
+    function changeToShowerMode() {
+      clearScene();
+      renderer.setClearColor(0xffff99, 1);
+      camera.cam.position.set(0, 1, 0);
+
+      shower = new Shower({x: 0, y: 0, z: -10}, 1.15);
+      shower.addTo(scene);
+
+      for (var i = 0; i < 4; i++) {
+        var x = 0;
+        if (i < 2) {
+          x = (i - 2) * 4;
+        } else {
+          x = (i - 1) * 4;
+        }
+
+        var locker = new Locker({x: x, y: 2, z: -25}, 0.35);
+        locker.addTo(scene);
+        lockers.push(locker);
+      }
+
+      $('.overlay').fadeOut(1000);
     }
   }
 
 });
 
-},{"./camera":4,"./character":5,"./io":9,"./lib/kutility":11,"./skybox":14}],13:[function(require,module,exports){
+},{"./camera":4,"./character":5,"./io":9,"./lib/kutility":11,"./locker":12,"./shower":15,"./skybox":16}],14:[function(require,module,exports){
 
 var prefix = '/js/models/';
 
@@ -2038,6 +2113,10 @@ module.exports.IPHONE = pre('iPhone.js');
 
 module.exports.LAPTOP = pre('laptop.js');
 
+module.exports.SHOWER = pre('shower.js');
+
+module.exports.LOCKER = pre('locker.js');
+
 /* FUNCTIONS */
 
 module.exports.loadModel = function(modelName, callback) {
@@ -2048,7 +2127,34 @@ module.exports.loadModel = function(modelName, callback) {
   });
 }
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
+
+var kt = require('./lib/kutility');
+
+var modelNames = require('./model_names');
+
+var BodyPart = require('./bodypart');
+
+module.exports = Shower;
+
+function Shower(startPos, scale) {
+  if (!startPos) startPos = {x: 0, y: 0, z: 0};
+  this.startX = startPos.x;
+  this.startY = startPos.y;
+  this.startZ = startPos.z;
+
+  this.scale = scale || 1;
+
+  this.specificModelName = modelNames.SHOWER;
+}
+
+Shower.prototype.__proto__ = BodyPart.prototype;
+
+Shower.prototype.additionalInit = function() {
+  this.rotate(0, Math.PI, 0);
+};
+
+},{"./bodypart":3,"./lib/kutility":11,"./model_names":14}],16:[function(require,module,exports){
 
 
 module.exports = Skybox;
@@ -2073,4 +2179,4 @@ Skybox.prototype.addTo = function(scene) {
   scene.add(this.mesh);
 }
 
-},{}]},{},[12])
+},{}]},{},[13])
