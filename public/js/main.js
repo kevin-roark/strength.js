@@ -35,18 +35,24 @@ $(function() {
   spotlight.castShadow = true;
   scene.add(spotlight);
 
+  var hueLight = new THREE.SpotLight(0xffffff, 1.0);
+  hueLight.castShadow = true;
+  hueLight.position.set(0, 100, -25);
+  scene.add(hueLight);
+
   // soft blue light //\\ can modify this sucker to change mood
   var ambientLight = new THREE.AmbientLight(0xeeeeff);
   ambientLight.intensity = 0.4;
   //scene.add(ambientLight);
 
-  var active = {wrestlers: true, lighting: true, sliding: false};
+  var active = {wrestlers: true, lighting: true, sliding: false, camera: false};
 
   var kevinWrestler;
   var dylanWrestler;
   var wrestlers = [];
 
   var slideOb = {left: true, moveCount: 0};
+  var cameraOb = {};
 
   start();
 
@@ -55,13 +61,13 @@ $(function() {
     dylanWrestler = new Character({x: 25, y: 5, z: -25}, 20);
     wrestlers = [kevinWrestler, dylanWrestler];
 
-    io.begin(kevinWrestler, dylanWrestler);
-
-    camera.cam.position.set(0, 6, 100);
-
     for (var i = 0; i < wrestlers.length; i++) {
       wrestlers[i].addTo(scene);
     }
+
+    camera.cam.position.set(0, 6, 110);
+
+    io.begin(kevinWrestler, dylanWrestler, camera.cam, hueLight);
 
     render();
 
@@ -92,6 +98,10 @@ $(function() {
       changeLights();
     }
 
+    if (active.camera) {
+      changeCamera();
+    }
+
     camera.render();
 
     renderer.render(scene, camera.cam);
@@ -101,6 +111,8 @@ $(function() {
     wrestlers.forEach(function(wrestler) {
       wrestler.reset();
     });
+
+    camera.cam.position.set(0, 6, 110);
   }
 
   var lightOb = {};
@@ -126,6 +138,16 @@ $(function() {
 
     var gray = Math.random();
     spotlight.color.setRGB(gray, gray, gray);
+  }
+
+  function changeCamera() {
+    var dx = (Math.random() - 0.5) * 1;
+    var dy = (Math.random() - 0.5) * 0.5;
+    var dz = (Math.random() - 0.5) * 1;
+
+    camera.cam.position.x += dx;
+    camera.cam.position.y += dy;
+    camera.cam.position.z += dz;
   }
 
   function slideWrestlers() {

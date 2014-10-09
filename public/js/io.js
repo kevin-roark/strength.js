@@ -8,9 +8,9 @@
 // left and right knees handle the legs of the character
 // delta between knees controls rotation about y
 // delta between elbows controls rotation about x
+// elbows fuckily control the secondary light source
 
 // what does closest hand do?
-// what do elbows themselves control?
 
 // TODO: all these things are separate and repetitive right now because there is no
 // guarantee that each wrestler will behave the same. please fix later.
@@ -32,11 +32,13 @@ var CLOSE_ELBOW_MAG = 60;
 var FAR_ELBOW_MAG = 300;
 var RIDICULOUS_ELBOW_MAG = 600;
 
-var wrestler1, wrestler2;
+var wrestler1, wrestler2, camera, light;
 
-module.exports.begin = function(w1, w2) {
+module.exports.begin = function(w1, w2, cam, l) {
   wrestler1 = w1;
   wrestler2 = w2;
+  camera = cam;
+  light = l;
 
   socket.on('leftHand', function(data) {
     if (data.wrestler == 1) {
@@ -228,10 +230,13 @@ function leftElbow1(position) {
     elbow1DeltaAction(positionDeltas.elbow1);
   }
 
+  light.target.position = position;
+
   previousPositions.leftElbow1 = position;
 }
 
 function rightElbow1(position) {
+  light.intensity = Math.abs(position.y) / 30;
   previousPositions.rightElbow1 = position;
 }
 
@@ -327,10 +332,16 @@ function leftElbow2(position) {
     elbow2DeltaAction(positionDeltas.elbow2);
   }
 
+  var mag = totalMagnitude(position);
+  light.distance = position.y;
+
   previousPositions.leftElbow2 = position;
 }
 
 function rightElbow2(position) {
+  var mag = totalMagnitude(position);
+  light.angle = Math.PI / 2 * Math.min(1, (Math.abs(position.y) / 400));
+
   previousPositions.rightElbow2 = position;
 }
 
