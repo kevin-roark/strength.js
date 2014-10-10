@@ -3,11 +3,12 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 6,
-			"minor" : 0,
-			"revision" : 4
+			"minor" : 1,
+			"revision" : 8,
+			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 293.0, 245.0, 640.0, 480.0 ],
+		"rect" : [ 85.0, 170.0, 640.0, 480.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -28,14 +29,31 @@
 		"tags" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"bgcolor" : [ 1.0, 0.305548, 0.681535, 1.0 ],
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
+					"frgb" : 0.0,
+					"id" : "obj-9",
+					"linecount" : 8,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 408.0, 272.0, 150.0, 114.0 ],
+					"text" : "1 - musics\n2 - breathing\n3 - conversation\n4 (2) - dmtf\n5 (3) - is that you\n6 (1) - musics\n7 (3) - breathing\n8 (2) - dmtf"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"frgb" : 0.0,
 					"id" : "obj-7",
 					"linecount" : 4,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 56.0, 279.0, 172.0, 62.0 ],
+					"patching_rect" : [ 56.0, 279.0, 172.0, 60.0 ],
 					"text" : "1 - BLANK --> is that you? (5)\n2 - emergency facebooks\n3 - breathing\n4 - DMTF"
 				}
 
@@ -232,75 +250,60 @@
 			}
  ],
 		"parameters" : 		{
-			"obj-1.4::obj-43" : [ "live.gain~[27]", "live.gain~", 0 ],
-			"obj-5.1::obj-55" : [ "live.gain~[17]", "live.gain~[3]", 0 ],
-			"obj-5.3::obj-55" : [ "live.gain~[23]", "live.gain~[3]", 0 ],
-			"obj-1.2::obj-33" : [ "live.gain~[9]", "live.gain~", 0 ],
-			"obj-1.3::obj-242" : [ "live.gain~[12]", "live.gain~", 0 ],
-			"obj-5.3::obj-53" : [ "live.gain~[25]", "live.gain~[1]", 0 ],
-			"obj-1.1::obj-242" : [ "live.gain~[5]", "live.gain~", 0 ],
-			"obj-1.1::obj-30" : [ "live.gain~", "live.gain~", 0 ],
-			"obj-1.4::obj-33" : [ "live.gain~[29]", "live.gain~", 0 ],
+			"obj-1.1::obj-33" : [ "live.gain~[4]", "live.gain~", 0 ],
+			"obj-1.4::obj-30" : [ "live.gain~[30]", "live.gain~", 0 ],
 			"obj-5.1::obj-54" : [ "live.gain~[16]", "live.gain~[1]", 0 ],
+			"obj-5.2::obj-55" : [ "live.gain~[19]", "live.gain~[3]", 0 ],
+			"obj-1.3::obj-30" : [ "live.gain~[13]", "live.gain~", 0 ],
 			"obj-1.2::obj-43" : [ "live.gain~[10]", "live.gain~", 0 ],
+			"obj-1.4::obj-38" : [ "live.gain~[28]", "live.gain~[2]", 0 ],
+			"obj-5.1::obj-52" : [ "live.gain~[18]", "live.gain~", 0 ],
+			"obj-5.2::obj-52" : [ "live.gain~[22]", "live.gain~", 0 ],
+			"obj-5.3::obj-53" : [ "live.gain~[25]", "live.gain~[1]", 0 ],
 			"obj-1.1::obj-38" : [ "live.gain~[2]", "live.gain~[2]", 0 ],
 			"obj-1.3::obj-33" : [ "live.gain~[15]", "live.gain~", 0 ],
-			"obj-1.1::obj-43" : [ "live.gain~[3]", "live.gain~", 0 ],
-			"obj-1.4::obj-242" : [ "live.gain~[31]", "live.gain~", 0 ],
-			"obj-5.2::obj-52" : [ "live.gain~[22]", "live.gain~", 0 ],
 			"obj-1.2::obj-30" : [ "live.gain~[7]", "live.gain~", 0 ],
-			"obj-1.3::obj-43" : [ "live.gain~[11]", "live.gain~", 0 ],
-			"obj-5.3::obj-54" : [ "live.gain~[24]", "live.gain~[1]", 0 ],
-			"obj-1.1::obj-33" : [ "live.gain~[4]", "live.gain~", 0 ],
-			"obj-5.3::obj-52" : [ "live.gain~[26]", "live.gain~", 0 ],
-			"obj-1.4::obj-30" : [ "live.gain~[30]", "live.gain~", 0 ],
+			"obj-1.4::obj-43" : [ "live.gain~[27]", "live.gain~", 0 ],
 			"obj-5.2::obj-53" : [ "live.gain~[21]", "live.gain~[1]", 0 ],
-			"obj-5.2::obj-55" : [ "live.gain~[19]", "live.gain~[3]", 0 ],
-			"obj-1.2::obj-38" : [ "live.gain~[6]", "live.gain~[2]", 0 ],
-			"obj-1.3::obj-30" : [ "live.gain~[13]", "live.gain~", 0 ],
-			"obj-1.4::obj-38" : [ "live.gain~[28]", "live.gain~[2]", 0 ],
-			"obj-5.2::obj-54" : [ "live.gain~[20]", "live.gain~[1]", 0 ],
-			"obj-5.1::obj-52" : [ "live.gain~[18]", "live.gain~", 0 ],
+			"obj-5.3::obj-55" : [ "live.gain~[23]", "live.gain~[3]", 0 ],
+			"obj-1.3::obj-38" : [ "live.gain~[14]", "live.gain~[2]", 0 ],
 			"obj-1.2::obj-242" : [ "live.gain~[8]", "live.gain~", 0 ],
-			"obj-5.1::obj-53" : [ "live.gain~[1]", "live.gain~[1]", 0 ],
-			"obj-1.3::obj-38" : [ "live.gain~[14]", "live.gain~[2]", 0 ]
+			"obj-1.4::obj-242" : [ "live.gain~[31]", "live.gain~", 0 ],
+			"obj-1.1::obj-242" : [ "live.gain~[5]", "live.gain~", 0 ],
+			"obj-1.1::obj-43" : [ "live.gain~[3]", "live.gain~", 0 ],
+			"obj-5.2::obj-54" : [ "live.gain~[20]", "live.gain~[1]", 0 ],
+			"obj-5.3::obj-54" : [ "live.gain~[24]", "live.gain~[1]", 0 ],
+			"obj-1.3::obj-242" : [ "live.gain~[12]", "live.gain~", 0 ],
+			"obj-1.1::obj-30" : [ "live.gain~", "live.gain~", 0 ],
+			"obj-1.2::obj-38" : [ "live.gain~[6]", "live.gain~[2]", 0 ],
+			"obj-1.4::obj-33" : [ "live.gain~[29]", "live.gain~", 0 ],
+			"obj-5.1::obj-55" : [ "live.gain~[17]", "live.gain~[3]", 0 ],
+			"obj-5.3::obj-52" : [ "live.gain~[26]", "live.gain~", 0 ],
+			"obj-1.3::obj-43" : [ "live.gain~[11]", "live.gain~", 0 ],
+			"obj-1.2::obj-33" : [ "live.gain~[9]", "live.gain~", 0 ],
+			"obj-5.1::obj-53" : [ "live.gain~[1]", "live.gain~[1]", 0 ]
 		}
 ,
 		"dependency_cache" : [ 			{
 				"name" : "multi_fucks.maxpat",
-				"bootpath" : "/Users/Dylan/Documents/Projects/strength.js/patches",
-				"patcherrelativepath" : "",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "cleaner.maxpat",
-				"bootpath" : "/Users/Dylan/Documents/Dylan's Stuff/Columbia/3unior/1 Spring/Computer Music II/Class Files/Class9",
-				"patcherrelativepath" : "../../../Dylan's Stuff/Columbia/3unior/1 Spring/Computer Music II/Class Files/Class9",
+				"bootpath" : "/Users/kevinroark/code/art/strength.js/patches",
+				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "kinect_example.maxpat",
-				"bootpath" : "/Users/Dylan/Documents/Projects/strength.js/patches",
-				"patcherrelativepath" : "",
+				"bootpath" : "/Users/kevinroark/code/art/strength.js/patches",
+				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "playlist.maxpat",
-				"bootpath" : "/Users/Dylan/Documents/Projects/strength.js/patches",
-				"patcherrelativepath" : "",
+				"bootpath" : "/Users/kevinroark/code/art/strength.js/patches",
+				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
-			}
-, 			{
-				"name" : "nw.gverb~.mxo",
-				"type" : "iLaX"
-			}
-, 			{
-				"name" : "munger~.mxo",
-				"type" : "iLaX"
 			}
  ]
 	}

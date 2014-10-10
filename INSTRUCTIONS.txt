@@ -1,3 +1,5 @@
+create local network - get IP from dylan and edit forwarder.js
+
 open synapse_heartbeat patch on both computers
 
 connect to synapse on both computers
