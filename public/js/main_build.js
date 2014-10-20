@@ -808,6 +808,8 @@ module.exports.begin = function(w1, w2, cam, l) {
   camera = cam;
   light = l;
 
+  socket.emit('rollcall', 'browser');
+
   socket.on('leftHand', function(data) {
     if (data.wrestler == 1) {
       leftHand1(data.position);

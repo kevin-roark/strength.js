@@ -2,7 +2,7 @@
 var PORT_FROM_KINECT = 12345; // also 12347
 var HOST = '127.0.0.1';
 
-var DYLAN_HOST = '169.254.82.214';
+var DYLAN_HOST = '169.254.240.97';
 var DYLAN_PORT = '8888';
 
 var osc = require('osc');
@@ -23,6 +23,8 @@ console.log('creating socket now');
 socket.on('connect', function() {
     console.log('connected dog');
     socketConnected = true;
+
+    socket.emit('rollcall', 'forwarder');
 });
 
 // Listen for incoming OSC bundles.

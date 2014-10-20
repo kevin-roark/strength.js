@@ -23,13 +23,37 @@ app.use(function(req, res, next){
 server.listen(8888);
 console.log('LISTENING ON 8888');
 
-var browserSocket;
-var forwarderSocket;
+var browserSocket, forwarderSocket, phoneSocket1, phoneSocket2;
+
+
 io.on('connection', function(socket) {
   console.log('got a connection');
 
   /**
-   * STUFF FOR SENDING TO MAX
+   * ROLL CALL
+   */
+
+  socket.on('rollcall', function(roll) {
+    if (roll == 'browser') {
+      browserSocket = this;
+      console.log('got the browser socket');
+    } else if (roll == 'forwarder') {
+      forwarderSocket = this;
+      setForwarderSocketEvents(forwarderSocket);
+      console.log('got the forwarder socket');
+    } else if (roll == 'phone1') {
+      phoneSocket1 = this;
+      setPhoneSocketEvents(phoneSocket1);
+      console.log('got the first phone socket');
+    } else if (roll == 'phone2') {
+      phoneSocket2 = this;
+      setPhoneSocketEvents(phoneSocket2);
+      console.log('got the second phone socket');
+    }
+  });
+
+  /**
+   * STUFF FOR SENDING DATAM TO MAX FROM BROWSER
    */
 
   socket.on('startSwell', function(player) {
@@ -67,57 +91,49 @@ io.on('connection', function(socket) {
   socket.on('handDelta', function(player, mag) {
     maxer.handDelta(player, mag);
   });
-
-   /**
-    * STUFF FOR SENDING TO BROWSER
-    */
-
-  //browserSocket = socket; return;
-
-  if (!forwarderSocket) {
-    console.log('setting forwarder');
-    forwarderSocket = socket;
-
-    forwarderSocket.on('leftHand', function(oscPacket) {
-      module.exports.leftHand(oscPacket.args, 2); // send left hand to browser
-    });
-
-    forwarderSocket.on('rightHand', function(oscPacket) {
-      module.exports.rightHand(oscPacket.args, 2); // send right hand to browser
-    });
-
-    forwarderSocket.on('head', function(oscPacket) {
-      module.exports.head(oscPacket.args, 2); // send head to browser
-    });
-
-    forwarderSocket.on('leftKnee', function(oscPacket) {
-      module.exports.leftKnee(oscPacket.args, 2);
-    });
-
-    forwarderSocket.on('rightKnee', function(oscPacket) {
-      module.exports.rightKnee(oscPacket.args, 2);
-    });
-
-    forwarderSocket.on('torso', function(oscPacket) {
-      module.exports.torso(oscPacket.args, 2);
-    });
-
-    forwarderSocket.on('leftElbow', function(oscPacket) {
-      module.exports.leftElbow(oscPacket.args, 2);
-    });
-
-    forwarderSocket.on('rightElbow', function(oscPacket) {
-      module.exports.rightElbow(oscPacket.args, 2);
-    });
-
-    forwarderSocket.on('closestHand', function(oscPacket) {
-      module.exports.closestHand(oscPacket.args, 2);
-    });
-  } else {
-    console.log('setting browser');
-    browserSocket = socket;
-  }
 });
+
+function setForwarderSocketEvents(forwarderSocket) {
+  forwarderSocket.on('leftHand', function(oscPacket) {
+    module.exports.leftHand(oscPacket.args, 2); // send left hand to browser
+  });
+
+  forwarderSocket.on('rightHand', function(oscPacket) {
+    module.exports.rightHand(oscPacket.args, 2); // send right hand to browser
+  });
+
+  forwarderSocket.on('head', function(oscPacket) {
+    module.exports.head(oscPacket.args, 2); // send head to browser
+  });
+
+  forwarderSocket.on('leftKnee', function(oscPacket) {
+    module.exports.leftKnee(oscPacket.args, 2);
+  });
+
+  forwarderSocket.on('rightKnee', function(oscPacket) {
+    module.exports.rightKnee(oscPacket.args, 2);
+  });
+
+  forwarderSocket.on('torso', function(oscPacket) {
+    module.exports.torso(oscPacket.args, 2);
+  });
+
+  forwarderSocket.on('leftElbow', function(oscPacket) {
+    module.exports.leftElbow(oscPacket.args, 2);
+  });
+
+  forwarderSocket.on('rightElbow', function(oscPacket) {
+    module.exports.rightElbow(oscPacket.args, 2);
+  });
+
+  forwarderSocket.on('closestHand', function(oscPacket) {
+    module.exports.closestHand(oscPacket.args, 2);
+  });
+}
+
+function setPhoneSocketEvents(phoneSocket) {
+  // TODO: what events go here who knows. button presses, etc.
+}
 
 module.exports.leftHand = function(argString, kinectNum) {
   emit('leftHand', argString, kinectNum);
