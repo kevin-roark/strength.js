@@ -122,6 +122,16 @@ module.exports.begin = function(w1, w2, cam, l) {
       torso2(data.position);
     }
   });
+
+  socket.on('resetPlayer', function(player) {
+    console.log('big reset');
+    
+    if (player == 1) {
+      wrestler1.reset();
+    } else {
+      wrestler2.reset();
+    }
+  }
 }
 
 function moveDelta(bodypart, position, lastPos, divisor, directions) {

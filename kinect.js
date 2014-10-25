@@ -52,6 +52,28 @@ io.on('connection', function(socket) {
     }
   });
 
+  socket.on('showConnectedRolls', function() {
+    var connectedRolls = {};
+
+    if (browserSocket) {
+      connectedRolls.browser = true;
+    }
+
+    if (forwarderSocket) {
+      connectedRolls.forwarder = true;
+    }
+
+    if (phoneSocket1) {
+      connectedRolls.phone1 = true;
+    }
+
+    if (phoneSocket2) {
+      connectedRolls.phone2 = true;
+    }
+
+    socket.emit('connectedRolls', connectedRolls);
+  });
+
   /**
    * STUFF FOR SENDING DATAM TO MAX FROM BROWSER
    */
@@ -132,7 +154,9 @@ function setForwarderSocketEvents(forwarderSocket) {
 }
 
 function setPhoneSocketEvents(phoneSocket) {
-  // TODO: what events go here who knows. button presses, etc.
+  phoneSocket.on('resetPlayer', function(player) {
+    browserSocket.emit('resetPlayer', player);
+  });
 }
 
 module.exports.leftHand = function(argString, kinectNum) {

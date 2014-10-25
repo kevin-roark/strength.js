@@ -1,0 +1,22 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.round-button {
+  width: 200px;
+  height: 200px;
+  border-radius: 100px;
+}
+
+.reset-button {
+  background-color: red;
+  margin-left: 100px;
+  margin-top: 50px;
+
+  color: white;
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+}
