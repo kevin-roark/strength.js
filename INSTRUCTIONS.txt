@@ -1,4 +1,4 @@
-create local network - get IP from dylan and edit forwarder.js
+create local network - get IP from dylan and edit forwarder.js and phone.js
 
 open synapse_heartbeat patch on both computers
 

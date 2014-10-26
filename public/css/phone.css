@@ -6,17 +6,24 @@ html, body {
 }
 
 .round-button {
-  width: 200px;
-  height: 200px;
-  border-radius: 100px;
+  width: 300px;
+  height: 300px;
+  border-radius: 150px;
+
+  text-align: center;
+  line-height: 300px;
 }
 
-.reset-button {
-  background-color: red;
+#reset-button {
+  background-color: black;
   margin-left: 100px;
   margin-top: 50px;
 
   color: white;
   font-family: "Courier New", monospace;
-  font-size: 12px;
+  font-size: 40px;
+}
+
+#reset-button.active {
+  background-color: red;
 }

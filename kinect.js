@@ -27,8 +27,6 @@ var browserSocket, forwarderSocket, phoneSocket1, phoneSocket2;
 
 
 io.on('connection', function(socket) {
-  console.log('got a connection');
-
   /**
    * ROLL CALL
    */
@@ -155,7 +153,7 @@ function setForwarderSocketEvents(forwarderSocket) {
 
 function setPhoneSocketEvents(phoneSocket) {
   phoneSocket.on('resetPlayer', function(player) {
-    browserSocket.emit('resetPlayer', player);
+    if (browserSocket) browserSocket.emit('resetPlayer', player);
   });
 }
 
